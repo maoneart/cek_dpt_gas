@@ -56,7 +56,8 @@ Setiap sheet bernama **`TPS 1`**, **`TPS 2`**, ... hingga **`TPS 95`** memiliki 
 ## 📁 Struktur Berkas Proyek:
 - **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First tema cerah ramah warga (Orange Theme & Green Title).
 - **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Multi-Sheet Scanner 95 TPS in-memory, REST API, Caching, & Menu Setup Otomatis).
-- **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi yang dimuat langsung via GitHub raw link.
+- **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi Pemdes yang dimuat langsung via GitHub raw link.
+- **[kpu.png](file:///sdcard/www/cek_dpt_gas/kpu.png)** : Logo resmi KPU yang dimuat langsung via GitHub raw link.
 - **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi 95 sheet TPS siap pakai.
 - **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : Berkas CSV format 12 kolom siap impor.
 - **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Panduan & dokumentasi lengkap.

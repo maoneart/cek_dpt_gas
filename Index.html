@@ -521,18 +521,19 @@
       box-shadow: var(--shadow-card);
     }
 
-    /* Card Kop Header */
+    /* Card Kop Header (Dual Emblem: Desa & KPU) */
     .card-header-gov {
       background: #fff7ed;
       border-bottom: 2px solid #ea580c;
-      padding: 16px 14px;
+      padding: 14px 12px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 10px;
     }
-    .gov-seal-gold {
-      width: 52px;
-      height: 52px;
+    .gov-seal-gold, .gov-seal-kpu {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 2px solid #ea580c;
       background: #ffffff;
@@ -544,38 +545,39 @@
       overflow: hidden;
       padding: 3px;
     }
-    .desa-logo-card {
+    .desa-logo-card, .kpu-logo-card {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
-    .gov-seal-gold i {
-      font-size: 22px;
+    .gov-seal-gold i, .gov-seal-kpu i {
+      font-size: 20px;
       color: #ea580c;
     }
     .card-header-titles {
       flex: 1;
+      text-align: center;
     }
     .card-kop-top {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       color: #ea580c;
       text-transform: uppercase;
       line-height: 1.2;
     }
     .card-kop-main {
       font-family: var(--font-title);
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 800;
       color: var(--desa-green-title);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
       line-height: 1.2;
       margin: 2px 0;
     }
     .card-kop-sub {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--text-sub);
     }
@@ -1092,9 +1094,9 @@
       <!-- Kartu Pemilih Digital Resmi -->
       <article class="official-voter-card" id="printableCard">
         
-        <!-- Card Kop Header -->
+        <!-- Card Kop Header (Dual Emblem: Desa & KPU) -->
         <div class="card-header-gov">
-          <div class="gov-seal-gold">
+          <div class="gov-seal-gold" title="Logo Pemkab Bekasi / Pemdes Karang Satria">
             <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png" alt="Logo Pemkab Bekasi" class="desa-logo-card" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <i class="fa-solid fa-landmark" style="display: none;"></i>
           </div>
@@ -1102,6 +1104,10 @@
             <div class="card-kop-top">PEMERINTAH KABUPATEN BEKASI</div>
             <div class="card-kop-main">PILKADES DESA KARANG SATRIA</div>
             <div class="card-kop-sub">Kecamatan Tambun Utara • Masa Jabatan 2026 - 2034</div>
+          </div>
+          <div class="gov-seal-kpu" title="Komisi Pemilihan Umum / Panitia Pemilihan">
+            <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/kpu.png" alt="Logo KPU" class="kpu-logo-card" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fa-solid fa-check-to-slot" style="display: none;"></i>
           </div>
         </div>
 

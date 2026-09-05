@@ -227,60 +227,6 @@ function setupSpreadsheet() {
       .setVerticalAlignment('middle');
 
     sheet.setRowHeight(1, 36);
-
-    // Sample Data Warga Desa Karang Satria Kec. Tambun Utara
-    const sampleData = [
-      [
-        "'3216061408880001", 
-        "BUDI SANTOSO, S.KOM", 
-        "Laki-laki", 
-        "Bekasi, 14 Agustus 1988", 
-        "Perumahan Alamanda Regency Blok G3 No. 12, RT 004 / RW 018, Desa Karang Satria", 
-        "TPS 014", 
-        "Balai Pertemuan Warga RW 018 Alamanda Regency", 
-        "DPT AKTIF", 
-        "081298765432", 
-        "01/01/2026 08:00:00"
-      ],
-      [
-        "'3216062005920002", 
-        "SITI NURHALIZA, M.PD", 
-        "Perempuan", 
-        "Bekasi, 20 Mei 1992", 
-        "Kampung Cerewet RT 002 / RW 007, Desa Karang Satria", 
-        "TPS 006", 
-        "Halaman SDN Karang Satria 01", 
-        "DPT AKTIF", 
-        "081311223344", 
-        "01/01/2026 08:15:00"
-      ],
-      [
-        "'3216061011950003", 
-        "AHMAD FAUZI PRATAMA", 
-        "Laki-laki", 
-        "Jakarta, 10 November 1995", 
-        "Perumahan Villa Indah Permai Blok B2 No. 8, RT 005 / RW 022, Desa Karang Satria", 
-        "TPS 022", 
-        "Gedung Serbaguna RW 022 VIP", 
-        "DPS TERVERIFIKASI", 
-        "085712345678", 
-        "01/01/2026 08:30:00"
-      ],
-      [
-        "'3216060501900004", 
-        "DEWI ANGGRAENI, S.E", 
-        "Perempuan", 
-        "Bandung, 05 Januari 1990", 
-        "Bumi Anggrek Blok D1 No. 15, RT 001 / RW 015, Desa Karang Satria", 
-        "TPS 011", 
-        "Pos Balai Warga RW 015 Bumi Anggrek", 
-        "DPT AKTIF", 
-        "081899887766", 
-        "01/01/2026 09:00:00"
-      ]
-    ];
-    sheet.getRange(2, 1, sampleData.length, 10).setValues(sampleData);
-
     sheet.getRange("A:A").setNumberFormat("@");
     sheet.autoResizeColumns(1, 10);
   }
@@ -295,7 +241,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🗳️ Pilkades Karang Satria')
     .addItem('🛠️ Setup Format Database & Header', 'setupSpreadsheet')
-    .addItem('🔍 Uji Cari NIK Warga Sample', 'testCariNIK')
+    .addItem('🔍 Uji Cari NIK Warga', 'testCariNIK')
     .addToUi();
 }
 

@@ -7,10 +7,10 @@ Mobile Web App modern, cerah, segar, dan ramah di mata warga (Emerald Green & Go
 
 ## 🏛️ Konsep & Alur Kerja:
 1. Warga membuka Web App di HP (tampilan cerah, tulisan besar dan sangat mudah dibaca).
-2. Warga memasukkan 16 digit NIK (atau klik tombol *Tempel* / tombol contoh sampel warga).
+2. Warga memasukkan 16 digit NIK (atau klik tombol *Tempel* dari clipboard).
 3. Klik tombol **"CEK LOKASI TPS SAYA"**.
 4. **Langsung Muncul Kartu Pemilih Digital**:
-   - Nomor & Lokasi TPS tempat mencoblos (contoh: **TPS 014 - Balai RW 018 Alamanda Regency**).
+   - Nomor & Lokasi TPS tempat mencoblos.
    - Data Pemilih (NIK dengan sensor keamanan, Nama Lengkap, TTL & Gender, Alamat KTP).
    - Dynamic QR Code resmi untuk verifikasi presensi di TPS oleh petugas.
    - Tombol **Cetak / Simpan PDF** dan **Kirim ke WhatsApp**.
@@ -18,7 +18,7 @@ Mobile Web App modern, cerah, segar, dan ramah di mata warga (Emerald Green & Go
 ---
 
 ## 📊 File Template Excel Langsung Siap Pakai:
-- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) dengan styling hijau desa, format kolom NIK text, dan 8 sampel data warga Desa Karang Satria.
+- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) dengan styling hijau desa & format kolom NIK text, siap langsung diisi/di-paste data warga real.
 - **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** — File CSV standar UTF-8 untuk opsi impor cepat.
 
 ---

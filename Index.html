@@ -438,40 +438,7 @@
       transform: none;
     }
 
-    /* Quick Sample Chips */
-    .sample-chips-wrap {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px dashed #cbd5e1;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .sample-chip-title {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--desa-green-dark);
-      width: 100%;
-      margin-bottom: 2px;
-    }
-    .sample-chip {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 5px 9px;
-      font-size: 11px;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--text-dark);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .sample-chip:hover {
-      background: var(--desa-green);
-      color: #ffffff;
-      border-color: var(--desa-green);
-    }
+
 
     /* =======================================================
        KARTU BUKTI PEMILIH DIGITAL RESMI (TEMA CERAH ELEGANT)
@@ -910,7 +877,7 @@
         color: #000000 !important;
         padding: 0 !important;
       }
-      .desa-top-ribbon, .news-ticker, #searchBoxSection, .card-actions-grid, .gov-footer, .sample-chips-wrap {
+      .desa-top-ribbon, .news-ticker, #searchBoxSection, .card-actions-grid, .gov-footer {
         display: none !important;
       }
       .app-viewport {
@@ -1045,15 +1012,7 @@
           </button>
         </form>
 
-        <!-- Sampel Uji Coba Cepat Warga Karang Satria -->
-        <div class="sample-chips-wrap">
-          <div class="sample-chip-title">💡 Contoh Sampel NIK Warga:</div>
-          <button type="button" class="sample-chip" onclick="fillNikSample('3216061408880001')">321606..0001 (Alamanda)</button>
-          <button type="button" class="sample-chip" onclick="fillNikSample('3216062005920002')">321606..0002 (Kp. Cerewet)</button>
-          <button type="button" class="sample-chip" onclick="fillNikSample('3216061011950003')">321606..0003 (VIP)</button>
-          <button type="button" class="sample-chip" onclick="fillNikSample('3216060501900004')">321606..0004 (Bumi Anggrek)</button>
-          <button type="button" class="sample-chip" onclick="fillNikSample('3216061203850005')">321606..0005 (Satria Mekar)</button>
-        </div>
+
       </div>
 
       <!-- ================= KARTU BUKTI PEMILIH DIGITAL ================= -->
@@ -1215,90 +1174,6 @@
     let modalCallback = null;
     let qrCodeInstance = null;
 
-    // Database Lengkap Warga Karang Satria (Untuk Pengujian Offline / Standalone)
-    const mockDatabaseKarangSatria = [
-      {
-        nik: '3216061408880001',
-        nama: 'BUDI SANTOSO, S.KOM',
-        gender: 'Laki-laki',
-        ttl: 'Bekasi, 14 Agustus 1988',
-        alamat: 'Perumahan Alamanda Regency Blok G3 No. 12, RT 004 / RW 018, Desa Karang Satria',
-        tps: 'TPS 014',
-        tpsLokasi: 'Balai Pertemuan Warga RW 018 Alamanda Regency',
-        status: 'DPT AKTIF'
-      },
-      {
-        nik: '3216062005920002',
-        nama: 'SITI NURHALIZA, M.PD',
-        gender: 'Perempuan',
-        ttl: 'Bekasi, 20 Mei 1992',
-        alamat: 'Kampung Cerewet RT 002 / RW 007, Desa Karang Satria',
-        tps: 'TPS 006',
-        tpsLokasi: 'Halaman SDN Karang Satria 01',
-        status: 'DPT AKTIF'
-      },
-      {
-        nik: '3216061011950003',
-        nama: 'AHMAD FAUZI PRATAMA',
-        gender: 'Laki-laki',
-        ttl: 'Jakarta, 10 November 1995',
-        alamat: 'Perumahan Villa Indah Permai Blok B2 No. 8, RT 005 / RW 022, Desa Karang Satria',
-        tps: 'TPS 022',
-        tpsLokasi: 'Gedung Serbaguna RW 022 VIP',
-        status: 'DPS TERVERIFIKASI'
-      },
-      {
-        nik: '3216060501900004',
-        nama: 'DEWI ANGGRAENI, S.E',
-        gender: 'Perempuan',
-        ttl: 'Bandung, 05 Januari 1990',
-        alamat: 'Bumi Anggrek Blok D1 No. 15, RT 001 / RW 015, Desa Karang Satria',
-        tps: 'TPS 011',
-        tpsLokasi: 'Pos Balai Warga RW 015 Bumi Anggrek',
-        status: 'DPT AKTIF'
-      },
-      {
-        nik: '3216061203850005',
-        nama: 'H. RIDWAN KURNIAWAN',
-        gender: 'Laki-laki',
-        ttl: 'Bekasi, 12 Maret 1985',
-        alamat: 'Kp. Satria Mekar RT 001 / RW 004, Desa Karang Satria',
-        tps: 'TPS 004',
-        tpsLokasi: 'Posyandu Mawar Kp. Satria Mekar',
-        status: 'DPT AKTIF'
-      },
-      {
-        nik: '3216062807980006',
-        nama: 'RINA MARLINA, S.PD',
-        gender: 'Perempuan',
-        ttl: 'Bekasi, 28 Juli 1998',
-        alamat: 'Perum Karang Satria Regency Blok A2 No. 4, RT 003 / RW 025',
-        tps: 'TPS 030',
-        tpsLokasi: 'Taman Segitiga Karang Satria Regency',
-        status: 'DPS TERVERIFIKASI'
-      },
-      {
-        nik: '3216060109930007',
-        nama: 'BAMBANG HERMANTO',
-        gender: 'Laki-laki',
-        ttl: 'Surabaya, 01 September 1993',
-        alamat: 'Kp. Cerewet RT 001 / RW 002, Desa Karang Satria',
-        tps: 'TPS 002',
-        tpsLokasi: 'Halaman Masjid Jami Al-Ikhlas Kp. Cerewet',
-        status: 'DPT AKTIF'
-      },
-      {
-        nik: '3216061512960008',
-        nama: 'NURUL AINI PUTRI',
-        gender: 'Perempuan',
-        ttl: 'Bekasi, 15 Desember 1996',
-        alamat: 'Dusun Karang Satria RT 001 / RW 001, Desa Karang Satria',
-        tps: 'TPS 001',
-        tpsLokasi: 'Balai Desa Karang Satria (Aula Utama)',
-        status: 'DPT AKTIF'
-      }
-    ];
-
     document.addEventListener('DOMContentLoaded', () => {
       initDigitMeter();
     });
@@ -1338,13 +1213,6 @@
       }
     }
 
-    function fillNikSample(nik) {
-      const input = document.getElementById('nikField');
-      input.value = nik;
-      handleNikKeypress(input);
-      handleGovSearch(new Event('submit'));
-    }
-
     async function pasteFromClipboard() {
       try {
         if (navigator.clipboard && navigator.clipboard.readText) {
@@ -1355,7 +1223,7 @@
             input.value = clean;
             handleNikKeypress(input);
             if (clean.length === 16) {
-              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK 16 digit telah dimasukkan. Klik tombol untuk memeriksa TPS.', 'success');
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK 16 digit telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
             }
           }
         } else {
@@ -1385,44 +1253,31 @@
       setSubmitLoading(true);
       document.getElementById('voterCardWrapper').style.display = 'none';
 
-      // 1. Cek Google Apps Script
+      // 1. Eksekusi via Google Apps Script Web App Client
       if (typeof google !== 'undefined' && google.script && google.script.run) {
         google.script.run
           .withSuccessHandler(onGovSearchSuccess)
           .withFailureHandler(onGovSearchError)
           .searchByNIK(nik);
       } else {
-        // Fallback Simulasi
-        setTimeout(() => {
-          const match = mockDatabaseKarangSatria.find(item => item.nik === nik);
-          if (match) {
-            onGovSearchSuccess({
-              status: 'success',
-              data: match
-            });
-          } else {
-            if (nik.startsWith('3216')) {
-              onGovSearchSuccess({
-                status: 'success',
-                data: {
-                  nik: nik,
-                  nama: 'WARGA DESA KARANG SATRIA',
-                  gender: 'Laki-laki / Perempuan',
-                  ttl: 'Bekasi, 01 Januari 1990',
-                  alamat: 'Dusun Karang Satria RT 003 / RW 010, Desa Karang Satria, Kec. Tambun Utara',
-                  tps: 'TPS 008',
-                  tpsLokasi: 'Halaman Balai Dusun II Karang Satria',
-                  status: 'DPT AKTIF'
-                }
-              });
-            } else {
-              onGovSearchSuccess({
-                status: 'not_found',
-                message: 'NIK ' + nik + ' belum terdaftar dalam database DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar.'
-              });
-            }
-          }
-        }, 400);
+        // 2. Eksekusi via REST API GET endpoint (?nik=...) jika diakses langsung
+        const apiUrl = window.location.href.split('?')[0] + '?nik=' + encodeURIComponent(nik);
+        fetch(apiUrl)
+          .then(response => {
+            if (!response.ok) throw new Error('Status server: ' + response.status);
+            return response.json();
+          })
+          .then(data => {
+            onGovSearchSuccess(data);
+          })
+          .catch(err => {
+            setSubmitLoading(false);
+            showAlertModal(
+              'Database Siap Pakai', 
+              'Aplikasi ini dirancang untuk dijalankan langsung di Google Apps Script yang terhubung dengan Google Sheets tab DPS_DPT_Karang_Satria.', 
+              'gold'
+            );
+          });
       }
     }
 

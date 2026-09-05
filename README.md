@@ -43,6 +43,7 @@ Mobile Web App modern, cerah, segar, dan ramah di mata warga (Emerald Green & Go
 ## 📁 Struktur Berkas Proyek:
 - **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First tema cerah ramah warga (Emerald Green & Gold).
 - **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Pencarian in-memory secepat kilat, REST API & Google Sheets sync).
+- **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi desa yang dimuat langsung via link GitHub raw.
 - **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi siap upload.
 - **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : Berkas CSV siap impor.
 - **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Panduan & dokumentasi.

@@ -1,5 +1,6 @@
 /**
- * 🗳️ PORTAL RESMI CEK DPS & DPT ONLINE PILKADES DESA KARANG SATRIA (2026 - 2034)
+ * 🗳️ PORTAL RESMI CEK LOKASI TPS WARGA
+ * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
  * Backend Engine: Google Apps Script + Google Sheets Real-Time Database
  */
@@ -18,10 +19,10 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  // Tampilkan Halaman Web App Mewah Pemerintah
+  // Tampilkan Halaman Web App Cek TPS
   return HtmlService.createTemplateFromFile('Index')
     .evaluate()
-    .setTitle('Portal Resmi DPS/DPT Pilkades Desa Karang Satria 2026-2034')
+    .setTitle('Cek TPS Pemilihan Kepala Desa Karang Satria 2026 - 2034')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
@@ -53,7 +54,7 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK Berkecepatan Tinggi (In-Memory Array Cache)
+ * 3. Fungsi Pencarian NIK (In-Memory Fast Array Cache)
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
@@ -88,7 +89,6 @@ function searchByNIK(nikInput) {
   let idxStatus = headers.findIndex(h => h.includes('status') || h.includes('dpt') || h.includes('dps'));
   let idxKet = headers.findIndex(h => h.includes('ket') || h.includes('catatan') || h.includes('wa'));
 
-  // Default fallback index jika kolom tidak standar
   if (idxNik === -1) idxNik = 0;
   if (idxNama === -1) idxNama = 1;
   if (idxGender === -1) idxGender = 2;
@@ -128,12 +128,12 @@ function searchByNIK(nikInput) {
 
   return {
     status: 'not_found',
-    message: 'NIK ' + cleanNIK + ' belum terdaftar dalam DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Silakan ajukan pendaftaran mandiri melalui tab "Lapor / Daftar" atau hubungi Sekretariat Panitia Pilkades.'
+    message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi petugas desa.'
   };
 }
 
 /**
- * 4. Fungsi Tambah / Pengaduan Data Warga Baru ke Google Sheet
+ * 4. Fungsi Tambah Data Warga Baru ke Google Sheet
  */
 function addWarga(data) {
   try {
@@ -149,8 +149,8 @@ function addWarga(data) {
     const ttl = (data.ttl || '').trim();
     const alamat = (data.alamat || '').trim();
     const tps = (data.tps || '').trim();
-    const tpsLokasi = (data.tpsLokasi || 'Sesuai Penetapan Panitia').trim();
-    const status = (data.status || 'DPS Baru (Menunggu Validasi)').trim();
+    const tpsLokasi = (data.tpsLokasi || 'Sesuai Penetapan Desa').trim();
+    const status = (data.status || 'DPT AKTIF').trim();
     const noWA = (data.noWA || data.keterangan || '-').trim();
 
     if (!nik || !nama) {
@@ -158,7 +158,7 @@ function addWarga(data) {
     }
 
     if (nik.length !== 16) {
-      return { status: 'error', message: 'NIK harus berjumlah 16 digit angka sesuai KTP-el.' };
+      return { status: 'error', message: 'NIK harus berjumlah 16 digit angka.' };
     }
 
     // Cek duplikasi NIK
@@ -167,7 +167,6 @@ function addWarga(data) {
       return { status: 'error', message: 'NIK ' + nik + ' sudah terdaftar atas nama: ' + existing.data.nama + ' di ' + existing.data.tps };
     }
 
-    // Simpan baris baru ke Google Sheet
     sheet.appendRow([
       "'" + nik,
       nama,
@@ -183,7 +182,7 @@ function addWarga(data) {
 
     return {
       status: 'success',
-      message: 'Data warga berhasil dicatat ke Google Sheet Panitia Pilkades!',
+      message: 'Data warga berhasil dicatat ke Google Sheet!',
       data: { nik: nik, nama: nama, tps: tps }
     };
   } catch (err) {
@@ -192,7 +191,7 @@ function addWarga(data) {
 }
 
 /**
- * 5. Inisialisasi Otomatis Format Sheet Resmi Pilkades Karang Satria
+ * 5. Inisialisasi Otomatis Format Sheet Hijau & Emas Segar
  */
 function setupSpreadsheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -202,7 +201,6 @@ function setupSpreadsheet() {
     sheet = ss.insertSheet(SHEET_NAME);
   }
 
-  // Buat Header Resmi jika sheet masih kosong
   if (sheet.getLastRow() === 0) {
     const headers = [
       [
@@ -219,10 +217,10 @@ function setupSpreadsheet() {
       ]
     ];
     
-    // Header Style Mewah Biru Navy & Emas
+    // Header Style Hijau Zamrud Desa & Kuning Emas
     sheet.getRange(1, 1, 1, 10).setValues(headers)
-      .setBackground('#091f42')
-      .setFontColor('#fef08a')
+      .setBackground('#047857')
+      .setFontColor('#FFFFFF')
       .setFontWeight('bold')
       .setFontFamily('Arial')
       .setHorizontalAlignment('center')
@@ -230,7 +228,7 @@ function setupSpreadsheet() {
 
     sheet.setRowHeight(1, 36);
 
-    // Sample Data Warga Asli Desa Karang Satria Kec. Tambun Utara
+    // Sample Data Warga Desa Karang Satria Kec. Tambun Utara
     const sampleData = [
       [
         "'3216061408880001", 
@@ -283,7 +281,6 @@ function setupSpreadsheet() {
     ];
     sheet.getRange(2, 1, sampleData.length, 10).setValues(sampleData);
 
-    // Format Kolom NIK sebagai Plain Text
     sheet.getRange("A:A").setNumberFormat("@");
     sheet.autoResizeColumns(1, 10);
   }
@@ -296,7 +293,7 @@ function setupSpreadsheet() {
  */
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('🗳️ Panitia Pilkades Karang Satria')
+    .createMenu('🗳️ Pilkades Karang Satria')
     .addItem('🛠️ Setup Format Database & Header', 'setupSpreadsheet')
     .addItem('🔍 Uji Cari NIK Warga Sample', 'testCariNIK')
     .addToUi();

@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Portal Cek TPS Pemilih Online | Desa Karang Satria 2026 - 2034</title>
+  <title>Cek TPS Pemilihan Kepala Desa Karang Satria 2026 - 2034</title>
   
   <!-- Favicon & Meta -->
-  <meta name="theme-color" content="#040d1a">
-  <meta name="description" content="Portal Resmi Pengecekan Lokasi TPS & Data Pemilih Pilkades Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
+  <meta name="theme-color" content="#047857">
+  <meta name="description" content="Portal Resmi Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
   
-  <!-- Google Fonts: Plus Jakarta Sans, Cinzel & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
   
   <!-- FontAwesome 6 Pro Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -22,31 +22,31 @@
 
   <style>
     :root {
-      --gov-navy-dark: #040d1a;
-      --gov-navy: #091f42;
-      --gov-navy-light: #123366;
-      --gov-blue-accent: #1e5bb8;
+      --desa-green-dark: #064e3b;
+      --desa-green: #047857;
+      --desa-green-light: #10b981;
+      --desa-green-bg: #ecfdf5;
       
-      --gold-primary: #d4af37;
-      --gold-light: #fef08a;
-      --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 30%, #b38728 65%, #fbf5b7 100%);
-      --gold-glow: 0 0 25px rgba(212, 175, 55, 0.35);
+      --accent-gold: #d97706;
+      --accent-gold-light: #fef3c7;
       
-      --emerald-accent: #059669;
-      --card-glass: rgba(10, 26, 54, 0.82);
-      --card-glass-border: rgba(212, 175, 55, 0.32);
+      --bg-light: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-border: #cbd5e1;
       
-      --text-white: #ffffff;
-      --text-gold: #f6d88c;
-      --text-silver: #cbd5e1;
-      --text-muted: #94a3b8;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #334155;
       
-      --radius-xl: 24px;
-      --radius-lg: 18px;
+      --radius-xl: 20px;
+      --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
       
-      --font-display: 'Cinzel', serif;
+      --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(4, 120, 87, 0.06);
+      --shadow-card: 0 14px 35px -8px rgba(0, 0, 0, 0.12);
+      
+      --font-title: 'Playfair Display', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -60,40 +60,39 @@
     }
 
     body {
-      background: #040d1a;
+      background: #f8fafc;
       background-image: 
-        radial-gradient(circle at 50% 0%, #133973 0%, transparent 60%),
-        radial-gradient(circle at 10% 40%, rgba(212, 175, 55, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
-        linear-gradient(180deg, #051329 0%, #030a14 100%);
+        radial-gradient(circle at 50% 0%, #d1fae5 0%, transparent 50%),
+        radial-gradient(circle at 10% 40%, rgba(254, 243, 199, 0.6) 0%, transparent 40%),
+        linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%);
       background-attachment: fixed;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      color: var(--text-white);
+      color: var(--text-dark);
       padding: 0 0 40px;
       overflow-x: hidden;
     }
 
-    /* Top Official Ribbon */
-    .gov-top-ribbon {
+    /* Top Government Ribbon */
+    .desa-top-ribbon {
       width: 100%;
-      background: linear-gradient(90deg, #091a33 0%, #15325b 50%, #091a33 100%);
-      border-bottom: 1.5px solid rgba(212, 175, 55, 0.4);
-      padding: 6px 14px;
+      background: linear-gradient(90deg, #064e3b 0%, #047857 50%, #064e3b 100%);
+      border-bottom: 2px solid var(--accent-gold);
+      padding: 7px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 11px;
       font-weight: 700;
-      color: var(--text-gold);
-      letter-spacing: 0.6px;
+      color: #ffffff;
+      letter-spacing: 0.5px;
       z-index: 100;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
-    .gov-ribbon-left {
+    .desa-ribbon-left {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -103,51 +102,52 @@
       flex-direction: column;
       width: 16px;
       height: 11px;
-      border: 0.5px solid rgba(255,255,255,0.4);
+      border: 0.5px solid rgba(255,255,255,0.6);
       border-radius: 1.5px;
       overflow: hidden;
     }
-    .flag-red { background: #e11d48; height: 50%; width: 100%; }
+    .flag-red { background: #dc2626; height: 50%; width: 100%; }
     .flag-white { background: #ffffff; height: 50%; width: 100%; }
     
-    .gov-status-live {
+    .desa-status-live {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: rgba(5, 150, 105, 0.2);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      padding: 2px 8px;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 2px 9px;
       border-radius: 20px;
-      font-size: 10px;
-      color: #34d399;
+      font-size: 10.5px;
+      color: #ffffff;
     }
     .live-dot {
-      width: 6px;
-      height: 6px;
-      background: #10b981;
+      width: 7px;
+      height: 7px;
+      background: #4ade80;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
+      box-shadow: 0 0 6px #4ade80;
       animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.3); opacity: 0.5; }
+      50% { transform: scale(1.3); opacity: 0.6; }
     }
 
     /* Running News Ticker */
     .news-ticker {
       width: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
       overflow: hidden;
       white-space: nowrap;
-      padding: 5px 0;
-      font-size: 11.5px;
-      color: var(--text-silver);
+      padding: 6px 0;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 600;
     }
     .ticker-content {
       display: inline-block;
-      animation: marquee 32s linear infinite;
+      animation: marquee 30s linear infinite;
       padding-left: 100%;
     }
     @keyframes marquee {
@@ -167,151 +167,134 @@
     }
 
     /* Hero Branding Header */
-    .gov-hero-card {
-      background: var(--card-glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1.5px solid var(--card-glass-border);
+    .desa-hero-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
       border-radius: var(--radius-xl);
-      padding: 22px 16px 18px;
+      padding: 22px 18px 18px;
       text-align: center;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.6), var(--gold-glow);
+      box-shadow: var(--shadow-soft);
     }
-    .gov-hero-card::before {
+    .desa-hero-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 4px;
-      background: var(--gold-gradient);
+      background: linear-gradient(90deg, var(--desa-green) 0%, var(--accent-gold) 50%, var(--desa-green) 100%);
     }
     .emblem-wrapper {
       width: 64px;
       height: 64px;
       margin: 0 auto 10px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(9, 31, 66, 0.8) 70%);
-      border: 2px solid var(--gold-primary);
+      background: #ecfdf5;
+      border: 2px solid var(--desa-green);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.15);
     }
     .emblem-wrapper i {
-      font-size: 30px;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      font-size: 28px;
+      color: var(--desa-green);
     }
-    .gold-stars {
-      display: flex;
-      justify-content: center;
-      gap: 4px;
-      color: var(--gold-primary);
-      font-size: 11px;
-      margin-bottom: 6px;
-    }
-    .gov-title-sub {
-      font-size: 10.5px;
+    .desa-title-top {
+      font-size: 11.5px;
       font-weight: 800;
-      letter-spacing: 1.6px;
-      color: var(--text-gold);
+      letter-spacing: 1.2px;
+      color: var(--accent-gold);
       text-transform: uppercase;
       margin-bottom: 3px;
     }
-    .gov-title-main {
-      font-family: var(--font-display);
-      font-size: 21px;
+    .desa-title-main {
+      font-family: var(--font-title);
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: 0.8px;
-      line-height: 1.25;
-      color: #ffffff;
-      margin-bottom: 5px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      color: var(--desa-green-dark);
+      margin-bottom: 4px;
     }
-    .gov-title-desc {
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-silver);
+    .desa-title-desc {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
       line-height: 1.4;
     }
-    .gov-tag-period {
+    .desa-tag-period {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(9, 31, 66, 0.6) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.5);
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
       border-radius: 30px;
-      padding: 4px 14px;
-      font-size: 11px;
+      padding: 5px 14px;
+      font-size: 11.5px;
       font-weight: 700;
-      color: var(--gold-light);
+      color: var(--desa-green-dark);
       margin-top: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    /* Main Search Panel */
-    .gov-panel {
-      background: var(--card-glass);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1.5px solid var(--card-glass-border);
+    /* Main Search Box Panel */
+    .desa-main-panel {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
       border-radius: var(--radius-xl);
       padding: 20px 16px;
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--shadow-soft);
     }
 
     .section-headline {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #cbd5e1;
     }
     .section-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(9, 31, 66, 0.9) 100%);
-      border: 1px solid var(--gold-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold-light);
-      font-size: 16px;
+      color: var(--desa-green);
+      font-size: 18px;
       flex-shrink: 0;
     }
     .section-title {
-      font-family: var(--font-display);
       font-size: 16px;
       font-weight: 800;
-      color: #ffffff;
-      letter-spacing: 0.5px;
+      color: var(--desa-green-dark);
+      letter-spacing: 0.3px;
     }
     .section-subtitle {
-      font-size: 11.5px;
-      color: var(--text-silver);
+      font-size: 12px;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* Input NIK Box Super Luxury */
+    /* Input NIK Box Super Clean & Clear */
     .nik-input-card {
-      background: rgba(4, 13, 26, 0.7);
-      border: 1.5px solid rgba(212, 175, 55, 0.3);
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
       border-radius: var(--radius-lg);
       padding: 16px 14px;
       margin-bottom: 16px;
       position: relative;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     .nik-input-card:focus-within {
-      border-color: var(--gold-primary);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.05);
+      background: #ffffff;
+      border-color: var(--desa-green);
+      box-shadow: 0 0 0 4px rgba(4, 120, 87, 0.12);
     }
     .nik-label-row {
       display: flex;
@@ -320,29 +303,28 @@
       margin-bottom: 8px;
     }
     .nik-label {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-gold);
+      letter-spacing: 0.6px;
+      color: var(--desa-green-dark);
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .nik-counter-badge {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-silver);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #e2e8f0;
+      color: var(--text-sub);
     }
     .nik-counter-badge.complete {
-      background: rgba(5, 150, 105, 0.3);
-      color: #34d399;
-      border-color: rgba(16, 185, 129, 0.5);
+      background: #dcfce7;
+      color: var(--desa-green-dark);
+      border: 1px solid #86efac;
     }
 
     .nik-input-wrapper {
@@ -356,26 +338,26 @@
       border: none;
       outline: none;
       font-family: var(--font-mono);
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
       letter-spacing: 2px;
-      color: #ffffff;
-      padding: 8px 42px 8px 0;
+      color: var(--text-dark);
+      padding: 8px 48px 8px 0;
     }
     .nik-input-field::placeholder {
       font-family: var(--font-body);
-      font-size: 13.5px;
-      letter-spacing: 0.2px;
-      color: #64748b;
+      font-size: 14px;
+      letter-spacing: 0;
+      color: #94a3b8;
       font-weight: 500;
     }
     .btn-paste-nik {
       position: absolute;
       right: 0;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--text-gold);
-      font-size: 11px;
+      background: #ecfdf5;
+      border: 1.5px solid #a7f3d0;
+      color: var(--desa-green-dark);
+      font-size: 11.5px;
       font-weight: 700;
       padding: 6px 10px;
       border-radius: var(--radius-sm);
@@ -386,14 +368,15 @@
       transition: all 0.2s;
     }
     .btn-paste-nik:hover {
-      background: var(--gold-primary);
-      color: #040d1a;
+      background: var(--desa-green);
+      color: #ffffff;
+      border-color: var(--desa-green);
     }
 
-    /* 16-Digit Segment Dots / Visual Bar */
+    /* 16-Digit Visual Segment Pills */
     .digit-meter {
       display: flex;
-      gap: 3px;
+      gap: 3.5px;
       margin-top: 10px;
       width: 100%;
     }
@@ -401,27 +384,25 @@
       flex: 1;
       height: 4px;
       border-radius: 2px;
-      background: rgba(255, 255, 255, 0.12);
+      background: #cbd5e1;
       transition: all 0.2s ease;
     }
     .digit-meter-pill.active {
-      background: var(--gold-primary);
-      box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+      background: #10b981;
     }
     .digit-meter-pill.complete {
-      background: #10b981;
-      box-shadow: 0 0 6px #10b981;
+      background: var(--desa-green);
     }
 
-    /* Primary Submit Button (Royal Gold) */
-    .btn-gov-gold {
+    /* Primary Submit Button (Fresh Emerald Village Green) */
+    .btn-desa-submit {
       width: 100%;
-      background: linear-gradient(135deg, #d4af37 0%, #f3d069 50%, #aa8010 100%);
-      color: #040d1a;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
       border: none;
       border-radius: var(--radius-md);
       padding: 15px 20px;
-      font-size: 14.5px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: 0.5px;
       cursor: pointer;
@@ -429,211 +410,168 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 8px 24px -4px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 20px -4px rgba(4, 120, 87, 0.4);
       transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
     }
-    .btn-gov-gold::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -60%;
-      width: 50%;
-      height: 200%;
-      background: rgba(255, 255, 255, 0.4);
-      transform: rotate(30deg);
-      animation: shimmer 4s infinite;
-    }
-    @keyframes shimmer {
-      0% { left: -60%; }
-      30% { left: 140%; }
-      100% { left: 140%; }
-    }
-    .btn-gov-gold:hover {
+    .btn-desa-submit:hover {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px -4px rgba(212, 175, 55, 0.6);
+      box-shadow: 0 12px 24px -4px rgba(4, 120, 87, 0.5);
     }
-    .btn-gov-gold:active {
+    .btn-desa-submit:active {
       transform: translateY(0);
     }
-    .btn-gov-gold:disabled {
-      background: #475569;
-      color: #94a3b8;
-      box-shadow: none;
+    .btn-desa-submit:disabled {
+      background: #94a3b8;
       cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
     }
 
-    /* Sample Quick Chips */
+    /* Quick Sample Chips */
     .sample-chips-wrap {
       margin-top: 14px;
       padding-top: 12px;
-      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      border-top: 1px dashed #cbd5e1;
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
     }
     .sample-chip-title {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      color: var(--text-gold);
+      color: var(--desa-green-dark);
       width: 100%;
       margin-bottom: 2px;
     }
     .sample-chip {
-      background: rgba(18, 51, 102, 0.6);
-      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
       border-radius: 6px;
       padding: 5px 9px;
       font-size: 11px;
       font-family: var(--font-mono);
       font-weight: 700;
-      color: var(--text-silver);
+      color: var(--text-dark);
       cursor: pointer;
       transition: all 0.15s;
     }
     .sample-chip:hover {
-      background: var(--gold-primary);
-      color: #040d1a;
-      border-color: #ffffff;
+      background: var(--desa-green);
+      color: #ffffff;
+      border-color: var(--desa-green);
     }
 
     /* =======================================================
-       KARTU BUKTI PEMILIH DIGITAL RESMI (SUPER MEWAH GOV STYLE)
+       KARTU BUKTI PEMILIH DIGITAL RESMI (TEMA CERAH ELEGANT)
        ======================================================= */
     #voterCardWrapper {
       display: none;
       margin-top: 20px;
-      animation: cardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: cardSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes cardSlideUp {
-      from { opacity: 0; transform: translateY(25px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .official-voter-card {
-      background: linear-gradient(145deg, #091c3d 0%, #06152e 50%, #0b224a 100%);
-      border: 2px solid var(--gold-primary);
+      background: #ffffff;
+      border: 2px solid #047857;
       border-radius: var(--radius-xl);
       padding: 0;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.25);
-    }
-    .card-watermark {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-20deg);
-      font-size: 200px;
-      color: rgba(212, 175, 55, 0.035);
-      pointer-events: none;
-      z-index: 0;
+      box-shadow: var(--shadow-card);
     }
 
     /* Card Kop Header */
     .card-header-gov {
-      background: linear-gradient(90deg, #071731 0%, #112d59 50%, #071731 100%);
-      border-bottom: 1.5px solid var(--gold-primary);
+      background: #f0fdf4;
+      border-bottom: 2px solid #047857;
       padding: 16px 14px;
       display: flex;
       align-items: center;
       gap: 12px;
-      position: relative;
-      z-index: 1;
     }
     .gov-seal-gold {
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      border: 1.5px solid var(--gold-primary);
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(5, 17, 36, 0.9) 70%);
+      border: 2px solid #047857;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 2px 8px rgba(4, 120, 87, 0.15);
     }
     .gov-seal-gold i {
-      font-size: 24px;
-      color: var(--gold-primary);
+      font-size: 22px;
+      color: #047857;
     }
     .card-header-titles {
       flex: 1;
     }
     .card-kop-top {
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: 1.2px;
-      color: var(--text-gold);
+      letter-spacing: 1px;
+      color: var(--accent-gold);
       text-transform: uppercase;
       line-height: 1.2;
     }
     .card-kop-main {
-      font-family: var(--font-display);
-      font-size: 14px;
+      font-family: var(--font-title);
+      font-size: 15px;
       font-weight: 800;
-      color: #ffffff;
-      letter-spacing: 0.5px;
+      color: var(--desa-green-dark);
+      letter-spacing: 0.3px;
       line-height: 1.2;
       margin: 2px 0;
     }
     .card-kop-sub {
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 600;
-      color: var(--text-silver);
+      color: var(--text-sub);
     }
 
     /* Card Content Body */
     .card-body-content {
       padding: 16px;
-      position: relative;
-      z-index: 1;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
 
-    /* TPS Highlight Banner */
+    /* TPS Highlight Banner (Sorotan Utama) */
     .tps-hero-badge {
-      background: linear-gradient(135deg, #0e3777 0%, #1e5bb8 100%);
-      border: 1.5px solid rgba(254, 240, 138, 0.4);
+      background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+      border: 2px solid #059669;
       border-radius: var(--radius-lg);
       padding: 16px 14px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    }
-    .tps-hero-badge::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      right: -20px;
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-      border-radius: 50%;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(4, 120, 87, 0.25);
     }
     .tps-badge-tag {
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1.8px;
-      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      color: #fef08a;
       text-transform: uppercase;
       margin-bottom: 2px;
     }
     .tps-badge-num {
-      font-family: var(--font-display);
+      font-family: var(--font-title);
       font-size: 34px;
       font-weight: 900;
       color: #ffffff;
       letter-spacing: 1px;
-      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     }
     .tps-badge-location {
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
       color: #ffffff;
       margin-top: 4px;
@@ -646,27 +584,27 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: rgba(5, 150, 105, 0.35);
-      border: 1px solid rgba(52, 211, 153, 0.6);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       padding: 3px 12px;
       border-radius: 20px;
       font-size: 11px;
       font-weight: 700;
-      color: #6ee7b7;
+      color: #ffffff;
       margin-top: 8px;
     }
 
     /* Grid Data Warga */
     .citizen-data-grid {
-      background: rgba(4, 13, 26, 0.6);
-      border: 1px solid rgba(212, 175, 55, 0.2);
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
       border-radius: var(--radius-md);
       overflow: hidden;
     }
     .citizen-row {
       display: flex;
       padding: 10px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid #e2e8f0;
       align-items: flex-start;
       gap: 10px;
     }
@@ -674,8 +612,8 @@
       border-bottom: none;
     }
     .row-icon {
-      color: var(--gold-primary);
-      font-size: 13px;
+      color: var(--desa-green);
+      font-size: 14px;
       width: 18px;
       margin-top: 3px;
       flex-shrink: 0;
@@ -687,7 +625,7 @@
     .row-label {
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--text-gold);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 2px;
@@ -695,32 +633,33 @@
     .row-val {
       font-size: 13.5px;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-dark);
       line-height: 1.35;
       word-break: break-word;
     }
     .row-val-nik {
       font-family: var(--font-mono);
       font-size: 15px;
-      color: var(--gold-light);
+      color: var(--desa-green-dark);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .btn-toggle-mask {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-silver);
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      color: var(--text-dark);
       font-size: 11px;
-      padding: 2px 6px;
+      font-weight: 700;
+      padding: 2px 7px;
       border-radius: 4px;
       cursor: pointer;
     }
 
     /* QR Code & Verification Stamp Section */
     .card-footer-auth {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px dashed rgba(212, 175, 55, 0.3);
+      background: #f0fdf4;
+      border: 1px dashed #059669;
       border-radius: var(--radius-md);
       padding: 12px;
       display: flex;
@@ -734,7 +673,7 @@
       background: #ffffff;
       padding: 4px;
       border-radius: 8px;
-      border: 1.5px solid var(--gold-primary);
+      border: 1.5px solid #059669;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -742,17 +681,17 @@
     }
     .auth-text-box {
       flex: 1;
-      font-size: 10.5px;
-      color: var(--text-silver);
+      font-size: 11px;
+      color: var(--text-sub);
       line-height: 1.35;
     }
     .auth-badge-stamp {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      color: var(--gold-primary);
+      color: var(--desa-green-dark);
       font-weight: 800;
-      font-size: 10.5px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 2px;
@@ -781,46 +720,44 @@
       text-decoration: none;
     }
     .btn-print-doc {
-      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
-      color: #ffffff;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      background: #f1f5f9;
+      color: var(--text-dark);
+      border: 1.5px solid #cbd5e1;
     }
     .btn-print-doc:hover {
-      background: #1e40af;
-      border-color: var(--gold-primary);
+      background: #e2e8f0;
     }
     .btn-wa-share {
-      background: linear-gradient(135deg, #059669 0%, #064e3b 100%);
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
       color: #ffffff;
-      border: 1px solid rgba(52, 211, 153, 0.4);
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
     }
     .btn-wa-share:hover {
-      background: #10b981;
+      background: #15803d;
     }
     .btn-reset-search {
       grid-column: span 2;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-silver);
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      color: var(--text-sub);
       height: 44px;
     }
     .btn-reset-search:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+      background: #f8fafc;
+      border-color: var(--desa-green);
+      color: var(--desa-green-dark);
     }
 
     /* Official Footer */
     .gov-footer {
       text-align: center;
       padding: 14px 10px 0;
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.5;
     }
     .gov-footer strong {
-      color: var(--text-silver);
+      color: var(--text-dark);
     }
 
     /* Loading Spinner */
@@ -828,9 +765,9 @@
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 2.5px solid rgba(4, 13, 26, 0.3);
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      border-top-color: #040d1a;
+      border-top-color: #ffffff;
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin {
@@ -843,30 +780,30 @@
     .maone-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(3, 10, 22, 0.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 18px;
       z-index: 9999;
-      animation: modalFadeIn 0.25s ease;
+      animation: modalFadeIn 0.2s ease;
     }
     @keyframes modalFadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
     .maone-modal-dialog {
-      background: linear-gradient(145deg, #091c3d 0%, #06152e 100%);
-      border: 1.5px solid var(--gold-primary);
+      background: #ffffff;
+      border: 2px solid #047857;
       border-radius: var(--radius-xl);
       padding: 24px 20px 20px;
       width: 100%;
       max-width: 380px;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.3);
-      animation: modalZoom 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
+      animation: modalZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes modalZoom {
       from { transform: scale(0.92); opacity: 0; }
@@ -876,39 +813,37 @@
       width: 58px;
       height: 58px;
       border-radius: 50%;
-      margin: 0 auto 16px;
+      margin: 0 auto 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 26px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     .modal-icon-gold {
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
-      border: 2px solid var(--gold-primary);
-      color: var(--gold-light);
+      background: #fef3c7;
+      border: 2px solid #d97706;
+      color: #b45309;
     }
     .modal-icon-danger {
-      background: radial-gradient(circle, rgba(220, 38, 38, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
+      background: #fee2e2;
       border: 2px solid #ef4444;
-      color: #fca5a5;
+      color: #b91c1c;
     }
     .modal-icon-success {
-      background: radial-gradient(circle, rgba(5, 150, 105, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
+      background: #dcfce7;
       border: 2px solid #10b981;
-      color: #6ee7b7;
+      color: #047857;
     }
     .modal-headline {
-      font-family: var(--font-display);
       font-size: 17px;
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text-dark);
       margin-bottom: 8px;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
     }
     .modal-message {
       font-size: 13px;
-      color: var(--text-silver);
+      color: var(--text-sub);
       line-height: 1.45;
       margin-bottom: 20px;
     }
@@ -934,32 +869,30 @@
       transition: all 0.2s;
     }
     .modal-btn-cancel {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text-silver);
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      color: var(--text-dark);
     }
     .modal-btn-cancel:hover {
-      background: rgba(255, 255, 255, 0.16);
-      color: #ffffff;
+      background: #e2e8f0;
     }
     .modal-btn-confirm {
-      background: linear-gradient(135deg, var(--gold-primary) 0%, #aa8010 100%);
-      color: #040d1a;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3);
     }
     .modal-btn-confirm:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+      background: #047857;
     }
 
-    /* Print Optimizations */
+    /* Print Template Optimizations */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
         padding: 0 !important;
       }
-      .gov-top-ribbon, .news-ticker, #searchBoxSection, .card-actions-grid, .gov-footer, .sample-chips-wrap {
+      .desa-top-ribbon, .news-ticker, #searchBoxSection, .card-actions-grid, .gov-footer, .sample-chips-wrap {
         display: none !important;
       }
       .app-viewport {
@@ -973,15 +906,19 @@
         color: #000000 !important;
       }
       .card-header-gov {
-        background: #f1f5f9 !important;
+        background: #f8fafc !important;
         border-bottom: 2px solid #000000 !important;
       }
       .card-kop-top, .card-kop-sub, .row-label, .row-val, .tps-badge-tag, .tps-badge-num {
         color: #000000 !important;
       }
       .tps-hero-badge {
-        background: #f8fafc !important;
+        background: #f1f5f9 !important;
+        color: #000000 !important;
         border: 2px solid #000000 !important;
+      }
+      .tps-hero-badge * {
+        color: #000000 !important;
       }
       .citizen-data-grid {
         border: 1px solid #000000 !important;
@@ -998,16 +935,16 @@
 </head>
 <body>
 
-  <!-- Top Official Government Ribbon -->
-  <header class="gov-top-ribbon">
-    <div class="gov-ribbon-left">
+  <!-- Top Government Ribbon -->
+  <header class="desa-top-ribbon">
+    <div class="desa-ribbon-left">
       <div class="gov-flag" title="Republik Indonesia">
         <div class="flag-red"></div>
         <div class="flag-white"></div>
       </div>
-      <span>PORTAL RESMI PILKADES KARANG SATRIA</span>
+      <span>PILKADES DESA KARANG SATRIA</span>
     </div>
-    <div class="gov-status-live">
+    <div class="desa-status-live">
       <div class="live-dot"></div>
       <span>DPS / DPT AKTIF</span>
     </div>
@@ -1016,7 +953,7 @@
   <!-- Running News Ticker -->
   <div class="news-ticker">
     <div class="ticker-content">
-      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Cukup masukkan 16 digit NIK Anda untuk mengetahui nomor dan lokasi TPS tempat Anda mencoblos.
+      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 16 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
     </div>
   </div>
 
@@ -1024,45 +961,38 @@
   <main class="app-viewport">
     
     <!-- Hero Header Branding -->
-    <section class="gov-hero-card">
+    <section class="desa-hero-card">
       <div class="emblem-wrapper">
-        <i class="fa-solid fa-landmark-flag"></i>
+        <i class="fa-solid fa-landmark"></i>
       </div>
-      <div class="gold-stars">
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-        <i class="fa-solid fa-star"></i>
-      </div>
-      <div class="gov-title-sub">Panitia Pemilihan Kepala Desa</div>
-      <h1 class="gov-title-main">DESA KARANG SATRIA</h1>
-      <p class="gov-title-desc">Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat</p>
-      <div class="gov-tag-period">
-        <i class="fa-solid fa-calendar-check"></i> Periode Masa Jabatan 2026 - 2034
+      <div class="desa-title-top">PEMILIHAN KEPALA DESA</div>
+      <h1 class="desa-title-main">DESA KARANG SATRIA</h1>
+      <p class="desa-title-desc">Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat</p>
+      <div class="desa-tag-period">
+        <i class="fa-solid fa-calendar-check"></i> Masa Jabatan 2026 - 2034
       </div>
     </section>
 
-    <!-- Main Panel: Cek NIK Langsung Muncul TPS -->
-    <section class="gov-panel">
+    <!-- Main Search Panel: Cek NIK Langsung Muncul TPS -->
+    <section class="desa-main-panel">
       
       <div id="searchBoxSection">
         <div class="section-headline">
           <div class="section-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass-location"></i>
           </div>
           <div>
-            <div class="section-title">Pencarian Lokasi TPS</div>
-            <div class="section-subtitle">Ketik 16 digit NIK KTP-el untuk melihat data & lokasi TPS</div>
+            <div class="section-title">Cek Lokasi TPS Warga</div>
+            <div class="section-subtitle">Masukkan 16 digit NIK KTP-el Anda</div>
           </div>
         </div>
 
-        <!-- Input NIK Luxury Box -->
+        <!-- Input NIK Clean Box -->
         <form id="nikSearchForm" onsubmit="handleGovSearch(event)">
           <div class="nik-input-card">
             <div class="nik-label-row">
               <label class="nik-label" for="nikField">
-                <i class="fa-solid fa-address-card"></i> Nomor Induk Kependudukan (NIK)
+                <i class="fa-solid fa-id-card"></i> Nomor Induk Kependudukan (NIK)
               </label>
               <span id="nikMeterCounter" class="nik-counter-badge">0 / 16</span>
             </div>
@@ -1072,7 +1002,7 @@
                 type="tel" 
                 id="nikField" 
                 class="nik-input-field" 
-                placeholder="Masukkan 16 Digit NIK..." 
+                placeholder="Ketik 16 Digit NIK..." 
                 maxlength="16" 
                 inputmode="numeric"
                 autocomplete="off"
@@ -1090,15 +1020,15 @@
             </div>
           </div>
 
-          <button type="submit" id="btnGovSubmit" class="btn-gov-gold">
-            <i class="fa-solid fa-magnifying-glass-location"></i>
+          <button type="submit" id="btnGovSubmit" class="btn-desa-submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
             <span id="btnSubmitText">CEK LOKASI TPS SAYA</span>
           </button>
         </form>
 
         <!-- Sampel Uji Coba Cepat Warga Karang Satria -->
         <div class="sample-chips-wrap">
-          <div class="sample-chip-title">💡 Klik Cepat Contoh NIK Warga:</div>
+          <div class="sample-chip-title">💡 Contoh Sampel NIK Warga:</div>
           <button type="button" class="sample-chip" onclick="fillNikSample('3216061408880001')">321606..0001 (Alamanda)</button>
           <button type="button" class="sample-chip" onclick="fillNikSample('3216062005920002')">321606..0002 (Kp. Cerewet)</button>
           <button type="button" class="sample-chip" onclick="fillNikSample('3216061011950003')">321606..0003 (VIP)</button>
@@ -1110,18 +1040,15 @@
       <!-- ================= KARTU BUKTI PEMILIH DIGITAL ================= -->
       <div id="voterCardWrapper">
         <article class="official-voter-card" id="printableCard">
-          <div class="card-watermark">
-            <i class="fa-solid fa-landmark"></i>
-          </div>
-
+          
           <!-- Card Kop Header -->
           <div class="card-header-gov">
             <div class="gov-seal-gold">
-              <i class="fa-solid fa-shield-halved"></i>
+              <i class="fa-solid fa-landmark"></i>
             </div>
             <div class="card-header-titles">
               <div class="card-kop-top">PEMERINTAH KABUPATEN BEKASI</div>
-              <div class="card-kop-main">PANITIA PILKADES KARANG SATRIA</div>
+              <div class="card-kop-main">PILKADES DESA KARANG SATRIA</div>
               <div class="card-kop-sub">Kecamatan Tambun Utara • Masa Jabatan 2026 - 2034</div>
             </div>
           </div>
@@ -1192,7 +1119,7 @@
                 <div class="row-icon"><i class="fa-solid fa-clock"></i></div>
                 <div class="row-content">
                   <div class="row-label">Waktu Pemungutan Suara</div>
-                  <div class="row-val" style="color: var(--text-gold);">Rabu, 07:00 - 13:00 WIB (Bawa KTP-el Asli / C6)</div>
+                  <div class="row-val" style="color: var(--desa-green-dark);">Rabu, 07:00 - 13:00 WIB (Bawa KTP-el Asli / C6)</div>
                 </div>
               </div>
 
@@ -1205,7 +1132,7 @@
                 <div class="auth-badge-stamp">
                   <i class="fa-solid fa-certificate"></i> DOKUMEN DIGITAL SAH
                 </div>
-                <div>Scan QR Code ini oleh KPPS saat tiba di TPS Desa Karang Satria untuk verifikasi presensi cepat.</div>
+                <div>Scan QR Code ini saat tiba di TPS Desa Karang Satria untuk verifikasi presensi cepat.</div>
               </div>
             </div>
 
@@ -1230,8 +1157,8 @@
 
     <!-- Official Footer -->
     <footer class="gov-footer">
-      <p>&copy; 2026 - 2034 <strong>Panitia Pemilihan Kepala Desa Karang Satria</strong></p>
-      <p>Kecamatan Tambun Utara, Kabupaten Bekasi • Powered by Google Apps Script & Sheets</p>
+      <p>&copy; 2026 - 2034 <strong>Pemilihan Kepala Desa Karang Satria</strong></p>
+      <p>Kecamatan Tambun Utara, Kabupaten Bekasi • Google Apps Script & Sheets</p>
     </footer>
 
   </main>
@@ -1244,7 +1171,7 @@
       <div id="maoneModalIconCircle" class="modal-icon-circle modal-icon-gold">
         <i id="maoneModalIcon" class="fa-solid fa-circle-exclamation"></i>
       </div>
-      <h3 id="maoneModalTitle" class="modal-headline">Pemberitahuan Resmi</h3>
+      <h3 id="maoneModalTitle" class="modal-headline">Pemberitahuan</h3>
       <p id="maoneModalMessage" class="modal-message">Pesan notifikasi...</p>
 
       <!-- 100% Symmetrical 2-Column Buttons Grid (Rule GEMINI.md) -->
@@ -1428,8 +1355,8 @@
       const nik = document.getElementById('nikField').value.trim();
       if (nik.length !== 16) {
         showAlertModal(
-          'Format NIK Tidak Sesuai',
-          'Nomor Induk Kependudukan (NIK) harus berjumlah tepat 16 digit angka sesuai KTP-el.',
+          'Format NIK Kurang',
+          'Nomor Induk Kependudukan (NIK) harus berjumlah tepat 16 digit angka.',
           'danger'
         );
         return;
@@ -1445,7 +1372,7 @@
           .withFailureHandler(onGovSearchError)
           .searchByNIK(nik);
       } else {
-        // Fallback Simulasi Cepat
+        // Fallback Simulasi
         setTimeout(() => {
           const match = mockDatabaseKarangSatria.find(item => item.nik === nik);
           if (match) {
@@ -1471,11 +1398,11 @@
             } else {
               onGovSearchSuccess({
                 status: 'not_found',
-                message: 'NIK ' + nik + ' belum terdaftar dalam database DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi Panitia Pilkades.'
+                message: 'NIK ' + nik + ' belum terdaftar dalam database DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar.'
               });
             }
           }
-        }, 500);
+        }, 400);
       }
     }
 
@@ -1484,7 +1411,7 @@
       if (res.status === 'success') {
         renderVoterCard(res.data);
       } else {
-        showAlertModal('Data Tidak Ditemukan', res.message || 'NIK Anda tidak ditemukan dalam DPS/DPT.', 'danger');
+        showAlertModal('Data Tidak Ditemukan', res.message || 'NIK Anda tidak ditemukan dalam database pemilih.', 'danger');
       }
     }
 
@@ -1517,7 +1444,7 @@
         text: qrPayload,
         width: 64,
         height: 64,
-        colorDark: '#040d1a',
+        colorDark: '#047857',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
       });
@@ -1561,7 +1488,7 @@
       const text = document.getElementById('btnSubmitText');
       btn.disabled = isLoading;
       if (isLoading) {
-        text.innerHTML = '<span class="spinner-gov"></span> MEMVERIFIKASI DATA...';
+        text.innerHTML = '<span class="spinner-gov"></span> MEMERIKSA DATA...';
       } else {
         text.innerHTML = 'CEK LOKASI TPS SAYA';
       }
@@ -1576,7 +1503,7 @@
       if (!activeVoterData) return;
       const d = activeVoterData;
       const msg = 
-        `🏛️ *BUKTI LOKASI TPS PILKADES KARANG SATRIA (2026 - 2034)*\n` +
+        `🗳️ *LOKASI TPS PILKADES DESA KARANG SATRIA (2026 - 2034)*\n` +
         `----------------------------------------\n` +
         `👤 *Nama:* ${d.nama}\n` +
         `🆔 *NIK:* ${d.nik.substring(0, 6)}******${d.nik.substring(12)}\n` +
@@ -1586,7 +1513,7 @@
         `⏰ *Waktu:* Rabu, 07.00 - 13.00 WIB\n` +
         `✅ *Status:* Terdaftar Resmi (${d.status || 'DPT Aktif'})\n` +
         `----------------------------------------\n` +
-        `_Cek NIK mandiri di Portal Resmi Pilkades Karang Satria._`;
+        `_Cek NIK Anda di Portal Pemilihan Kepala Desa Karang Satria._`;
 
       const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
       window.open(url, '_blank');
@@ -1614,7 +1541,7 @@
         icon.className = 'fa-solid fa-circle-check';
       } else {
         iconCircle.className = 'modal-icon-circle modal-icon-gold';
-        icon.className = 'fa-solid fa-shield-halved';
+        icon.className = 'fa-solid fa-circle-info';
       }
 
       btnGrid.innerHTML = `

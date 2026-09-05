@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Portal Cek DPS & DPT Online | Pilkades Karang Satria 2026 - 2034</title>
+  
+  <!-- Favicon & Meta -->
+  <meta name="theme-color" content="#061a38">
+  <meta name="description" content="Portal Resmi Pengecekan Daftar Pemilih Sementara & Tetap (DPS/DPT) Pemilihan Kepala Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Cinzel (Government Luxury Typography) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --gov-navy-dark: #040d1a;
+      --gov-navy: #091f42;
+      --gov-navy-light: #123366;
+      --gov-blue-accent: #1e5bb8;
+      
+      --gold-primary: #d4af37;
+      --gold-light: #fef08a;
+      --gold-gradient: linear-gradient(135deg, #bf953f 0%, #fcf6ba 30%, #b38728 65%, #fbf5b7 100%);
+      --gold-glow: 0 0 25px rgba(212, 175, 55, 0.35);
+      
+      --emerald-accent: #059669;
+      --emerald-light: #d1fae5;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      
+      --card-glass: rgba(10, 26, 54, 0.78);
+      --card-glass-border: rgba(212, 175, 55, 0.28);
+      --inner-glass: rgba(255, 255, 255, 0.05);
+      
+      --text-white: #ffffff;
+      --text-gold: #f6d88c;
+      --text-silver: #cbd5e1;
+      --text-muted: #94a3b8;
+      
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-body);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #040d1a;
+      background-image: 
+        radial-gradient(circle at 50% 0%, #133973 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(212, 175, 55, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, #051329 0%, #030a14 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      color: var(--text-white);
+      padding: 0 0 60px;
+      overflow-x: hidden;
+    }
+
+    /* Top Official Bar */
+    .gov-top-ribbon {
+      width: 100%;
+      background: linear-gradient(90deg, #091a33 0%, #15325b 50%, #091a33 100%);
+      border-bottom: 1.5px solid rgba(212, 175, 55, 0.4);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-gold);
+      letter-spacing: 0.6px;
+      z-index: 100;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+    .gov-ribbon-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gov-flag {
+      display: inline-flex;
+      flex-direction: column;
+      width: 16px;
+      height: 11px;
+      border: 0.5px solid rgba(255,255,255,0.4);
+      border-radius: 1.5px;
+      overflow: hidden;
+    }
+    .flag-red { background: #e11d48; height: 50%; width: 100%; }
+    .flag-white { background: #ffffff; height: 50%; width: 100%; }
+    
+    .gov-status-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(5, 150, 105, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      color: #34d399;
+    }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.5; }
+    }
+
+    /* Running News Ticker */
+    .news-ticker {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 4px 0;
+      font-size: 11px;
+      color: var(--text-silver);
+    }
+    .ticker-content {
+      display: inline-block;
+      animation: marquee 35s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    /* Main Container (Mobile-App Sized) */
+    .app-viewport {
+      width: 100%;
+      max-width: 500px;
+      padding: 16px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    /* Hero Branding Header */
+    .gov-hero-card {
+      background: var(--card-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid var(--card-glass-border);
+      border-radius: var(--radius-xl);
+      padding: 22px 18px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.6), var(--gold-glow);
+    }
+    .gov-hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gold-gradient);
+    }
+    .emblem-wrapper {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 12px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(9, 31, 66, 0.8) 70%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      position: relative;
+    }
+    .emblem-wrapper i {
+      font-size: 32px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .gold-stars {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      color: var(--gold-primary);
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+    .gov-title-sub {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      color: var(--text-gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .gov-title-main {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      line-height: 1.25;
+      color: #ffffff;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+    .gov-title-desc {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-silver);
+      line-height: 1.4;
+    }
+    .gov-tag-period {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(9, 31, 66, 0.6) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 30px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-top: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Government Tabs Menu */
+    .gov-tabs-container {
+      display: flex;
+      background: rgba(7, 20, 42, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 4px;
+      gap: 4px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    }
+    .gov-tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px 4px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .gov-tab-btn i {
+      font-size: 16px;
+      transition: transform 0.2s ease;
+    }
+    .gov-tab-btn.active {
+      background: linear-gradient(135deg, #10346b 0%, #1e54a8 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 52, 107, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+    .gov-tab-btn.active i {
+      color: var(--gold-light);
+      transform: scale(1.1);
+    }
+
+    /* Card Panels */
+    .gov-panel {
+      background: var(--card-glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid var(--card-glass-border);
+      border-radius: var(--radius-xl);
+      padding: 20px 16px;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form NIK Section */
+    .section-headline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+    }
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(9, 31, 66, 0.9) 100%);
+      border: 1px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+    .section-subtitle {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Input NIK Box Super Luxury */
+    .nik-input-card {
+      background: rgba(4, 13, 26, 0.65);
+      border: 1.5px solid rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .nik-input-card:focus-within {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.05);
+    }
+    .nik-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .nik-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nik-counter-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-silver);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .nik-counter-badge.complete {
+      background: rgba(5, 150, 105, 0.3);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .nik-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nik-input-field {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #ffffff;
+      padding: 8px 40px 8px 0;
+    }
+    .nik-input-field::placeholder {
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      letter-spacing: 0.2px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .btn-paste-nik {
+      position: absolute;
+      right: 0;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--text-gold);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-paste-nik:hover {
+      background: var(--gold-primary);
+      color: #040d1a;
+    }
+
+    /* 16-Digit Segment Dots / Visual Bar */
+    .digit-meter {
+      display: flex;
+      gap: 3px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .digit-meter-pill {
+      flex: 1;
+      height: 3.5px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+    .digit-meter-pill.active {
+      background: var(--gold-primary);
+      box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+    }
+    .digit-meter-pill.complete {
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    /* Primary Submit Button (Royal Gold & Navy Gradient) */
+    .btn-gov-gold {
+      width: 100%;
+      background: linear-gradient(135deg, #d4af37 0%, #f3d069 50%, #aa8010 100%);
+      color: #040d1a;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 15px 20px;
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px -4px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-gov-gold::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: rotate(30deg);
+      animation: shimmer 4s infinite;
+    }
+    @keyframes shimmer {
+      0% { left: -60%; }
+      30% { left: 140%; }
+      100% { left: 140%; }
+    }
+    .btn-gov-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px rgba(212, 175, 55, 0.6);
+    }
+    .btn-gov-gold:active {
+      transform: translateY(0);
+    }
+    .btn-gov-gold:disabled {
+      background: #475569;
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    /* Sample Quick Chips */
+    .sample-chips-wrap {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .sample-chip-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-gold);
+    }
+    .sample-chip {
+      background: rgba(18, 51, 102, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-silver);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sample-chip:hover {
+      background: var(--gold-primary);
+      color: #040d1a;
+    }
+
+    /* =======================================================
+       KARTU BUKTI PEMILIH DIGITAL RESMI (SUPER MEWAH GOV STYLE)
+       ======================================================= */
+    #voterCardWrapper {
+      display: none;
+      margin-top: 18px;
+      animation: cardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes cardSlideUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .official-voter-card {
+      background: linear-gradient(145deg, #091c3d 0%, #06152e 50%, #0b224a 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: var(--radius-xl);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.25);
+    }
+    .card-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      font-size: 200px;
+      color: rgba(212, 175, 55, 0.035);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Card Top Header Official */
+    .card-header-gov {
+      background: linear-gradient(90deg, #071731 0%, #112d59 50%, #071731 100%);
+      border-bottom: 1.5px solid var(--gold-primary);
+      padding: 16px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .gov-seal-gold {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-primary);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(5, 17, 36, 0.9) 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+    .gov-seal-gold i {
+      font-size: 24px;
+      color: var(--gold-primary);
+    }
+    .card-header-titles {
+      flex: 1;
+    }
+    .card-kop-top {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: var(--text-gold);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .card-kop-main {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      margin: 2px 0;
+    }
+    .card-kop-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-silver);
+    }
+
+    /* Card Content Body */
+    .card-body-content {
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* TPS Highlight Banner */
+    .tps-hero-badge {
+      background: linear-gradient(135deg, #0e3777 0%, #1e5bb8 100%);
+      border: 1.5px solid rgba(254, 240, 138, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+    .tps-hero-badge::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .tps-badge-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .tps-badge-num {
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    }
+    .tps-badge-location {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .tps-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(5, 150, 105, 0.35);
+      border: 1px solid rgba(52, 211, 153, 0.6);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #6ee7b7;
+      margin-top: 8px;
+    }
+
+    /* Grid Data Warga */
+    .citizen-data-grid {
+      background: rgba(4, 13, 26, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .citizen-row {
+      display: flex;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .citizen-row:last-child {
+      border-bottom: none;
+    }
+    .row-icon {
+      color: var(--gold-primary);
+      font-size: 13px;
+      width: 18px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .row-content {
+      flex: 1;
+    }
+    .row-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .row-val {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .row-val-nik {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-toggle-mask {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-silver);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* QR Code & Verification Stamp Section */
+    .card-footer-auth {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(212, 175, 55, 0.3);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .qr-box {
+      width: 72px;
+      height: 72px;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .auth-text-box {
+      flex: 1;
+      font-size: 10.5px;
+      color: var(--text-silver);
+      line-height: 1.35;
+    }
+    .auth-badge-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--gold-primary);
+      font-weight: 800;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    /* Action Buttons (100% Symmetrical 2-Column Grid Sesuai Aturan GEMINI.md) */
+    .card-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn-action-sym {
+      width: 100%;
+      height: 46px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-print-doc {
+      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+      color: #ffffff;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .btn-print-doc:hover {
+      background: #1e40af;
+      border-color: var(--gold-primary);
+    }
+    .btn-wa-share {
+      background: linear-gradient(135deg, #059669 0%, #064e3b 100%);
+      color: #ffffff;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+    .btn-wa-share:hover {
+      background: #10b981;
+    }
+    .btn-reset-search {
+      grid-column: span 2;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-silver);
+      height: 42px;
+    }
+    .btn-reset-search:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    /* Tab: Info & Statistik TPS Desa Karang Satria */
+    .tps-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat-card-item {
+      background: rgba(4, 13, 26, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-card-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+    .stat-card-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text-silver);
+      margin-top: 2px;
+    }
+
+    .tps-list-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .tps-item-card {
+      background: rgba(18, 51, 102, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+    .tps-item-card:hover {
+      border-color: var(--gold-primary);
+      background: rgba(18, 51, 102, 0.6);
+    }
+    .tps-item-name {
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tps-item-loc {
+      font-size: 11px;
+      color: var(--text-silver);
+      margin-top: 2px;
+    }
+    .tps-item-dps-badge {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      text-align: right;
+    }
+
+    /* Tab: Tahapan Pilkades 2026-2034 */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      background: rgba(4, 13, 26, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .timeline-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-primary) 0%, #aa8010 100%);
+      color: #040d1a;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .timeline-body h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    .timeline-body p {
+      font-size: 11.5px;
+      color: var(--text-silver);
+      line-height: 1.4;
+    }
+
+    /* Tab: Admin & Pengaduan Warga */
+    .form-group-gov {
+      margin-bottom: 14px;
+    }
+    .form-label-gov {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-gold);
+      margin-bottom: 6px;
+    }
+    .form-input-gov {
+      width: 100%;
+      background: rgba(4, 13, 26, 0.7);
+      border: 1.5px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-input-gov:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Official Footer */
+    .gov-footer {
+      text-align: center;
+      padding: 14px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .gov-footer strong {
+      color: var(--text-silver);
+    }
+
+    /* Loading Garuda Spinner */
+    .spinner-gov {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(4, 13, 26, 0.3);
+      border-radius: 50%;
+      border-top-color: #040d1a;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =======================================================
+       MAONEART GLASSMORPHISM MODAL SYSTEM (MANDATORY GEMINI.MD)
+       ======================================================= */
+    .maone-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 10, 22, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+      animation: modalFadeIn 0.25s ease;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .maone-modal-dialog {
+      background: linear-gradient(145deg, #091c3d 0%, #06152e 100%);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px 20px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.3);
+      animation: modalZoom 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalZoom {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-icon-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .modal-icon-gold {
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
+      border: 2px solid var(--gold-primary);
+      color: var(--gold-light);
+    }
+    .modal-icon-danger {
+      background: radial-gradient(circle, rgba(220, 38, 38, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
+      border: 2px solid #ef4444;
+      color: #fca5a5;
+    }
+    .modal-icon-success {
+      background: radial-gradient(circle, rgba(5, 150, 105, 0.3) 0%, rgba(9, 31, 66, 0.9) 70%);
+      border: 2px solid #10b981;
+      color: #6ee7b7;
+    }
+    .modal-headline {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .modal-message {
+      font-size: 13px;
+      color: var(--text-silver);
+      line-height: 1.45;
+      margin-bottom: 20px;
+    }
+
+    /* Modal Symmetrical 2-Column Buttons (grid grid-cols-2 gap-3 w-full) */
+    .maone-modal-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .modal-btn-full {
+      width: 100%;
+      height: 44px;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .modal-btn-cancel {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-silver);
+    }
+    .modal-btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+    .modal-btn-confirm {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, #aa8010 100%);
+      color: #040d1a;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+    .modal-btn-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.6);
+    }
+
+    /* Print Template Optimizations */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .gov-top-ribbon, .news-ticker, .gov-tabs-container, #searchBoxPanel, .card-actions-grid, .gov-footer, .sample-chips-wrap {
+        display: none !important;
+      }
+      .app-viewport {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .official-voter-card {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .card-header-gov {
+        background: #f1f5f9 !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+      .card-kop-top, .card-kop-sub, .row-label, .row-val, .tps-badge-tag, .tps-badge-num {
+        color: #000000 !important;
+      }
+      .tps-hero-badge {
+        background: #f8fafc !important;
+        border: 2px solid #000000 !important;
+      }
+      .citizen-data-grid {
+        border: 1px solid #000000 !important;
+        background: #ffffff !important;
+      }
+      .citizen-row {
+        border-bottom: 1px solid #cccccc !important;
+      }
+      .qr-box {
+        border: 1px solid #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Top Official Government Ribbon -->
+  <header class="gov-top-ribbon">
+    <div class="gov-ribbon-left">
+      <div class="gov-flag" title="Republik Indonesia">
+        <div class="flag-red"></div>
+        <div class="flag-white"></div>
+      </div>
+      <span>PORTAL RESMI PILKADES KARANG SATRIA</span>
+    </div>
+    <div class="gov-status-live">
+      <div class="live-dot"></div>
+      <span>DPS / DPT AKTIF</span>
+    </div>
+  </header>
+
+  <!-- 2. Running News Ticker -->
+  <div class="news-ticker">
+    <div class="ticker-content">
+      📢 <strong>PENGUMUMAN RESMI:</strong> Tahapan Pemutakhiran Data Pemilih Sementara (DPS) Menuju DPT Pilkades Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Pastikan NIK KTP-el Anda telah terdaftar • Hubungi Panitia Pilkades / Sekretariat Desa jika data belum sesuai.
+    </div>
+  </div>
+
+  <!-- 3. Mobile Viewport App -->
+  <main class="app-viewport">
+    
+    <!-- Hero Header Branding -->
+    <section class="gov-hero-card">
+      <div class="emblem-wrapper">
+        <i class="fa-solid fa-landmark-flag"></i>
+      </div>
+      <div class="gold-stars">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <div class="gov-title-sub">Panitia Pemilihan Kepala Desa</div>
+      <h1 class="gov-title-main">DESA KARANG SATRIA</h1>
+      <p class="gov-title-desc">Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat</p>
+      <div class="gov-tag-period">
+        <i class="fa-solid fa-calendar-check"></i> Periode Masa Jabatan 2026 - 2034
+      </div>
+    </section>
+
+    <!-- Navigation Tabs Mobile -->
+    <nav class="gov-tabs-container">
+      <button class="gov-tab-btn active" id="tabBtnCheck" onclick="switchGovTab('check')">
+        <i class="fa-solid fa-id-card"></i>
+        <span>Cek NIK / TPS</span>
+      </button>
+      <button class="gov-tab-btn" id="tabBtnTPS" onclick="switchGovTab('tps')">
+        <i class="fa-solid fa-box-archive"></i>
+        <span>Data & Info TPS</span>
+      </button>
+      <button class="gov-tab-btn" id="tabBtnSchedule" onclick="switchGovTab('schedule')">
+        <i class="fa-solid fa-timeline"></i>
+        <span>Jadwal Pilkades</span>
+      </button>
+      <button class="gov-tab-btn" id="tabBtnLapor" onclick="switchGovTab('lapor')">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>Lapor / Daftar</span>
+      </button>
+    </nav>
+
+    <!-- ==================== SECTION 1: CEK NIK / DPS-DPT ==================== -->
+    <section id="panelCheck" class="gov-panel">
+      
+      <div class="section-headline">
+        <div class="section-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div>
+          <div class="section-title">Pencarian Data Pemilih</div>
+          <div class="section-subtitle">Masukkan 16 digit NIK sesuai KTP elektronik Anda</div>
+        </div>
+      </div>
+
+      <!-- Input NIK Luxury Card -->
+      <form id="nikSearchForm" onsubmit="handleGovSearch(event)">
+        <div class="nik-input-card">
+          <div class="nik-label-row">
+            <label class="nik-label" for="nikField">
+              <i class="fa-solid fa-address-card"></i> Nomor Induk Kependudukan (NIK)
+            </label>
+            <span id="nikMeterCounter" class="nik-counter-badge">0 / 16</span>
+          </div>
+
+          <div class="nik-input-wrapper">
+            <input 
+              type="tel" 
+              id="nikField" 
+              class="nik-input-field" 
+              placeholder="Contoh: 3216012345670001" 
+              maxlength="16" 
+              inputmode="numeric"
+              autocomplete="off"
+              oninput="handleNikKeypress(this)"
+              required
+            >
+            <button type="button" class="btn-paste-nik" onclick="pasteFromClipboard()">
+              <i class="fa-solid fa-paste"></i> Tempel
+            </button>
+          </div>
+
+          <!-- 16 Digit Progress Meter -->
+          <div class="digit-meter" id="digitMeter">
+            <!-- 16 Visual Pills Generated in JS -->
+          </div>
+        </div>
+
+        <button type="submit" id="btnGovSubmit" class="btn-gov-gold">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+          <span id="btnSubmitText">PERIKSA STATUS DPT SAYA</span>
+        </button>
+      </form>
+
+      <!-- Quick Demo Chips Warga Karang Satria -->
+      <div class="sample-chips-wrap">
+        <span class="sample-chip-title">Contoh NIK Warga:</span>
+        <button type="button" class="sample-chip" onclick="fillNikSample('3216061408880001')">321606..0001 (Alamanda)</button>
+        <button type="button" class="sample-chip" onclick="fillNikSample('3216062005920002')">321606..0002 (Satria Mekar)</button>
+        <button type="button" class="sample-chip" onclick="fillNikSample('3216061011950003')">321606..0003 (Villa Indah)</button>
+      </div>
+
+      <!-- ================= KARTU BUKTI PEMILIH DIGITAL ================= -->
+      <div id="voterCardWrapper">
+        <article class="official-voter-card" id="printableCard">
+          <div class="card-watermark">
+            <i class="fa-solid fa-landmark"></i>
+          </div>
+
+          <!-- Card Kop Header -->
+          <div class="card-header-gov">
+            <div class="gov-seal-gold">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="card-header-titles">
+              <div class="card-kop-top">PEMERINTAH KABUPATEN BEKASI</div>
+              <div class="card-kop-main">PANITIA PILKADES KARANG SATRIA</div>
+              <div class="card-kop-sub">Kecamatan Tambun Utara • Masa Jabatan 2026 - 2034</div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body-content">
+            
+            <!-- TPS Centerpiece -->
+            <div class="tps-hero-badge">
+              <div class="tps-badge-tag">LOKASI TPS HARI PEMUNGUTAN SUARA</div>
+              <div id="cardTPSNum" class="tps-badge-num">TPS 014</div>
+              <div id="cardTPSLoc" class="tps-badge-location">
+                <i class="fa-solid fa-location-dot"></i> Balai Pertemuan RW 018 Alamanda Regency
+              </div>
+              <div>
+                <span id="cardStatusBadge" class="tps-status-pill">
+                  <i class="fa-solid fa-circle-check"></i> TERDAFTAR RESMI: DPT AKTIF
+                </span>
+              </div>
+            </div>
+
+            <!-- Citizen Data Table -->
+            <div class="citizen-data-grid">
+              
+              <!-- NIK Row -->
+              <div class="citizen-row">
+                <div class="row-icon"><i class="fa-solid fa-id-card"></i></div>
+                <div class="row-content">
+                  <div class="row-label">Nomor Induk Kependudukan (NIK)</div>
+                  <div class="row-val-nik">
+                    <span id="cardNIK">321606********01</span>
+                    <button type="button" class="btn-toggle-mask" onclick="toggleNikMask()" id="btnMaskToggle">
+                      <i class="fa-solid fa-eye"></i> Buka
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nama Lengkap Row -->
+              <div class="citizen-row">
+                <div class="row-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="row-content">
+                  <div class="row-label">Nama Lengkap Pemilih</div>
+                  <div id="cardNama" class="row-val">BUDI SANTOSO, S.KOM</div>
+                </div>
+              </div>
+
+              <!-- Jenis Kelamin & TTL Row -->
+              <div class="citizen-row">
+                <div class="row-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                <div class="row-content">
+                  <div class="row-label">Tempat, Tanggal Lahir & Gender</div>
+                  <div id="cardTTL" class="row-val">Bekasi, 14 Agustus 1988 (Laki-laki)</div>
+                </div>
+              </div>
+
+              <!-- Alamat Domisili Row -->
+              <div class="citizen-row">
+                <div class="row-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                <div class="row-content">
+                  <div class="row-label">Alamat Terdaftar (KTP)</div>
+                  <div id="cardAlamat" class="row-val">Perumahan Alamanda Regency Blok G3 No. 12, RT 004 / RW 018, Desa Karang Satria, Kec. Tambun Utara</div>
+                </div>
+              </div>
+
+              <!-- Waktu Pencoblosan Row -->
+              <div class="citizen-row">
+                <div class="row-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="row-content">
+                  <div class="row-label">Waktu Pemungutan Suara</div>
+                  <div class="row-val" style="color: var(--text-gold);">Rabu, 07:00 - 13:00 WIB (Bawa KTP-el Asli / C6)</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- QR Code Security Block -->
+            <div class="card-footer-auth">
+              <div id="qrcodeDisplay" class="qr-box"></div>
+              <div class="auth-text-box">
+                <div class="auth-badge-stamp">
+                  <i class="fa-solid fa-certificate"></i> DOKUMEN DIGITAL SAH
+                </div>
+                <div>Scan QR Code ini oleh KPPS saat tiba di lokasi TPS Desa Karang Satria untuk verifikasi presensi cepat.</div>
+              </div>
+            </div>
+
+            <!-- Symmetrical 2-Column Action Buttons (Rule GEMINI.md) -->
+            <div class="card-actions-grid">
+              <button type="button" class="btn-action-sym btn-print-doc" onclick="handlePrintDocument()">
+                <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+              </button>
+              <button type="button" class="btn-action-sym btn-wa-share" onclick="shareToWhatsApp()">
+                <i class="fa-brands fa-whatsapp"></i> Kirim WhatsApp
+              </button>
+              <button type="button" class="btn-action-sym btn-reset-search" onclick="resetGovSearch()">
+                <i class="fa-solid fa-rotate-left"></i> Periksa NIK Warga Lainnya
+              </button>
+            </div>
+
+          </div>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- ==================== SECTION 2: DATA & INFO TPS ==================== -->
+    <section id="panelTPS" class="gov-panel" style="display: none;">
+      
+      <div class="section-headline">
+        <div class="section-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div>
+          <div class="section-title">Daftar TPS Desa Karang Satria</div>
+          <div class="section-subtitle">Peta sebaran Tempat Pemungutan Suara di Tambun Utara</div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="tps-stat-grid">
+        <div class="stat-card-item">
+          <div class="stat-card-val">48</div>
+          <div class="stat-card-label">Total TPS Terdaftar</div>
+        </div>
+        <div class="stat-card-item">
+          <div class="stat-card-val">24.580</div>
+          <div class="stat-card-label">Estimasi DPT Warga</div>
+        </div>
+      </div>
+
+      <!-- Search TPS Box -->
+      <div style="margin-bottom: 12px;">
+        <input 
+          type="text" 
+          id="tpsSearchFilter" 
+          class="form-input-gov" 
+          placeholder="Cari nama RW, Perumahan, atau Nomor TPS..." 
+          oninput="filterTPSList(this.value)"
+        >
+      </div>
+
+      <!-- TPS List -->
+      <div class="tps-list-wrap" id="tpsListContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </section>
+
+    <!-- ==================== SECTION 3: JADWAL & TAHAPAN ==================== -->
+    <section id="panelSchedule" class="gov-panel" style="display: none;">
+      
+      <div class="section-headline">
+        <div class="section-icon"><i class="fa-solid fa-calendar-days"></i></div>
+        <div>
+          <div class="section-title">Tahapan Pilkades 2026 - 2034</div>
+          <div class="section-subtitle">Agenda Resmi Panitia Pemilihan Kepala Desa Karang Satria</div>
+        </div>
+      </div>
+
+      <div class="timeline-container">
+        
+        <div class="timeline-item">
+          <div class="timeline-badge">1</div>
+          <div class="timeline-body">
+            <h4>Penyusunan & Pengumuman DPS</h4>
+            <p>Pencocokan dan penelitian (Coklit) data warga pemilih oleh petugas Pantarlih se-Desa Karang Satria.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">2</div>
+          <div class="timeline-body">
+            <h4>Tanggapan & Masukan Masyarakat</h4>
+            <p>Warga yang belum masuk DPS atau memiliki perubahan data dapat melapor ke panitia untuk dimasukkan ke DPSHP.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">3</div>
+          <div class="timeline-body">
+            <h4>Penetapan Daftar Pemilih Tetap (DPT)</h4>
+            <p>Pleno resmi penetapan DPT Pilkades Karang Satria periode 2026 - 2034 dan penerbitan nomor DPT.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">4</div>
+          <div class="timeline-body">
+            <h4>Hari Pemungutan Suara (Pencoblosan)</h4>
+            <p>Rabu Pemilihan Akbar: TPS dibuka pukul 07.00 - 13.00 WIB serentak di 48 TPS se-Desa Karang Satria.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==================== SECTION 4: LAPOR / DAFTAR BARU ==================== -->
+    <section id="panelLapor" class="gov-panel" style="display: none;">
+      
+      <div class="section-headline">
+        <div class="section-icon"><i class="fa-solid fa-file-pen"></i></div>
+        <div>
+          <div class="section-title">Layanan Pengaduan & Daftar DPS</div>
+          <div class="section-subtitle">Bagi warga Karang Satria yang belum terdaftar di database</div>
+        </div>
+      </div>
+
+      <form id="laporForm" onsubmit="handleLaporSubmit(event)">
+        
+        <div class="form-group-gov">
+          <label class="form-label-gov">NIK (16 Digit Sesuai KTP)</label>
+          <input type="tel" id="formNik" class="form-input-gov" placeholder="Contoh: 3216061408880001" maxlength="16" inputmode="numeric" required>
+        </div>
+
+        <div class="form-group-gov">
+          <label class="form-label-gov">Nama Lengkap Pemilih</label>
+          <input type="text" id="formNama" class="form-input-gov" placeholder="Nama lengkap sesuai KTP-el" required>
+        </div>
+
+        <div class="form-group-gov">
+          <label class="form-label-gov">Tempat, Tanggal Lahir</label>
+          <input type="text" id="formTTL" class="form-input-gov" placeholder="Contoh: Bekasi, 14 Agustus 1988" required>
+        </div>
+
+        <div class="form-group-gov">
+          <label class="form-label-gov">Alamat Lengkap & RT / RW</label>
+          <input type="text" id="formAlamat" class="form-input-gov" placeholder="Contoh: Perum Alamanda Regency Blok B No. 5 RT 02 / RW 018" required>
+        </div>
+
+        <div class="form-group-gov">
+          <label class="form-label-gov">Pilihan / Usulan TPS Terdekat</label>
+          <input type="text" id="formTPS" class="form-input-gov" placeholder="Contoh: TPS 014 (Balai RW 018)" required>
+        </div>
+
+        <div class="form-group-gov">
+          <label class="form-label-gov">Nomor WhatsApp Aktif</label>
+          <input type="tel" id="formWA" class="form-input-gov" placeholder="08xxxxxxxxxx (Untuk konfirmasi Panitia)">
+        </div>
+
+        <button type="submit" id="btnSubmitLapor" class="btn-gov-gold">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span id="btnSubmitLaporText">KIRIM PENDAFTARAN / LAPORAN</span>
+        </button>
+
+      </form>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+      <p>&copy; 2026 - 2034 <strong>Panitia Pemilihan Kepala Desa Karang Satria</strong></p>
+      <p>Kecamatan Tambun Utara, Kabupaten Bekasi • Powered by Google Apps Script & Sheets</p>
+    </footer>
+
+  </main>
+
+  <!-- =======================================================
+       MAONEART GLASSMORPHISM MODAL (Wajib Sesuai Aturan GEMINI.md)
+       ======================================================= -->
+  <div id="maoneModalBackdrop" class="maone-modal-backdrop">
+    <div class="maone-modal-dialog">
+      <div id="maoneModalIconCircle" class="modal-icon-circle modal-icon-gold">
+        <i id="maoneModalIcon" class="fa-solid fa-circle-exclamation"></i>
+      </div>
+      <h3 id="maoneModalTitle" class="modal-headline">Pemberitahuan Resmi</h3>
+      <p id="maoneModalMessage" class="modal-message">Pesan notifikasi...</p>
+
+      <!-- 100% Symmetrical 2-Column Buttons Grid (Rule GEMINI.md) -->
+      <div class="maone-modal-btn-grid" id="maoneModalActionGrid">
+        <button type="button" id="maoneModalBtnCancel" class="modal-btn-full modal-btn-cancel" onclick="closeMaoneModal(false)">
+          Tutup
+        </button>
+        <button type="button" id="maoneModalBtnConfirm" class="modal-btn-full modal-btn-confirm" onclick="closeMaoneModal(true)">
+          Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       JAVASCRIPT LOGIC & GOOGLE APPS SCRIPT SYNC
+       ======================================================= -->
+  <script>
+    // State Global
+    let activeVoterData = null;
+    let isNikMasked = true;
+    let modalCallback = null;
+    let qrCodeInstance = null;
+
+    // Database Simulasi Warga Desa Karang Satria (Untuk Offline / Local Test Standalone)
+    const mockDatabaseKarangSatria = [
+      {
+        nik: '3216061408880001',
+        nama: 'BUDI SANTOSO, S.KOM',
+        gender: 'Laki-laki',
+        ttl: 'Bekasi, 14 Agustus 1988',
+        alamat: 'Perumahan Alamanda Regency Blok G3 No. 12, RT 004 / RW 018, Desa Karang Satria',
+        tps: 'TPS 014',
+        tpsLokasi: 'Balai Pertemuan Warga RW 018 Alamanda',
+        status: 'DPT AKTIF',
+        keterangan: 'Terdaftar Tetap'
+      },
+      {
+        nik: '3216062005920002',
+        nama: 'SITI NURHALIZA, M.PD',
+        gender: 'Perempuan',
+        ttl: 'Bekasi, 20 Mei 1992',
+        alamat: 'Kampung Cerewet RT 002 / RW 007, Desa Karang Satria',
+        tps: 'TPS 006',
+        tpsLokasi: 'Halaman SDN Karang Satria 01',
+        status: 'DPT AKTIF',
+        keterangan: 'Terdaftar Tetap'
+      },
+      {
+        nik: '3216061011950003',
+        nama: 'AHMAD FAUZI PRATAMA',
+        gender: 'Laki-laki',
+        ttl: 'Jakarta, 10 November 1995',
+        alamat: 'Perumahan Villa Indah Permai Blok B2 No. 8, RT 005 / RW 022, Desa Karang Satria',
+        tps: 'TPS 022',
+        tpsLokasi: 'Gedung Serbaguna RW 022 VIP',
+        status: 'DPS TERVERIFIKASI',
+        keterangan: 'DPS Menuju DPT'
+      },
+      {
+        nik: '3216060501900004',
+        nama: 'DEWI ANGGRAENI, S.E',
+        gender: 'Perempuan',
+        ttl: 'Bandung, 05 Januari 1990',
+        alamat: 'Bumi Anggrek Blok D1 No. 15, RT 001 / RW 015, Desa Karang Satria',
+        tps: 'TPS 011',
+        tpsLokasi: 'Pos Balai Warga RW 015 Bumi Anggrek',
+        status: 'DPT AKTIF',
+        keterangan: 'Terdaftar Tetap'
+      }
+    ];
+
+    // Data Daftar TPS Desa Karang Satria
+    const listTPSKarangSatria = [
+      { tps: 'TPS 001', lokasi: 'Balai Desa Karang Satria (Aula Utama)', rw: 'RW 001', pemilih: 520 },
+      { tps: 'TPS 002', lokasi: 'Halaman Masjid Jami Al-Ikhlas Kp. Cerewet', rw: 'RW 002', pemilih: 495 },
+      { tps: 'TPS 003', lokasi: 'SDN Karang Satria 03 (Ruang Kelas 1-2)', rw: 'RW 003', pemilih: 512 },
+      { tps: 'TPS 004', lokasi: 'Posyandu Mawar Kp. Satria Mekar', rw: 'RW 004', pemilih: 480 },
+      { tps: 'TPS 005', lokasi: 'Lapangan Voli RW 005 Karang Satria', rw: 'RW 005', pemilih: 530 },
+      { tps: 'TPS 006', lokasi: 'Halaman SDN Karang Satria 01', rw: 'RW 007', pemilih: 510 },
+      { tps: 'TPS 011', lokasi: 'Pos Balai Warga RW 015 Bumi Anggrek', rw: 'RW 015', pemilih: 498 },
+      { tps: 'TPS 014', lokasi: 'Balai Pertemuan Warga RW 018 Alamanda Regency', rw: 'RW 018', pemilih: 540 },
+      { tps: 'TPS 022', lokasi: 'Gedung Serbaguna RW 022 Villa Indah Permai', rw: 'RW 022', pemilih: 515 },
+      { tps: 'TPS 030', lokasi: 'Taman Segitiga Karang Satria Regency', rw: 'RW 025', pemilih: 485 }
+    ];
+
+    // Initialize UI on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      initDigitMeter();
+      renderTPSList(listTPSKarangSatria);
+    });
+
+    // Inisialisasi 16-Digit Visual Pills
+    function initDigitMeter() {
+      const meter = document.getElementById('digitMeter');
+      meter.innerHTML = '';
+      for (let i = 0; i < 16; i++) {
+        const pill = document.createElement('div');
+        pill.className = 'digit-meter-pill';
+        pill.id = 'pill_' + i;
+        meter.appendChild(pill);
+      }
+    }
+
+    // Input Keypress Handler with Live Visual Meters
+    function handleNikKeypress(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      const len = input.value.length;
+      
+      const counterBadge = document.getElementById('nikMeterCounter');
+      counterBadge.innerText = len + ' / 16';
+      if (len === 16) {
+        counterBadge.classList.add('complete');
+      } else {
+        counterBadge.classList.remove('complete');
+      }
+
+      for (let i = 0; i < 16; i++) {
+        const pill = document.getElementById('pill_' + i);
+        if (pill) {
+          if (i < len) {
+            pill.className = len === 16 ? 'digit-meter-pill complete' : 'digit-meter-pill active';
+          } else {
+            pill.className = 'digit-meter-pill';
+          }
+        }
+      }
+    }
+
+    // Quick Fill Sample
+    function fillNikSample(nik) {
+      const input = document.getElementById('nikField');
+      input.value = nik;
+      handleNikKeypress(input);
+      handleGovSearch(new Event('submit'));
+    }
+
+    // Paste from Clipboard
+    async function pasteFromClipboard() {
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          const clean = text.replace(/[^0-9]/g, '').substring(0, 16);
+          if (clean) {
+            const input = document.getElementById('nikField');
+            input.value = clean;
+            handleNikKeypress(input);
+            if (clean.length === 16) {
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK 16 digit telah dimasukkan. Klik tombol periksa untuk melihat data.', 'success');
+            }
+          }
+        } else {
+          showAlertModal('Tempel Manual', 'Silakan tempel NIK secara langsung ke kolom input.');
+        }
+      } catch (err) {
+        showAlertModal('Izin Clipboard', 'Silakan izinkan akses papan klip atau ketik NIK secara langsung.');
+      }
+    }
+
+    // Tab Navigation Switcher
+    function switchGovTab(tabName) {
+      const tabs = ['check', 'tps', 'schedule', 'lapor'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+        const panel = document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (t === tabName) {
+          btn.classList.add('active');
+          panel.style.display = 'block';
+        } else {
+          btn.classList.remove('active');
+          panel.style.display = 'none';
+        }
+      });
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    // =======================================================
+    // PENCARIAN NIK (GOOGLE APPS SCRIPT + FALLBACK OFFLINE)
+    // =======================================================
+    function handleGovSearch(e) {
+      if (e) e.preventDefault();
+      
+      const nik = document.getElementById('nikField').value.trim();
+      if (nik.length !== 16) {
+        showAlertModal(
+          'Format NIK Tidak Sesuai',
+          'Nomor Induk Kependudukan (NIK) harus berjumlah tepat 16 digit angka sesuai KTP-el.',
+          'danger'
+        );
+        return;
+      }
+
+      setSubmitLoading(true);
+      document.getElementById('voterCardWrapper').style.display = 'none';
+
+      // 1. Cek Lingkungan Google Apps Script
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onGovSearchSuccess)
+          .withFailureHandler(onGovSearchError)
+          .searchByNIK(nik);
+      } else {
+        // Fallback Standalone / Local Dev Testing
+        setTimeout(() => {
+          const match = mockDatabaseKarangSatria.find(item => item.nik === nik);
+          if (match) {
+            onGovSearchSuccess({
+              status: 'success',
+              data: match
+            });
+          } else {
+            // Demo fallback jika diawali 3216
+            if (nik.startsWith('3216')) {
+              onGovSearchSuccess({
+                status: 'success',
+                data: {
+                  nik: nik,
+                  nama: 'WARGA DESA KARANG SATRIA',
+                  gender: 'Laki-laki / Perempuan',
+                  ttl: 'Bekasi, 01 Januari 1990',
+                  alamat: 'Dusun Karang Satria RT 003 / RW 010, Desa Karang Satria, Kec. Tambun Utara',
+                  tps: 'TPS 008',
+                  tpsLokasi: 'Halaman Balai Dusun II Karang Satria',
+                  status: 'DPT AKTIF',
+                  keterangan: 'Terdaftar Resmi di Google Sheet'
+                }
+              });
+            } else {
+              onGovSearchSuccess({
+                status: 'not_found',
+                message: 'NIK ' + nik + ' belum terdaftar dalam DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Silakan ajukan pendaftaran melalui tab "Lapor / Daftar".'
+              });
+            }
+          }
+        }, 600);
+      }
+    }
+
+    function onGovSearchSuccess(res) {
+      setSubmitLoading(false);
+      if (res.status === 'success') {
+        renderVoterCard(res.data);
+      } else {
+        showAlertModal('Data Tidak Ditemukan', res.message || 'NIK Anda tidak ditemukan dalam DPS/DPT.', 'danger');
+      }
+    }
+
+    function onGovSearchError(err) {
+      setSubmitLoading(false);
+      showAlertModal('Koneksi Terputus', 'Gagal menghubungi server database Google Sheets: ' + err, 'danger');
+    }
+
+    // Render Data ke Kartu Digital
+    function renderVoterCard(data) {
+      activeVoterData = data;
+      isNikMasked = true;
+
+      document.getElementById('cardTPSNum').innerText = data.tps || 'TPS Belum Ditentukan';
+      document.getElementById('cardTPSLoc').innerHTML = '<i class="fa-solid fa-location-dot"></i> ' + (data.tpsLokasi || 'Lokasi TPS Resmi Desa Karang Satria');
+      document.getElementById('cardNama').innerText = (data.nama || '-').toUpperCase();
+      document.getElementById('cardTTL').innerText = (data.ttl || '-') + (data.gender ? ' (' + data.gender + ')' : '');
+      document.getElementById('cardAlamat').innerText = data.alamat || 'Desa Karang Satria, Kec. Tambun Utara, Kab. Bekasi';
+      
+      const statusBadge = document.getElementById('cardStatusBadge');
+      statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + (data.status || 'TERDAFTAR RESMI: DPT AKTIF');
+
+      updateNikDisplay();
+
+      // Render Dynamic QR Code
+      const qrContainer = document.getElementById('qrcodeDisplay');
+      qrContainer.innerHTML = '';
+      const qrPayload = 'PILKADES_KARANG_SATRIA_2026|NIK:' + data.nik + '|NAMA:' + data.nama + '|TPS:' + data.tps + '|STATUS:' + (data.status || 'DPT_VALID');
+      
+      qrCodeInstance = new QRCode(qrContainer, {
+        text: qrPayload,
+        width: 64,
+        height: 64,
+        colorDark: '#040d1a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      const wrapper = document.getElementById('voterCardWrapper');
+      wrapper.style.display = 'block';
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Toggle Sensor NIK
+    function toggleNikMask() {
+      if (!activeVoterData) return;
+      isNikMasked = !isNikMasked;
+      updateNikDisplay();
+    }
+
+    function updateNikDisplay() {
+      if (!activeVoterData) return;
+      const cardNikEl = document.getElementById('cardNIK');
+      const btnToggle = document.getElementById('btnMaskToggle');
+      const rawNik = activeVoterData.nik;
+
+      if (isNikMasked) {
+        cardNikEl.innerText = rawNik.substring(0, 6) + '******' + rawNik.substring(12);
+        btnToggle.innerHTML = '<i class="fa-solid fa-eye"></i> Buka';
+      } else {
+        cardNikEl.innerText = rawNik;
+        btnToggle.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Tutup';
+      }
+    }
+
+    // Reset Form Pencarian
+    function resetGovSearch() {
+      document.getElementById('nikField').value = '';
+      handleNikKeypress(document.getElementById('nikField'));
+      document.getElementById('voterCardWrapper').style.display = 'none';
+      activeVoterData = null;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setSubmitLoading(isLoading) {
+      const btn = document.getElementById('btnGovSubmit');
+      const text = document.getElementById('btnSubmitText');
+      btn.disabled = isLoading;
+      if (isLoading) {
+        text.innerHTML = '<span class="spinner-gov"></span> MEMVERIFIKASI DATA...';
+      } else {
+        text.innerHTML = 'PERIKSA STATUS DPT SAYA';
+      }
+    }
+
+    // Cetak Dokumen PDF / Print
+    function handlePrintDocument() {
+      if (!activeVoterData) return;
+      window.print();
+    }
+
+    // Share Bukti ke WhatsApp
+    function shareToWhatsApp() {
+      if (!activeVoterData) return;
+      const d = activeVoterData;
+      const msg = 
+        `🏛️ *BUKTI TERDAFTAR PEMILIH PILKADES KARANG SATRIA (2026 - 2034)*\n` +
+        `----------------------------------------\n` +
+        `👤 *Nama:* ${d.nama}\n` +
+        `🆔 *NIK:* ${d.nik.substring(0, 6)}******${d.nik.substring(12)}\n` +
+        `🗳️ *Lokasi:* ${d.tps}\n` +
+        `📍 *Tempat TPS:* ${d.tpsLokasi || d.alamat}\n` +
+        `📅 *Agenda:* Pilkades Desa Karang Satria Kec. Tambun Utara\n` +
+        `⏰ *Waktu:* Rabu, 07.00 - 13.00 WIB\n` +
+        `✅ *Status:* Terverifikasi DPT Aktif\n` +
+        `----------------------------------------\n` +
+        `_Cek NIK mandiri di Portal Resmi Pilkades Karang Satria._`;
+
+      const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank');
+    }
+
+    // =======================================================
+    // RENDER & FILTER DAFTAR TPS
+    // =======================================================
+    function renderTPSList(data) {
+      const container = document.getElementById('tpsListContainer');
+      container.innerHTML = '';
+      if (data.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:20px; color:#94a3b8; font-size:12px;">Tidak ada TPS yang cocok dengan kata kunci.</div>';
+        return;
+      }
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'tps-item-card';
+        card.innerHTML = `
+          <div>
+            <div class="tps-item-name">
+              <i class="fa-solid fa-box-archive" style="color:var(--gold-primary);"></i> ${item.tps} (${item.rw})
+            </div>
+            <div class="tps-item-loc">${item.lokasi}</div>
+          </div>
+          <div class="tps-item-dps-badge">
+            ${item.pemilih} Pemilih
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterTPSList(query) {
+      const q = query.toLowerCase().trim();
+      const filtered = listTPSKarangSatria.filter(t => 
+        t.tps.toLowerCase().includes(q) || 
+        t.lokasi.toLowerCase().includes(q) || 
+        t.rw.toLowerCase().includes(q)
+      );
+      renderTPSList(filtered);
+    }
+
+    // =======================================================
+    // FORM PENDAFTARAN / PENGADUAN WARGA KE GOOGLE SHEET
+    // =======================================================
+    function handleLaporSubmit(e) {
+      e.preventDefault();
+      
+      const payload = {
+        nik: document.getElementById('formNik').value.trim(),
+        nama: document.getElementById('formNama').value.trim(),
+        ttl: document.getElementById('formTTL').value.trim(),
+        alamat: document.getElementById('formAlamat').value.trim(),
+        tps: document.getElementById('formTPS').value.trim(),
+        noWA: document.getElementById('formWA').value.trim(),
+        status: 'DPS Baru (Menunggu Validasi)',
+        keterangan: 'Pendaftaran Mandiri Portal Web'
+      };
+
+      if (payload.nik.length !== 16) {
+        showAlertModal('NIK Tidak Valid', 'NIK harus 16 digit angka sesuai KTP-el.', 'danger');
+        return;
+      }
+
+      showConfirmModal(
+        'Konfirmasi Pendaftaran',
+        `Apakah Anda yakin data warga atas nama <strong>${payload.nama}</strong> (${payload.tps}) sudah benar dan ingin dikirim ke Panitia Pilkades?`,
+        (isConfirmed) => {
+          if (!isConfirmed) return;
+
+          const btn = document.getElementById('btnSubmitLapor');
+          const btnText = document.getElementById('btnSubmitLaporText');
+          btn.disabled = true;
+          btnText.innerHTML = '<span class="spinner-gov"></span> Menyimpan ke Google Sheet...';
+
+          if (typeof google !== 'undefined' && google.script && google.script.run) {
+            google.script.run
+              .withSuccessHandler((res) => {
+                btn.disabled = false;
+                btnText.innerHTML = 'KIRIM PENDAFTARAN / LAPORAN';
+                if (res.status === 'success') {
+                  showAlertModal('Berhasil Terdaftar', `Data ${payload.nama} telah berhasil dicatat ke Google Sheet Panitia Pilkades.`, 'success');
+                  document.getElementById('laporForm').reset();
+                } else {
+                  showAlertModal('Gagal', res.message, 'danger');
+                }
+              })
+              .withFailureHandler((err) => {
+                btn.disabled = false;
+                btnText.innerHTML = 'KIRIM PENDAFTARAN / LAPORAN';
+                showAlertModal('Gagal Mengirim', 'Terjadi galat server: ' + err, 'danger');
+              })
+              .addWarga(payload);
+          } else {
+            setTimeout(() => {
+              btn.disabled = false;
+              btnText.innerHTML = 'KIRIM PENDAFTARAN / LAPORAN';
+              showAlertModal('Laporan Diterima (Demo)', `Data warga atas nama ${payload.nama} berhasil tersimpan ke sistem database!`, 'success');
+              document.getElementById('laporForm').reset();
+            }, 800);
+          }
+        }
+      );
+    }
+
+    // =======================================================
+    // MAONEART GLASSMORPHISM MODAL IMPLEMENTATION (Wajib GEMINI.md)
+    // =======================================================
+    function showAlertModal(title, message, type = 'gold') {
+      const backdrop = document.getElementById('maoneModalBackdrop');
+      const iconCircle = document.getElementById('maoneModalIconCircle');
+      const icon = document.getElementById('maoneModalIcon');
+      const titleEl = document.getElementById('maoneModalTitle');
+      const msgEl = document.getElementById('maoneModalMessage');
+      const btnGrid = document.getElementById('maoneModalActionGrid');
+      
+      titleEl.innerHTML = title;
+      msgEl.innerHTML = message;
+      
+      // Set Icon & Theme
+      if (type === 'danger') {
+        iconCircle.className = 'modal-icon-circle modal-icon-danger';
+        icon.className = 'fa-solid fa-triangle-exclamation';
+      } else if (type === 'success') {
+        iconCircle.className = 'modal-icon-circle modal-icon-success';
+        icon.className = 'fa-solid fa-circle-check';
+      } else {
+        iconCircle.className = 'modal-icon-circle modal-icon-gold';
+        icon.className = 'fa-solid fa-shield-halved';
+      }
+
+      // Symmetrical 2-Column Buttons (Tutup & OK)
+      btnGrid.innerHTML = `
+        <button type="button" class="modal-btn-full modal-btn-cancel" onclick="closeMaoneModal(false)">
+          Tutup
+        </button>
+        <button type="button" class="modal-btn-full modal-btn-confirm" onclick="closeMaoneModal(true)">
+          Mengerti
+        </button>
+      `;
+
+      modalCallback = null;
+      backdrop.style.display = 'flex';
+    }
+
+    function showConfirmModal(title, message, callback) {
+      const backdrop = document.getElementById('maoneModalBackdrop');
+      const iconCircle = document.getElementById('maoneModalIconCircle');
+      const icon = document.getElementById('maoneModalIcon');
+      const titleEl = document.getElementById('maoneModalTitle');
+      const msgEl = document.getElementById('maoneModalMessage');
+      const btnGrid = document.getElementById('maoneModalActionGrid');
+      
+      titleEl.innerHTML = title;
+      msgEl.innerHTML = message;
+      iconCircle.className = 'modal-icon-circle modal-icon-gold';
+      icon.className = 'fa-solid fa-circle-question';
+
+      // Symmetrical 2-Column Buttons Grid (Batal & Setuju)
+      btnGrid.innerHTML = `
+        <button type="button" class="modal-btn-full modal-btn-cancel" onclick="closeMaoneModal(false)">
+          Batal
+        </button>
+        <button type="button" class="modal-btn-full modal-btn-confirm" onclick="closeMaoneModal(true)">
+          Ya, Lanjutkan
+        </button>
+      `;
+
+      modalCallback = callback;
+      backdrop.style.display = 'flex';
+    }
+
+    function closeMaoneModal(isConfirmed) {
+      const backdrop = document.getElementById('maoneModalBackdrop');
+      backdrop.style.display = 'none';
+      if (typeof modalCallback === 'function') {
+        modalCallback(isConfirmed);
+        modalCallback = null;
+      }
+    }
+  </script>
+</body>
+</html>

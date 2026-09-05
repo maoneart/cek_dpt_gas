@@ -2,11 +2,24 @@
  * 🗳️ PORTAL RESMI CEK LOKASI TPS WARGA
  * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
- * Backend Engine: Google Apps Script + Google Sheets Real-Time Database
+ * Backend Engine: Multi-Sheet Support (95 TPS: TPS 1 s/d TPS 95) + Google Apps Script
  */
 
-// Konfigurasi Nama Sheet Database
-const SHEET_NAME = 'DPS_DPT_Karang_Satria';
+// Konfigurasi Header Standar per TPS (12 Kolom)
+const OFFICIAL_HEADERS = [
+  'NO',
+  'NO URUT',
+  'NO KK (NKK)',
+  'NIK (16 Digit)',
+  'NAMA LENGKAP',
+  'JENIS KELAMIN',
+  'TEMPAT LAHIR',
+  'TANGGAL LAHIR',
+  'ALAMAT',
+  'RT',
+  'RW',
+  'KETERANGAN'
+];
 
 /**
  * 1. Entry Point Web App (doGet)
@@ -39,10 +52,6 @@ function doPost(e) {
       const result = searchByNIK(contents.nik);
       return ContentService.createTextOutput(JSON.stringify(result))
         .setMimeType(ContentService.MimeType.JSON);
-    } else if (action === 'add') {
-      const result = addWarga(contents);
-      return ContentService.createTextOutput(JSON.stringify(result))
-        .setMimeType(ContentService.MimeType.JSON);
     }
 
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'Aksi tidak dikenal' }))
@@ -54,7 +63,7 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK (In-Memory Fast Array Cache)
+ * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (Fast Multi-Sheet Scanner + Cache)
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
@@ -66,172 +75,180 @@ function searchByNIK(nikInput) {
     return { status: 'error', message: 'NIK tidak valid (harus 16 digit angka).' };
   }
 
+  // Cek Fast Cache Memory
+  try {
+    const cache = CacheService.getScriptCache();
+    const cached = cache.get('DPT_NIK_' + cleanNIK);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+  } catch (e) {}
+
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.getSheets()[0];
+  const sheets = ss.getSheets();
+
+  if (!sheets || sheets.length === 0) {
+    return { status: 'not_found', message: 'Spreadsheet belum memiliki sheet TPS.' };
   }
 
-  const data = sheet.getDataRange().getDisplayValues();
-  if (data.length <= 1) {
-    return { status: 'not_found', message: 'Database DPS/DPT Desa Karang Satria belum memiliki data pemilih.' };
-  }
+  // Telusuri seluruh sheet (TPS 1 s/d TPS 95)
+  for (let s = 0; s < sheets.length; s++) {
+    const sheet = sheets[s];
+    const sheetName = sheet.getName().trim();
+    
+    // Ambil seluruh data sheet sekaligus (in-memory fast read)
+    const data = sheet.getDataRange().getDisplayValues();
+    if (!data || data.length <= 1) continue;
 
-  // Header indexing otomatis
-  const headers = data[0].map(h => h.toString().toLowerCase().trim());
-  let idxNik = headers.findIndex(h => h.includes('nik'));
-  let idxNama = headers.findIndex(h => h.includes('nama'));
-  let idxGender = headers.findIndex(h => h.includes('gender') || h.includes('kelamin') || h.includes('jk'));
-  let idxTTL = headers.findIndex(h => h.includes('lahir') || h.includes('ttl'));
-  let idxAlamat = headers.findIndex(h => h.includes('alamat') || h.includes('rt') || h.includes('rw') || h.includes('domisili'));
-  let idxTPS = headers.findIndex(h => h.includes('tps') && !h.includes('lokasi'));
-  let idxTPSLokasi = headers.findIndex(h => h.includes('lokasi') || h.includes('tempat'));
-  let idxStatus = headers.findIndex(h => h.includes('status') || h.includes('dpt') || h.includes('dps'));
-  let idxKet = headers.findIndex(h => h.includes('ket') || h.includes('catatan') || h.includes('wa'));
+    // Deteksi index kolom secara dinamis
+    const headers = data[0].map(h => h.toString().toLowerCase().trim());
+    let idxNIK = headers.findIndex(h => h === 'nik' || h.includes('nik'));
+    let idxNKK = headers.findIndex(h => h === 'nkk' || h.includes('kk') || h.includes('keluarga'));
+    let idxNama = headers.findIndex(h => h.includes('nama'));
+    let idxGender = headers.findIndex(h => h.includes('kelamin') || h.includes('gender') || h === 'jk');
+    let idxTempatLahir = headers.findIndex(h => h.includes('tempat'));
+    let idxTglLahir = headers.findIndex(h => h.includes('tanggal') || h.includes('tgl') || (h.includes('lahir') && idxTempatLahir !== -1));
+    let idxAlamat = headers.findIndex(h => h.includes('alamat') || h.includes('jalan') || h.includes('blok') || h.includes('dusun'));
+    let idxRT = headers.findIndex(h => h === 'rt' || h.includes('rt'));
+    let idxRW = headers.findIndex(h => h === 'rw' || h.includes('rw'));
+    let idxNoUrut = headers.findIndex(h => h.includes('urut') || h === 'no');
+    let idxKet = headers.findIndex(h => h.includes('ket') || h.includes('catatan') || h.includes('status'));
 
-  if (idxNik === -1) idxNik = 0;
-  if (idxNama === -1) idxNama = 1;
-  if (idxGender === -1) idxGender = 2;
-  if (idxTTL === -1) idxTTL = 3;
-  if (idxAlamat === -1) idxAlamat = 4;
-  if (idxTPS === -1) idxTPS = 5;
-  if (idxTPSLokasi === -1) idxTPSLokasi = 6;
-  if (idxStatus === -1) idxStatus = 7;
-  if (idxKet === -1) idxKet = 8;
+    // Default Fallback index posisi jika header kustom
+    if (idxNIK === -1) idxNIK = 3; // Kolom D
+    if (idxNama === -1) idxNama = 4; // Kolom E
+    if (idxGender === -1) idxGender = 5; // Kolom F
+    if (idxTempatLahir === -1) idxTempatLahir = 6; // Kolom G
+    if (idxTglLahir === -1) idxTglLahir = 7; // Kolom H
+    if (idxAlamat === -1) idxAlamat = 8; // Kolom I
+    if (idxRT === -1) idxRT = 9; // Kolom J
+    if (idxRW === -1) idxRW = 10; // Kolom K
+    if (idxKet === -1) idxKet = 11; // Kolom L
 
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    const rowNIK = row[idxNik] ? row[idxNik].toString().replace(/[^0-9]/g, '').trim() : '';
+    for (let r = 1; r < data.length; r++) {
+      const row = data[r];
+      const rowNIK = row[idxNIK] ? row[idxNIK].toString().replace(/[^0-9]/g, '').trim() : '';
 
-    if (rowNIK === cleanNIK) {
-      const maskedNIK = cleanNIK.length === 16 
-        ? cleanNIK.substring(0, 6) + '******' + cleanNIK.substring(12) 
-        : cleanNIK;
+      if (rowNIK === cleanNIK) {
+        // Format Nama TPS
+        const tpsName = sheetName.toUpperCase();
 
-      return {
-        status: 'success',
-        data: {
-          nik: cleanNIK,
-          nikMasked: maskedNIK,
-          nama: row[idxNama] ? row[idxNama].toString().trim().toUpperCase() : '-',
-          gender: (idxGender !== -1 && row[idxGender]) ? row[idxGender].toString().trim() : 'Laki-laki / Perempuan',
-          ttl: (idxTTL !== -1 && row[idxTTL]) ? row[idxTTL].toString().trim() : '-',
-          alamat: (idxAlamat !== -1 && row[idxAlamat]) ? row[idxAlamat].toString().trim() : 'Desa Karang Satria, Kec. Tambun Utara',
-          tps: (idxTPS !== -1 && row[idxTPS]) ? row[idxTPS].toString().trim() : 'TPS Belum Ditentukan',
-          tpsLokasi: (idxTPSLokasi !== -1 && row[idxTPSLokasi]) ? row[idxTPSLokasi].toString().trim() : 'Lokasi TPS Resmi Desa Karang Satria',
-          status: (idxStatus !== -1 && row[idxStatus]) ? row[idxStatus].toString().trim() : 'DPT AKTIF',
-          keterangan: (idxKet !== -1 && row[idxKet]) ? row[idxKet].toString().trim() : 'Terdaftar Tetap'
+        // Format Gender
+        let genderStr = (idxGender !== -1 && row[idxGender]) ? row[idxGender].toString().trim() : '';
+        if (genderStr.toUpperCase() === 'L') genderStr = 'Laki-laki';
+        else if (genderStr.toUpperCase() === 'P') genderStr = 'Perempuan';
+
+        // Format TTL
+        const tempat = (idxTempatLahir !== -1 && row[idxTempatLahir]) ? row[idxTempatLahir].toString().trim() : '';
+        const tgl = (idxTglLahir !== -1 && row[idxTglLahir]) ? row[idxTglLahir].toString().trim() : '';
+        let ttlStr = '-';
+        if (tempat && tgl) ttlStr = tempat + ', ' + tgl;
+        else if (tempat) ttlStr = tempat;
+        else if (tgl) ttlStr = tgl;
+
+        // Format Alamat Lengkap
+        const alamatRaw = (idxAlamat !== -1 && row[idxAlamat]) ? row[idxAlamat].toString().trim() : '';
+        const rt = (idxRT !== -1 && row[idxRT]) ? row[idxRT].toString().trim() : '';
+        const rw = (idxRW !== -1 && row[idxRW]) ? row[idxRW].toString().trim() : '';
+
+        let alamatFull = alamatRaw;
+        if (rt || rw) {
+          const rtrw = 'RT ' + (rt || '-') + ' / RW ' + (rw || '-');
+          if (alamatFull && !alamatFull.includes('RT')) {
+            alamatFull += ', ' + rtrw;
+          } else if (!alamatFull) {
+            alamatFull = rtrw;
+          }
         }
-      };
+        if (alamatFull && !alamatFull.toLowerCase().includes('karang satria')) {
+          alamatFull += ', Desa Karang Satria';
+        }
+
+        const maskedNIK = cleanNIK.substring(0, 6) + '******' + cleanNIK.substring(12);
+
+        const result = {
+          status: 'success',
+          data: {
+            nik: cleanNIK,
+            nikMasked: maskedNIK,
+            nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
+            nama: (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : 'WARGA DESA KARANG SATRIA',
+            gender: genderStr || 'Laki-laki / Perempuan',
+            ttl: ttlStr,
+            alamat: alamatFull || 'Desa Karang Satria, Kec. Tambun Utara',
+            rt: rt,
+            rw: rw,
+            noUrut: (idxNoUrut !== -1 && row[idxNoUrut]) ? row[idxNoUrut].toString().trim() : '',
+            tps: tpsName,
+            tpsLokasi: 'Lokasi Pemungutan Suara ' + tpsName + ' Desa Karang Satria',
+            status: (idxKet !== -1 && row[idxKet] && row[idxKet].trim()) ? row[idxKet].toString().trim() : 'DPT AKTIF'
+          }
+        };
+
+        // Simpan di Cache Script selama 6 Jam
+        try {
+          CacheService.getScriptCache().put('DPT_NIK_' + cleanNIK, JSON.stringify(result), 21600);
+        } catch (e) {}
+
+        return result;
+      }
     }
   }
 
   return {
     status: 'not_found',
-    message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi petugas desa.'
+    message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
   };
 }
 
 /**
- * 4. Fungsi Tambah Data Warga Baru ke Google Sheet
- */
-function addWarga(data) {
-  try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    let sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet) {
-      sheet = setupSpreadsheet();
-    }
-
-    const nik = data.nik ? data.nik.toString().replace(/[^0-9]/g, '').trim() : '';
-    const nama = (data.nama || '').trim().toUpperCase();
-    const gender = (data.gender || '-').trim();
-    const ttl = (data.ttl || '').trim();
-    const alamat = (data.alamat || '').trim();
-    const tps = (data.tps || '').trim();
-    const tpsLokasi = (data.tpsLokasi || 'Sesuai Penetapan Desa').trim();
-    const status = (data.status || 'DPT AKTIF').trim();
-    const noWA = (data.noWA || data.keterangan || '-').trim();
-
-    if (!nik || !nama) {
-      return { status: 'error', message: 'NIK dan Nama Pemilih wajib diisi lengkap!' };
-    }
-
-    if (nik.length !== 16) {
-      return { status: 'error', message: 'NIK harus berjumlah 16 digit angka.' };
-    }
-
-    // Cek duplikasi NIK
-    const existing = searchByNIK(nik);
-    if (existing.status === 'success') {
-      return { status: 'error', message: 'NIK ' + nik + ' sudah terdaftar atas nama: ' + existing.data.nama + ' di ' + existing.data.tps };
-    }
-
-    sheet.appendRow([
-      "'" + nik,
-      nama,
-      gender,
-      ttl,
-      alamat,
-      tps,
-      tpsLokasi,
-      status,
-      noWA,
-      new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })
-    ]);
-
-    return {
-      status: 'success',
-      message: 'Data warga berhasil dicatat ke Google Sheet!',
-      data: { nik: nik, nama: nama, tps: tps }
-    };
-  } catch (err) {
-    return { status: 'error', message: err.toString() };
-  }
-}
-
-/**
- * 5. Inisialisasi Otomatis Format Sheet Hijau & Emas Segar
+ * 4. Setup Format Otomatis 95 Sheet TPS (TPS 1 s/d TPS 95)
  */
 function setupSpreadsheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-  }
-
-  if (sheet.getLastRow() === 0) {
-    const headers = [
-      [
-        'NIK (16 Digit)', 
-        'Nama Lengkap Pemilih', 
-        'Jenis Kelamin', 
-        'Tempat, Tanggal Lahir', 
-        'Alamat Lengkap (RT/RW/Dusun)', 
-        'Nomor TPS', 
-        'Lokasi Fisik TPS', 
-        'Status Pemilih (DPS/DPT)', 
-        'Kontak WA / Keterangan',
-        'Waktu Registrasi'
-      ]
-    ];
+  
+  // Format Header Style Orange Tema Desa
+  const headerData = [OFFICIAL_HEADERS];
+  
+  for (let i = 1; i <= 95; i++) {
+    const sheetName = 'TPS ' + i;
+    let sheet = ss.getSheetByName(sheetName);
     
-    // Header Style Hijau Zamrud Desa & Kuning Emas
-    sheet.getRange(1, 1, 1, 10).setValues(headers)
-      .setBackground('#047857')
-      .setFontColor('#FFFFFF')
-      .setFontWeight('bold')
-      .setFontFamily('Arial')
-      .setHorizontalAlignment('center')
-      .setVerticalAlignment('middle');
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+    }
+    
+    if (sheet.getLastRow() === 0) {
+      sheet.getRange(1, 1, 1, OFFICIAL_HEADERS.length).setValues(headerData)
+        .setBackground('#EA580C')
+        .setFontColor('#FFFFFF')
+        .setFontWeight('bold')
+        .setFontFamily('Arial')
+        .setHorizontalAlignment('center')
+        .setVerticalAlignment('middle');
 
-    sheet.setRowHeight(1, 36);
-    sheet.getRange("A:A").setNumberFormat("@");
-    sheet.autoResizeColumns(1, 10);
+      sheet.setRowHeight(1, 32);
+      
+      // Format Kolom C (NKK) dan Kolom D (NIK) sebagai Text
+      sheet.getRange("C:C").setNumberFormat("@");
+      sheet.getRange("D:D").setNumberFormat("@");
+      sheet.autoResizeColumns(1, OFFICIAL_HEADERS.length);
+    }
   }
 
-  return sheet;
+  SpreadsheetApp.getActiveSpreadsheet().toast('95 Sheet TPS berhasil disiapkan!', 'Setup Berhasil', 5);
+}
+
+/**
+ * 5. Bersihkan Cache Pencarian NIK
+ */
+function clearSearchCache() {
+  try {
+    CacheService.getScriptCache().removeAll(['DPT_NIK_']);
+    SpreadsheetApp.getActiveSpreadsheet().toast('Cache pencarian berhasil dibersihkan.', 'Cache Refresh', 4);
+  } catch (e) {
+    SpreadsheetApp.getActiveSpreadsheet().toast('Cache telah direfresh.', 'Info', 3);
+  }
 }
 
 /**
@@ -240,21 +257,23 @@ function setupSpreadsheet() {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🗳️ Pilkades Karang Satria')
-    .addItem('🛠️ Setup Format Database & Header', 'setupSpreadsheet')
-    .addItem('🔍 Uji Cari NIK Warga', 'testCariNIK')
+    .addItem('🛠️ Setup Otomatis 95 Sheet TPS (TPS 1 - 95)', 'setupSpreadsheet')
+    .addItem('🔍 Uji Cari NIK Warga (Lintas 95 TPS)', 'testCariNIK')
+    .addItem('🔄 Refresh / Bersihkan Cache Pencarian', 'clearSearchCache')
     .addToUi();
 }
 
 function testCariNIK() {
   const ui = SpreadsheetApp.getUi();
-  const prompt = ui.prompt('Cari Data Pemilih Pilkades Karang Satria', 'Masukkan 16 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
+  const prompt = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 16 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
   if (prompt.getSelectedButton() === ui.Button.OK) {
     const res = searchByNIK(prompt.getResponseText());
     if (res.status === 'success') {
       ui.alert('DATA DITEMUKAN! 🎉', 
         'Nama: ' + res.data.nama + '\n' +
-        'TPS: ' + res.data.tps + ' (' + res.data.tpsLokasi + ')\n' +
+        'TPS: ' + res.data.tps + '\n' +
         'Alamat: ' + res.data.alamat + '\n' +
+        'TTL: ' + res.data.ttl + ' (' + res.data.gender + ')\n' +
         'Status: ' + res.data.status, 
         ui.ButtonSet.OK
       );

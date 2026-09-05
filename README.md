@@ -1,7 +1,7 @@
 # 🗳️ Portal Cek Lokasi TPS Pemilihan Kepala Desa Karang Satria (2026 - 2034)
 **Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat**
 
-Mobile Web App modern, cerah, segar, dan ramah di mata warga (Emerald Green & Gold Theme) yang fokus **100% langsung untuk pengecekan lokasi TPS warga berbasis NIK (16 Digit)**. Menggunakan Google Sheets sebagai database real-time dan Google Apps Script (GAS) sebagai backend gratis tanpa biaya server.
+Mobile Web App modern, cerah, segar, dan ramah warga (Tema Serba Orange & Judul Desa Hijau) yang fokus **100% langsung untuk pengecekan lokasi TPS warga berbasis NIK (16 Digit)**. Menggunakan Google Sheets dengan arsitektur **95 Sheet TPS (TPS 1 s/d TPS 95)** sebagai database real-time dan Google Apps Script (GAS) sebagai backend gratis tanpa biaya server.
 
 ---
 
@@ -9,55 +9,62 @@ Mobile Web App modern, cerah, segar, dan ramah di mata warga (Emerald Green & Go
 1. Warga membuka Web App di HP (tampilan cerah, tulisan besar dan sangat mudah dibaca).
 2. Warga memasukkan 16 digit NIK (atau klik tombol *Tempel* dari clipboard).
 3. Klik tombol **"CEK LOKASI TPS SAYA"**.
-4. **Langsung Muncul Kartu Pemilih Digital**:
+4. **Langsung Muncul Kartu Pemilih Digital di Halaman Baru**:
    - Nomor & Lokasi TPS tempat mencoblos.
-   - Data Pemilih (NIK dengan sensor keamanan, Nama Lengkap, TTL & Gender, Alamat KTP).
+   - Data Pemilih (NIK dengan sensor keamanan, Nama Lengkap, TTL & Gender, Alamat KTP, RT/RW).
    - Dynamic QR Code resmi untuk verifikasi presensi di TPS oleh petugas.
    - Tombol **Cetak / Simpan PDF** dan **Kirim ke WhatsApp**.
+   - Tombol Navigasi Kembali / Cek NIK Warga Lainnya.
 
 ---
 
 ## 📊 File Template Excel Langsung Siap Pakai:
-- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) dengan styling hijau desa & format kolom NIK text, siap langsung diisi/di-paste data warga real.
-- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** — File CSV standar UTF-8 untuk opsi impor cepat.
+- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) berisi **95 Sheet (`TPS 1` sampai `TPS 95`)** dengan header Orange, format kolom NKK & NIK text (`@`), siap langsung diisi data warga.
+- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** — File CSV standar UTF-8 dengan format 12 kolom resmi.
 
 ---
 
-## 📋 Struktur Data Google Sheets (Tab: `DPS_DPT_Karang_Satria`):
+## 📋 Struktur Data per Sheet TPS (12 Kolom):
+
+Setiap sheet bernama **`TPS 1`**, **`TPS 2`**, ... hingga **`TPS 95`** memiliki struktur kolom standar:
 
 | Kolom | Nama Header | Tipe Data | Keterangan & Format | Contoh Data |
 | :---: | :--- | :---: | :--- | :--- |
-| **A** | `NIK (16 Digit)` | Teks | 16 Digit angka KTP *(diawali petik `'`)* | `'3216061408880001` |
-| **B** | `Nama Lengkap Pemilih` | Teks | Nama lengkap sesuai KTP-el (Kapital) | `BUDI SANTOSO, S.KOM` |
-| **C** | `Jenis Kelamin` | Teks | `Laki-laki` atau `Perempuan` | `Laki-laki` |
-| **D** | `Tempat, Tanggal Lahir` | Teks | Kota dan tanggal kelahiran | `Bekasi, 14 Agustus 1988` |
-| **E** | `Alamat Lengkap (RT/RW/Dusun)` | Teks | Alamat domisili di Karang Satria | `Perum Alamanda Regency Blok G3 No. 12, RT 004 / RW 018` |
-| **F** | `Nomor TPS` | Teks | Alokasi nomor TPS pemilih | `TPS 014` |
-| **G** | `Lokasi Fisik TPS` | Teks | Nama gedung / balai pertemuan / sekolah | `Balai Pertemuan Warga RW 018 Alamanda Regency` |
-| **H** | `Status Pemilih (DPS/DPT)` | Teks | Status penetapan data pemilih | `DPT AKTIF` / `DPS TERVERIFIKASI` |
-| **I** | `Kontak WA / Keterangan` | Teks | Nomor telepon / catatan desa | `081298765432` |
-| **J** | `Waktu Registrasi` | Tanggal/Waktu | Waktu data dicatat sistem | `01/01/2026 08:00:00` |
+| **A** | `NO` | Angka | Nomor baris data | `1` |
+| **B** | `NO URUT` | Teks / Angka | Nomor urut pemilih di TPS | `001` |
+| **C** | `NO KK (NKK)` | Teks | Nomor Kartu Keluarga *(format teks)* | `'3216060101010001` |
+| **D** | `NIK (16 Digit)` | Teks | 16 Digit angka KTP *(format teks)* | `'3216061408880001` |
+| **E** | `NAMA LENGKAP` | Teks | Nama lengkap sesuai KTP-el (Kapital) | `BUDI SANTOSO, S.KOM` |
+| **F** | `JENIS KELAMIN` | Teks | `Laki-laki` / `Perempuan` (atau `L` / `P`) | `Laki-laki` |
+| **G** | `TEMPAT LAHIR` | Teks | Kota / Kabupaten tempat lahir | `Bekasi` |
+| **H** | `TANGGAL LAHIR` | Teks | Tanggal lahir pemilih | `14 Agustus 1988` |
+| **I** | `ALAMAT` | Teks | Alamat jalan / perumahan / blok / dusun | `Perum Alamanda Regency Blok G3 No. 12` |
+| **J** | `RT` | Teks | Nomor RT domisili | `004` |
+| **K** | `RW` | Teks | Nomor RW domisili | `018` |
+| **L** | `KETERANGAN` | Teks | Status pemilih / catatan TPS | `DPT AKTIF` |
 
 ---
 
 ## 📁 Struktur Berkas Proyek:
-- **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First tema cerah ramah warga (Emerald Green & Gold).
-- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Pencarian in-memory secepat kilat, REST API & Google Sheets sync).
-- **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi desa yang dimuat langsung via link GitHub raw.
-- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi siap upload.
-- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : Berkas CSV siap impor.
-- **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Panduan & dokumentasi.
+- **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First tema cerah ramah warga (Orange Theme & Green Title).
+- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Multi-Sheet Scanner 95 TPS in-memory, REST API, Caching, & Menu Setup Otomatis).
+- **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi yang dimuat langsung via GitHub raw link.
+- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi 95 sheet TPS siap pakai.
+- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : Berkas CSV format 12 kolom siap impor.
+- **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Panduan & dokumentasi lengkap.
 
 ---
 
-## 🚀 Panduan Penerapan di Google Apps Script (2 Menit):
-1. Buka spreadsheet baru di [Google Sheets](https://sheets.new) atau buka file `Template_DPS_DPT_Karang_Satria.xlsx` di Google Sheets.
+## 🚀 Panduan Penerapan di Google Apps Script:
+1. Buka spreadsheet baru di [Google Sheets](https://sheets.new) atau unggah file `Template_DPS_DPT_Karang_Satria.xlsx` ke Google Drive lalu buka dengan Google Sheets.
 2. Klik menu **Ekstensi (Extensions)** > **Apps Script**.
 3. Di editor Apps Script:
    - Salin isi dari `Code.gs` ke file `Code.gs`.
    - Klik tombol **`+`** > pilih **HTML** > beri nama **`Index`**, lalu salin isi dari `Index.html`.
-4. Klik tombol **Terapkan (Deploy)** > **Penerapan Baru (New deployment)**.
-5. Pilih jenis **Aplikasi Web (Web app)**:
+4. *(Opsional)* Di spreadsheet, klik menu **🗳️ Pilkades Karang Satria** > **🛠️ Setup Otomatis 95 Sheet TPS (TPS 1 - 95)** untuk men-generate seluruh 95 sheet beserta header secara otomatis jika memulai dari spreadsheet kosong.
+5. Klik tombol **Terapkan (Deploy)** > **Penerapan Baru (New deployment)**.
+6. Pilih jenis **Aplikasi Web (Web app)**:
    - **Jalankan sebagai (Execute as)**: *Saya (Me)*
    - **Siapa yang memiliki akses (Who has access)**: *Siapa saja (Anyone)*
-6. Klik **Terapkan (Deploy)** dan bagikan URL Web App ke warga Desa Karang Satria.
+7. Klik **Terapkan (Deploy)** dan bagikan URL Web App ke warga Desa Karang Satria.
+

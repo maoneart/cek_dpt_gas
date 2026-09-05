@@ -8,7 +8,7 @@
   <!-- Favicon & Meta -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
-  <meta name="theme-color" content="#047857">
+  <meta name="theme-color" content="#ea580c">
   <meta name="description" content="Portal Resmi Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
   
   <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
@@ -24,29 +24,35 @@
 
   <style>
     :root {
-      --desa-green-dark: #064e3b;
-      --desa-green: #047857;
-      --desa-green-light: #10b981;
-      --desa-green-bg: #ecfdf5;
+      /* Tema Serba Orange */
+      --theme-orange-dark: #9a3412;
+      --theme-orange: #ea580c;
+      --theme-orange-light: #f97316;
+      --theme-orange-soft: #ffedd5;
+      --theme-orange-bg: #fff7ed;
+      --theme-orange-border: #fed7aa;
+      
+      /* Satu-satunya font berwarna hijau khusus judul "DESA KARANG SATRIA" */
+      --desa-green-title: #047857;
       
       --accent-gold: #d97706;
       --accent-gold-light: #fef3c7;
       
-      --bg-light: #f1f5f9;
+      --bg-light: #fffaf5;
       --card-bg: #ffffff;
-      --card-border: #cbd5e1;
+      --card-border: #fed7aa;
       
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --text-sub: #334155;
+      --text-dark: #1c1917;
+      --text-muted: #78716c;
+      --text-sub: #44403c;
       
       --radius-xl: 20px;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
       
-      --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(4, 120, 87, 0.06);
-      --shadow-card: 0 14px 35px -8px rgba(0, 0, 0, 0.12);
+      --shadow-soft: 0 10px 30px -5px rgba(234, 88, 12, 0.08), 0 4px 12px -2px rgba(234, 88, 12, 0.06);
+      --shadow-card: 0 14px 35px -8px rgba(234, 88, 12, 0.15);
       
       --font-title: 'Playfair Display', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
@@ -62,11 +68,11 @@
     }
 
     body {
-      background: #f8fafc;
+      background: #fafaf9;
       background-image: 
-        radial-gradient(circle at 50% 0%, #d1fae5 0%, transparent 50%),
-        radial-gradient(circle at 10% 40%, rgba(254, 243, 199, 0.6) 0%, transparent 40%),
-        linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%);
+        radial-gradient(circle at 50% 0%, #ffedd5 0%, transparent 55%),
+        radial-gradient(circle at 10% 40%, rgba(254, 215, 170, 0.5) 0%, transparent 45%),
+        linear-gradient(180deg, #fff7ed 0%, #fafaf9 100%);
       background-attachment: fixed;
       min-height: 100vh;
       display: flex;
@@ -81,8 +87,8 @@
     /* Top Government Ribbon */
     .desa-top-ribbon {
       width: 100%;
-      background: linear-gradient(90deg, #064e3b 0%, #047857 50%, #064e3b 100%);
-      border-bottom: 2px solid var(--accent-gold);
+      background: linear-gradient(90deg, #9a3412 0%, #ea580c 50%, #9a3412 100%);
+      border-bottom: 2px solid #f97316;
       padding: 7px 14px;
       display: flex;
       align-items: center;
@@ -125,9 +131,9 @@
     .live-dot {
       width: 7px;
       height: 7px;
-      background: #4ade80;
+      background: #fbbf24;
       border-radius: 50%;
-      box-shadow: 0 0 6px #4ade80;
+      box-shadow: 0 0 6px #fbbf24;
       animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
@@ -171,7 +177,7 @@
     /* Hero Branding Header */
     .desa-hero-card {
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
+      border: 1.5px solid #fed7aa;
       border-radius: var(--radius-xl);
       padding: 22px 18px 18px;
       text-align: center;
@@ -186,19 +192,19 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--desa-green) 0%, var(--accent-gold) 50%, var(--desa-green) 100%);
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);
     }
     .emblem-wrapper {
       width: 76px;
       height: 76px;
       margin: 0 auto 12px;
-      background: #ffffff;
-      border: 2.5px solid var(--desa-green);
+      background: #fff7ed;
+      border: 2.5px solid #ea580c;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(4, 120, 87, 0.2);
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.2);
       overflow: hidden;
       padding: 5px;
     }
@@ -210,13 +216,13 @@
     }
     .emblem-wrapper i {
       font-size: 32px;
-      color: var(--desa-green);
+      color: #ea580c;
     }
     .desa-title-top {
       font-size: 11.5px;
       font-weight: 800;
       letter-spacing: 1.2px;
-      color: var(--accent-gold);
+      color: #ea580c;
       text-transform: uppercase;
       margin-bottom: 3px;
     }
@@ -226,7 +232,7 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       line-height: 1.2;
-      color: var(--desa-green-dark);
+      color: var(--desa-green-title);
       margin-bottom: 4px;
     }
     .desa-title-desc {
@@ -239,20 +245,20 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
       border-radius: 30px;
       padding: 5px 14px;
       font-size: 11.5px;
       font-weight: 700;
-      color: var(--desa-green-dark);
+      color: #c2410c;
       margin-top: 10px;
     }
 
     /* Main Search Box Panel */
     .desa-main-panel {
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
+      border: 1.5px solid #fed7aa;
       border-radius: var(--radius-xl);
       padding: 20px 16px;
       box-shadow: var(--shadow-soft);
@@ -264,25 +270,25 @@
       gap: 12px;
       margin-bottom: 16px;
       padding-bottom: 12px;
-      border-bottom: 1px dashed #cbd5e1;
+      border-bottom: 1px dashed #fdba74;
     }
     .section-icon {
       width: 40px;
       height: 40px;
       border-radius: 12px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--desa-green);
+      color: #ea580c;
       font-size: 18px;
       flex-shrink: 0;
     }
     .section-title {
       font-size: 16px;
       font-weight: 800;
-      color: var(--desa-green-dark);
+      color: #ea580c;
       letter-spacing: 0.3px;
     }
     .section-subtitle {
@@ -293,8 +299,8 @@
 
     /* Input NIK Box Super Clean & Clear */
     .nik-input-card {
-      background: #f8fafc;
-      border: 2px solid #cbd5e1;
+      background: #fff7ed;
+      border: 2px solid #fed7aa;
       border-radius: var(--radius-lg);
       padding: 16px 14px;
       margin-bottom: 16px;
@@ -303,8 +309,8 @@
     }
     .nik-input-card:focus-within {
       background: #ffffff;
-      border-color: var(--desa-green);
-      box-shadow: 0 0 0 4px rgba(4, 120, 87, 0.12);
+      border-color: #ea580c;
+      box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.15);
     }
     .nik-label-row {
       display: flex;
@@ -317,7 +323,7 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: var(--desa-green-dark);
+      color: #c2410c;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -328,13 +334,13 @@
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
-      background: #e2e8f0;
-      color: var(--text-sub);
+      background: #fed7aa;
+      color: #9a3412;
     }
     .nik-counter-badge.complete {
-      background: #dcfce7;
-      color: var(--desa-green-dark);
-      border: 1px solid #86efac;
+      background: #ea580c;
+      color: #ffffff;
+      border: 1px solid #c2410c;
     }
 
     .nik-input-wrapper {
@@ -358,15 +364,15 @@
       font-family: var(--font-body);
       font-size: 14px;
       letter-spacing: 0;
-      color: #94a3b8;
+      color: #a8a29e;
       font-weight: 500;
     }
     .btn-paste-nik {
       position: absolute;
       right: 0;
-      background: #ecfdf5;
-      border: 1.5px solid #a7f3d0;
-      color: var(--desa-green-dark);
+      background: #ffedd5;
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
       font-size: 11.5px;
       font-weight: 700;
       padding: 6px 10px;
@@ -378,9 +384,9 @@
       transition: all 0.2s;
     }
     .btn-paste-nik:hover {
-      background: var(--desa-green);
+      background: #ea580c;
       color: #ffffff;
-      border-color: var(--desa-green);
+      border-color: #ea580c;
     }
 
     /* 16-Digit Visual Segment Pills */
@@ -394,20 +400,20 @@
       flex: 1;
       height: 4px;
       border-radius: 2px;
-      background: #cbd5e1;
+      background: #fed7aa;
       transition: all 0.2s ease;
     }
     .digit-meter-pill.active {
-      background: #10b981;
+      background: #fb923c;
     }
     .digit-meter-pill.complete {
-      background: var(--desa-green);
+      background: #ea580c;
     }
 
-    /* Primary Submit Button (Fresh Emerald Village Green) */
+    /* Primary Submit Button (Vibrant Orange) */
     .btn-desa-submit {
       width: 100%;
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       color: #ffffff;
       border: none;
       border-radius: var(--radius-md);
@@ -420,25 +426,23 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 8px 20px -4px rgba(4, 120, 87, 0.4);
+      box-shadow: 0 8px 20px -4px rgba(234, 88, 12, 0.4);
       transition: all 0.25s ease;
     }
     .btn-desa-submit:hover {
-      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
       transform: translateY(-2px);
-      box-shadow: 0 12px 24px -4px rgba(4, 120, 87, 0.5);
+      box-shadow: 0 12px 24px -4px rgba(234, 88, 12, 0.5);
     }
     .btn-desa-submit:active {
       transform: translateY(0);
     }
     .btn-desa-submit:disabled {
-      background: #94a3b8;
+      background: #d6d3d1;
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
     }
-
-
 
     /* =======================================================
        MULTI-PAGE VIEW NAVIGATION (TEMA CERAH ELEGANT)
@@ -464,7 +468,7 @@
       align-items: center;
       justify-content: space-between;
       background: #ffffff;
-      border: 1.5px solid #e2e8f0;
+      border: 1.5px solid #fed7aa;
       border-radius: var(--radius-lg);
       padding: 10px 14px;
       box-shadow: var(--shadow-soft);
@@ -473,9 +477,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #f1f5f9;
-      border: 1.5px solid #cbd5e1;
-      color: var(--desa-green-dark);
+      background: #fff7ed;
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
       padding: 8px 14px;
       border-radius: var(--radius-md);
       font-size: 12.5px;
@@ -484,23 +488,23 @@
       transition: all 0.15s ease;
     }
     .btn-back-nav:hover {
-      background: var(--desa-green);
+      background: #ea580c;
       color: #ffffff;
-      border-color: var(--desa-green);
+      border-color: #ea580c;
     }
     .result-nav-title {
       font-weight: 800;
       font-size: 14px;
-      color: var(--desa-green-dark);
+      color: #ea580c;
       font-family: var(--font-title);
     }
     .result-nav-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
+      background: #fff7ed;
+      color: #ea580c;
+      border: 1px solid #fed7aa;
       padding: 3px 8px;
       border-radius: 20px;
       font-size: 11px;
@@ -509,7 +513,7 @@
 
     .official-voter-card {
       background: #ffffff;
-      border: 2px solid #047857;
+      border: 2px solid #ea580c;
       border-radius: var(--radius-xl);
       padding: 0;
       position: relative;
@@ -519,8 +523,8 @@
 
     /* Card Kop Header */
     .card-header-gov {
-      background: #f0fdf4;
-      border-bottom: 2px solid #047857;
+      background: #fff7ed;
+      border-bottom: 2px solid #ea580c;
       padding: 16px 14px;
       display: flex;
       align-items: center;
@@ -530,13 +534,13 @@
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      border: 2px solid #047857;
+      border: 2px solid #ea580c;
       background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(4, 120, 87, 0.15);
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.15);
       overflow: hidden;
       padding: 3px;
     }
@@ -548,7 +552,7 @@
     }
     .gov-seal-gold i {
       font-size: 22px;
-      color: #047857;
+      color: #ea580c;
     }
     .card-header-titles {
       flex: 1;
@@ -557,7 +561,7 @@
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 1px;
-      color: var(--accent-gold);
+      color: #ea580c;
       text-transform: uppercase;
       line-height: 1.2;
     }
@@ -565,7 +569,7 @@
       font-family: var(--font-title);
       font-size: 15px;
       font-weight: 800;
-      color: var(--desa-green-dark);
+      color: var(--desa-green-title);
       letter-spacing: 0.3px;
       line-height: 1.2;
       margin: 2px 0;
@@ -586,19 +590,19 @@
 
     /* TPS Highlight Banner (Sorotan Utama) */
     .tps-hero-badge {
-      background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
-      border: 2px solid #059669;
+      background: linear-gradient(135deg, #9a3412 0%, #ea580c 100%);
+      border: 2px solid #f97316;
       border-radius: var(--radius-lg);
       padding: 16px 14px;
       text-align: center;
       color: #ffffff;
-      box-shadow: 0 8px 20px rgba(4, 120, 87, 0.25);
+      box-shadow: 0 8px 20px rgba(234, 88, 12, 0.25);
     }
     .tps-badge-tag {
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.5px;
-      color: #fef08a;
+      color: #fed7aa;
       text-transform: uppercase;
       margin-bottom: 2px;
     }
@@ -635,15 +639,15 @@
 
     /* Grid Data Warga */
     .citizen-data-grid {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
+      background: #fafaf9;
+      border: 1.5px solid #fed7aa;
       border-radius: var(--radius-md);
       overflow: hidden;
     }
     .citizen-row {
       display: flex;
       padding: 10px 12px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid #fed7aa;
       align-items: flex-start;
       gap: 10px;
     }
@@ -651,7 +655,7 @@
       border-bottom: none;
     }
     .row-icon {
-      color: var(--desa-green);
+      color: #ea580c;
       font-size: 14px;
       width: 18px;
       margin-top: 3px;
@@ -679,15 +683,15 @@
     .row-val-nik {
       font-family: var(--font-mono);
       font-size: 15px;
-      color: var(--desa-green-dark);
+      color: #c2410c;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .btn-toggle-mask {
-      background: #e2e8f0;
-      border: 1px solid #cbd5e1;
-      color: var(--text-dark);
+      background: #ffedd5;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
       font-size: 11px;
       font-weight: 700;
       padding: 2px 7px;
@@ -697,8 +701,8 @@
 
     /* QR Code & Verification Stamp Section */
     .card-footer-auth {
-      background: #f0fdf4;
-      border: 1px dashed #059669;
+      background: #fff7ed;
+      border: 1px dashed #ea580c;
       border-radius: var(--radius-md);
       padding: 12px;
       display: flex;
@@ -712,7 +716,7 @@
       background: #ffffff;
       padding: 4px;
       border-radius: 8px;
-      border: 1.5px solid #059669;
+      border: 1.5px solid #ea580c;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -728,7 +732,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      color: var(--desa-green-dark);
+      color: #c2410c;
       font-weight: 800;
       font-size: 11px;
       text-transform: uppercase;
@@ -759,12 +763,12 @@
       text-decoration: none;
     }
     .btn-print-doc {
-      background: #f1f5f9;
-      color: var(--text-dark);
-      border: 1.5px solid #cbd5e1;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1.5px solid #fed7aa;
     }
     .btn-print-doc:hover {
-      background: #e2e8f0;
+      background: #ffedd5;
     }
     .btn-wa-share {
       background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
@@ -777,14 +781,14 @@
     .btn-reset-search {
       grid-column: span 2;
       background: #ffffff;
-      border: 1.5px solid #cbd5e1;
-      color: var(--text-sub);
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
       height: 44px;
     }
     .btn-reset-search:hover {
-      background: #f8fafc;
-      border-color: var(--desa-green);
-      color: var(--desa-green-dark);
+      background: #fff7ed;
+      border-color: #ea580c;
+      color: #9a3412;
     }
 
     /* Official Footer */
@@ -796,7 +800,7 @@
       line-height: 1.5;
     }
     .gov-footer strong {
-      color: var(--text-dark);
+      color: #ea580c;
     }
 
     /* Loading Spinner */
@@ -819,7 +823,7 @@
     .maone-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(28, 25, 23, 0.6);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       display: none;
@@ -835,13 +839,13 @@
     }
     .maone-modal-dialog {
       background: #ffffff;
-      border: 2px solid #047857;
+      border: 2px solid #ea580c;
       border-radius: var(--radius-xl);
       padding: 24px 20px 20px;
       width: 100%;
       max-width: 380px;
       text-align: center;
-      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 20px 40px -10px rgba(234, 88, 12, 0.25);
       animation: modalZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes modalZoom {
@@ -859,31 +863,31 @@
       font-size: 26px;
     }
     .modal-icon-gold {
-      background: #fef3c7;
-      border: 2px solid #d97706;
-      color: #b45309;
+      background: #fff7ed;
+      color: #ea580c;
+      border: 2px solid #fed7aa;
     }
     .modal-icon-danger {
-      background: #fee2e2;
-      border: 2px solid #ef4444;
-      color: #b91c1c;
+      background: #fef2f2;
+      color: #ef4444;
+      border: 2px solid #fecaca;
     }
     .modal-icon-success {
-      background: #dcfce7;
-      border: 2px solid #10b981;
-      color: #047857;
+      background: #f0fdf4;
+      color: #10b981;
+      border: 2px solid #bbf7d0;
     }
     .modal-headline {
-      font-size: 17px;
+      font-family: var(--font-title);
+      font-size: 18px;
       font-weight: 800;
-      color: var(--text-dark);
+      color: #1c1917;
       margin-bottom: 8px;
-      letter-spacing: 0.3px;
     }
     .modal-message {
       font-size: 13px;
       color: var(--text-sub);
-      line-height: 1.45;
+      line-height: 1.5;
       margin-bottom: 20px;
     }
 
@@ -898,30 +902,30 @@
       width: 100%;
       height: 44px;
       border-radius: var(--radius-md);
-      font-size: 13.5px;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       border: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
     .modal-btn-cancel {
-      background: #f1f5f9;
-      border: 1.5px solid #cbd5e1;
+      background: #f5f5f4;
       color: var(--text-dark);
+      border: 1.5px solid #d6d3d1;
     }
     .modal-btn-cancel:hover {
-      background: #e2e8f0;
+      background: #e7e5e4;
     }
     .modal-btn-confirm {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3);
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
     }
     .modal-btn-confirm:hover {
-      background: #047857;
+      background: #ea580c;
     }
 
     /* Print Template Optimizations */
@@ -1026,7 +1030,7 @@
             <i class="fa-solid fa-magnifying-glass-location"></i>
           </div>
           <div>
-            <div class="section-title">Cek Lokasi TPS Warga</div>
+            <div class="section-title">Cek Lokasi TPS</div>
             <div class="section-subtitle">Masukkan 16 digit NIK KTP-el Anda</div>
           </div>
         </div>
@@ -1386,7 +1390,7 @@
         text: qrPayload,
         width: 64,
         height: 64,
-        colorDark: '#047857',
+        colorDark: '#ea580c',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
       });

@@ -1110,11 +1110,8 @@
           
           <!-- TPS Centerpiece (Sorotan Utama) -->
           <div class="tps-hero-badge">
-            <div class="tps-badge-tag">LOKASI TPS HARI PEMUNGUTAN SUARA</div>
+            <div class="tps-badge-tag">LOKASI TPS PEMUNGUTAN SUARA</div>
             <div id="cardTPSNum" class="tps-badge-num">TPS 014</div>
-            <div id="cardTPSLoc" class="tps-badge-location">
-              <i class="fa-solid fa-location-dot"></i> Balai Pertemuan Warga RW 018 Alamanda Regency
-            </div>
             <div>
               <span id="cardStatusBadge" class="tps-status-pill">
                 <i class="fa-solid fa-circle-check"></i> TERDAFTAR RESMI: DPT AKTIF
@@ -1171,7 +1168,7 @@
               <div class="row-icon"><i class="fa-solid fa-clock"></i></div>
               <div class="row-content">
                 <div class="row-label">Waktu Pemungutan Suara</div>
-                <div class="row-val" style="color: var(--desa-green-dark);">Rabu, 07:00 - 13:00 WIB (Bawa KTP-el Asli / C6)</div>
+                <div class="row-val" style="color: var(--desa-green-dark);">Minggu, 20 September 2026, Pukul 08.00 s/d Selesai</div>
               </div>
             </div>
 
@@ -1372,7 +1369,6 @@
       isNikMasked = true;
 
       document.getElementById('cardTPSNum').innerText = data.tps || 'TPS Belum Ditentukan';
-      document.getElementById('cardTPSLoc').innerHTML = '<i class="fa-solid fa-location-dot"></i> ' + (data.tpsLokasi || 'Lokasi TPS Resmi Desa Karang Satria');
       document.getElementById('cardNama').innerText = (data.nama || '-').toUpperCase();
       document.getElementById('cardTTL').innerText = (data.ttl || '-') + (data.gender ? ' (' + data.gender + ')' : '');
       document.getElementById('cardAlamat').innerText = data.alamat || 'Desa Karang Satria, Kec. Tambun Utara, Kab. Bekasi';
@@ -1467,9 +1463,9 @@
         `👤 *Nama:* ${d.nama}\n` +
         `🆔 *NIK:* ${masked}\n` +
         `🗳️ *Lokasi TPS:* ${d.tps}\n` +
-        `📍 *Tempat:* ${d.tpsLokasi || d.alamat}\n` +
+        `📍 *Alamat Terdaftar:* ${d.alamat}\n` +
         `📅 *Pilkades:* Desa Karang Satria Kec. Tambun Utara\n` +
-        `⏰ *Waktu:* Rabu, 07.00 - 13.00 WIB\n` +
+        `⏰ *Waktu:* Minggu, 20 September 2026, Pukul 08.00 s/d Selesai\n` +
         `✅ *Status:* Terdaftar Resmi (${d.status || 'DPT Aktif'})\n` +
         `----------------------------------------\n` +
         `_Cek NIK Anda di Portal Pemilihan Kepala Desa Karang Satria._`;

@@ -6,6 +6,8 @@
   <title>Cek TPS Pemilihan Kepala Desa Karang Satria 2026 - 2034</title>
   
   <!-- Favicon & Meta -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
   <meta name="theme-color" content="#047857">
   <meta name="description" content="Portal Resmi Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
   
@@ -187,19 +189,27 @@
       background: linear-gradient(90deg, var(--desa-green) 0%, var(--accent-gold) 50%, var(--desa-green) 100%);
     }
     .emblem-wrapper {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 10px;
-      background: #ecfdf5;
-      border: 2px solid var(--desa-green);
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 12px;
+      background: #ffffff;
+      border: 2.5px solid var(--desa-green);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.15);
+      box-shadow: 0 4px 14px rgba(4, 120, 87, 0.2);
+      overflow: hidden;
+      padding: 5px;
+    }
+    .desa-logo-hero {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .emblem-wrapper i {
-      font-size: 28px;
+      font-size: 32px;
       color: var(--desa-green);
     }
     .desa-title-top {
@@ -496,8 +506,8 @@
       gap: 12px;
     }
     .gov-seal-gold {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       border: 2px solid #047857;
       background: #ffffff;
@@ -506,6 +516,14 @@
       justify-content: center;
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(4, 120, 87, 0.15);
+      overflow: hidden;
+      padding: 3px;
+    }
+    .desa-logo-card {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .gov-seal-gold i {
       font-size: 22px;
@@ -963,7 +981,8 @@
     <!-- Hero Header Branding -->
     <section class="desa-hero-card">
       <div class="emblem-wrapper">
-        <i class="fa-solid fa-landmark"></i>
+        <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png" alt="Logo Pemdes Karang Satria" class="desa-logo-hero" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <i class="fa-solid fa-landmark" style="display: none;"></i>
       </div>
       <div class="desa-title-top">PEMILIHAN KEPALA DESA</div>
       <h1 class="desa-title-main">DESA KARANG SATRIA</h1>
@@ -1044,7 +1063,8 @@
           <!-- Card Kop Header -->
           <div class="card-header-gov">
             <div class="gov-seal-gold">
-              <i class="fa-solid fa-landmark"></i>
+              <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png" alt="Logo Pemkab Bekasi" class="desa-logo-card" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <i class="fa-solid fa-landmark" style="display: none;"></i>
             </div>
             <div class="card-header-titles">
               <div class="card-kop-top">PEMERINTAH KABUPATEN BEKASI</div>

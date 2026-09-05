@@ -63,16 +63,16 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (Fast Multi-Sheet Scanner + Cache)
+ * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (Mendukung 12 Digit Angka & 4 Bintang Sensor)
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
-    return { status: 'error', message: 'Silakan masukkan 16 digit NIK Anda.' };
+    return { status: 'error', message: 'Silakan masukkan NIK Anda (12 atau 16 digit).' };
   }
 
   const cleanNIK = nikInput.toString().replace(/[^0-9]/g, '').trim();
-  if (cleanNIK.length !== 16) {
-    return { status: 'error', message: 'NIK tidak valid (harus 16 digit angka).' };
+  if (cleanNIK.length < 12 || cleanNIK.length > 16) {
+    return { status: 'error', message: 'NIK tidak valid (minimal 12 digit dan maksimal 16 digit angka).' };
   }
 
   // Cek Fast Cache Memory
@@ -127,9 +127,9 @@ function searchByNIK(nikInput) {
 
     for (let r = 1; r < data.length; r++) {
       const row = data[r];
-      const rowNIK = row[idxNIK] ? row[idxNIK].toString().replace(/[^0-9]/g, '').trim() : '';
+      const rowNIKVal = row[idxNIK] ? row[idxNIK].toString().trim() : '';
 
-      if (rowNIK === cleanNIK) {
+      if (isNikMatch(rowNIKVal, cleanNIK)) {
         // Format Nama TPS
         const tpsName = sheetName.toUpperCase();
 
@@ -164,12 +164,21 @@ function searchByNIK(nikInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
-        const maskedNIK = cleanNIK.substring(0, 6) + '******' + cleanNIK.substring(12);
+        // Masking NIK untuk privasi tampilan
+        let maskedNIK = rowNIKVal || cleanNIK;
+        if (!maskedNIK.includes('*')) {
+          if (maskedNIK.length === 16) {
+            maskedNIK = maskedNIK.substring(0, 6) + '****' + maskedNIK.substring(10);
+          } else if (maskedNIK.length === 12) {
+            maskedNIK = maskedNIK + '****';
+          }
+        }
 
         const result = {
           status: 'success',
           data: {
             nik: cleanNIK,
+            nikRaw: rowNIKVal || cleanNIK,
             nikMasked: maskedNIK,
             nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
             nama: (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : 'WARGA DESA KARANG SATRIA',
@@ -199,6 +208,58 @@ function searchByNIK(nikInput) {
     status: 'not_found',
     message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
   };
+}
+
+/**
+ * Helper Fungsi Pencocokan NIK (Mendukung 12 Digit, 16 Digit & Wildcard 4 Bintang ****)
+ */
+function isNikMatch(rowVal, cleanQuery) {
+  if (!rowVal || !cleanQuery) return false;
+  
+  const rawStr = rowVal.toString().trim();
+  const rowDigits = rawStr.replace(/[^0-9]/g, '');
+  
+  // 1. Kesamaan angka murni langsung
+  if (rowDigits === cleanQuery) return true;
+  
+  // 2. Jika input user 12 digit angka
+  if (cleanQuery.length === 12) {
+    if (rowDigits === cleanQuery) return true;
+    if (rowDigits.startsWith(cleanQuery)) return true;
+    // Cek jika di sheet 16 digit angka penuh, cocokkan 12 digit (6 depan + 6 belakang)
+    if (rowDigits.length === 16 && (rowDigits.substring(0, 6) + rowDigits.substring(10)) === cleanQuery) return true;
+  }
+  
+  // 3. Jika input user 16 digit dan data sheet memiliki bintang (wildcard 4 digit ****)
+  if (cleanQuery.length === 16) {
+    if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
+      try {
+        const pattern = '^' + rawStr.replace(/[^0-9*xX]/g, '').replace(/[*xX]/g, '\\d') + '$';
+        const regex = new RegExp(pattern);
+        if (regex.test(cleanQuery)) return true;
+      } catch (e) {}
+    }
+    // Jika di sheet hanya ada 12 digit angka, cek kecocokan 12 digit
+    if (rowDigits.length === 12 && cleanQuery.startsWith(rowDigits)) return true;
+    if (rowDigits.length === 12 && (cleanQuery.substring(0, 6) + cleanQuery.substring(10)) === rowDigits) return true;
+  }
+  
+  // 4. Wildcard matching karakter per karakter jika rawStr mengandung bintang
+  if (rawStr.includes('*')) {
+    const cleanPattern = rawStr.replace(/[^0-9*]/g, '');
+    if (cleanPattern.length === cleanQuery.length) {
+      let match = true;
+      for (let i = 0; i < cleanPattern.length; i++) {
+        if (cleanPattern[i] !== '*' && cleanPattern[i] !== cleanQuery[i]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -265,7 +326,7 @@ function onOpen() {
 
 function testCariNIK() {
   const ui = SpreadsheetApp.getUi();
-  const prompt = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 16 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
+  const prompt = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 atau 16 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
   if (prompt.getSelectedButton() === ui.Button.OK) {
     const res = searchByNIK(prompt.getResponseText());
     if (res.status === 'success') {

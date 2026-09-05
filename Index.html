@@ -999,7 +999,7 @@
   <!-- Running News Ticker -->
   <div class="news-ticker">
     <div class="ticker-content">
-      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 16 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
+      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 12 atau 16 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
     </div>
   </div>
 
@@ -1031,7 +1031,7 @@
           </div>
           <div>
             <div class="section-title">Cek Lokasi TPS</div>
-            <div class="section-subtitle">Masukkan 16 digit NIK KTP-el Anda</div>
+            <div class="section-subtitle">Masukkan 12 atau 16 digit NIK KTP-el Anda</div>
           </div>
         </div>
 
@@ -1050,7 +1050,7 @@
                 type="tel" 
                 id="nikField" 
                 class="nik-input-field" 
-                placeholder="Ketik 16 Digit NIK..." 
+                placeholder="Ketik 12 - 16 Digit NIK..." 
                 maxlength="16" 
                 inputmode="numeric"
                 autocomplete="off"
@@ -1266,10 +1266,11 @@
       const len = input.value.length;
       
       const counterBadge = document.getElementById('nikMeterCounter');
-      counterBadge.innerText = len + ' / 16';
-      if (len === 16) {
+      if (len >= 12) {
+        counterBadge.innerText = len + ' / 16 (Siap Cek)';
         counterBadge.classList.add('complete');
       } else {
+        counterBadge.innerText = len + ' / 16';
         counterBadge.classList.remove('complete');
       }
 
@@ -1277,7 +1278,7 @@
         const pill = document.getElementById('pill_' + i);
         if (pill) {
           if (i < len) {
-            pill.className = len === 16 ? 'digit-meter-pill complete' : 'digit-meter-pill active';
+            pill.className = (len >= 12) ? 'digit-meter-pill complete' : 'digit-meter-pill active';
           } else {
             pill.className = 'digit-meter-pill';
           }
@@ -1294,29 +1295,29 @@
             const input = document.getElementById('nikField');
             input.value = clean;
             handleNikKeypress(input);
-            if (clean.length === 16) {
-              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK 16 digit telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
+            if (clean.length >= 12) {
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK (' + clean.length + ' digit) telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
             }
           }
         } else {
           showAlertModal('Tempel Manual', 'Silakan tempel NIK secara langsung ke kolom input.');
         }
       } catch (err) {
-        showAlertModal('Izin Clipboard', 'Silakan ketik NIK 16 digit secara langsung.');
+        showAlertModal('Izin Clipboard', 'Silakan ketik NIK 12 atau 16 digit secara langsung.');
       }
     }
 
     // =======================================================
-    // PENCARIAN NIK -> LANGSUNG MUNCUL TPS
+    // PENCARIAN NIK -> LANGSUNG MUNCUL TPS (12 / 16 DIGIT)
     // =======================================================
     function handleGovSearch(e) {
       if (e) e.preventDefault();
       
       const nik = document.getElementById('nikField').value.trim();
-      if (nik.length !== 16) {
+      if (nik.length < 12 || nik.length > 16) {
         showAlertModal(
           'Format NIK Kurang',
-          'Nomor Induk Kependudukan (NIK) harus berjumlah tepat 16 digit angka.',
+          'Nomor Induk Kependudukan (NIK) minimal 12 digit angka.',
           'danger'
         );
         return;
@@ -1345,7 +1346,7 @@
             setSubmitLoading(false);
             showAlertModal(
               'Database Siap Pakai', 
-              'Aplikasi ini dirancang untuk dijalankan langsung di Google Apps Script yang terhubung dengan Google Sheets tab DPS_DPT_Karang_Satria.', 
+              'Aplikasi ini dirancang untuk dijalankan langsung di Google Apps Script yang terhubung dengan Google Sheets (95 Sheet TPS).', 
               'gold'
             );
           });
@@ -1411,10 +1412,11 @@
       if (!activeVoterData) return;
       const cardNikEl = document.getElementById('cardNIK');
       const btnToggle = document.getElementById('btnMaskToggle');
-      const rawNik = activeVoterData.nik;
+      const rawNik = activeVoterData.nikRaw || activeVoterData.nik;
+      const maskedNik = activeVoterData.nikMasked || rawNik;
 
       if (isNikMasked) {
-        cardNikEl.innerText = rawNik.substring(0, 6) + '******' + rawNik.substring(12);
+        cardNikEl.innerText = maskedNik;
         btnToggle.innerHTML = '<i class="fa-solid fa-eye"></i> Buka';
       } else {
         cardNikEl.innerText = rawNik;
@@ -1458,11 +1460,12 @@
     function shareToWhatsApp() {
       if (!activeVoterData) return;
       const d = activeVoterData;
+      const masked = d.nikMasked || d.nik;
       const msg = 
         `🗳️ *LOKASI TPS PILKADES DESA KARANG SATRIA (2026 - 2034)*\n` +
         `----------------------------------------\n` +
         `👤 *Nama:* ${d.nama}\n` +
-        `🆔 *NIK:* ${d.nik.substring(0, 6)}******${d.nik.substring(12)}\n` +
+        `🆔 *NIK:* ${masked}\n` +
         `🗳️ *Lokasi TPS:* ${d.tps}\n` +
         `📍 *Tempat:* ${d.tpsLokasi || d.alamat}\n` +
         `📅 *Pilkades:* Desa Karang Satria Kec. Tambun Utara\n` +

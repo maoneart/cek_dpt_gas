@@ -7,7 +7,7 @@ Mobile Web App modern, cerah, segar, dan ramah warga (Tema Serba Orange & Judul 
 
 ## 🏛️ Konsep & Alur Kerja:
 1. Warga membuka Web App di HP (tampilan cerah, tulisan besar dan sangat mudah dibaca).
-2. Warga memasukkan 16 digit NIK (atau klik tombol *Tempel* dari clipboard).
+2. Warga memasukkan 12 digit atau 16 digit NIK (atau klik tombol *Tempel* dari clipboard).
 3. Klik tombol **"CEK LOKASI TPS SAYA"**.
 4. **Langsung Muncul Kartu Pemilih Digital di Halaman Baru**:
    - Nomor & Lokasi TPS tempat mencoblos.
@@ -15,6 +15,14 @@ Mobile Web App modern, cerah, segar, dan ramah warga (Tema Serba Orange & Judul 
    - Dynamic QR Code resmi untuk verifikasi presensi di TPS oleh petugas.
    - Tombol **Cetak / Simpan PDF** dan **Kirim ke WhatsApp**.
    - Tombol Navigasi Kembali / Cek NIK Warga Lainnya.
+
+---
+
+## 🔒 Mekanisme Sensor NIK (12 Digit & 4 Bintang `****`):
+- **Di Spreadsheet / Database**: NIK dapat diinput dengan format 12 angka + 4 bintang `****` (contoh: `'321606010101****` atau `'321606****010001'`), ataupun 16 digit penuh.
+- **Pencarian Cerdas**:
+  - Warga cukup memasukkan **12 digit NIK**, sistem langsung menemukan data TPS yang cocok.
+  - Jika warga memasukkan **16 digit NIK penuh**, sistem otomatis mencocokkan pola wildcard `****` dengan data di spreadsheet.
 
 ---
 
@@ -33,7 +41,7 @@ Setiap sheet bernama **`TPS 1`**, **`TPS 2`**, ... hingga **`TPS 95`** memiliki 
 | **A** | `NO` | Angka | Nomor baris data | `1` |
 | **B** | `NO URUT` | Teks / Angka | Nomor urut pemilih di TPS | `001` |
 | **C** | `NO KK (NKK)` | Teks | Nomor Kartu Keluarga *(format teks)* | `'3216060101010001` |
-| **D** | `NIK (16 Digit)` | Teks | 16 Digit angka KTP *(format teks)* | `'3216061408880001` |
+| **D** | `NIK (16 Digit)` | Teks | 12 Digit Angka + 4 Sensor Bintang `****` *(atau 16 Digit)* | `'321606010101****` |
 | **E** | `NAMA LENGKAP` | Teks | Nama lengkap sesuai KTP-el (Kapital) | `BUDI SANTOSO, S.KOM` |
 | **F** | `JENIS KELAMIN` | Teks | `Laki-laki` / `Perempuan` (atau `L` / `P`) | `Laki-laki` |
 | **G** | `TEMPAT LAHIR` | Teks | Kota / Kabupaten tempat lahir | `Bekasi` |

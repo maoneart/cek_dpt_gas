@@ -1,42 +1,29 @@
-# 🗳️ Portal Resmi Cek DPS & DPT Online Pilkades Desa Karang Satria (2026 - 2034)
+# 🗳️ Portal Resmi Cek TPS Pemilih Online Pilkades Karang Satria (2026 - 2034)
 **Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat**
 
-Mobile Web App modern & mewah berstandar portal resmi pemerintah (Presidential Navy & Royal Gold) untuk pengecekan Daftar Pemilih Sementara & Tetap (DPS/DPT), lokasi TPS, dan pencetakan Kartu Tanda Bukti Terdaftar Pemilih (KTBP) Digital berbasis Google Apps Script (GAS) dan Google Sheets gratis tanpa biaya server.
+Mobile Web App modern & mewah berstandar portal resmi pemerintah (Presidential Navy & Royal Gold) yang fokus **100% langsung untuk pengecekan lokasi TPS warga berbasis NIK (16 Digit)** tanpa menu berbelit-belit. Menggunakan Google Sheets sebagai database real-time dan Google Apps Script (GAS) sebagai backend gratis tanpa biaya server.
 
 ---
 
-## 🏛️ Fitur Utama Sistem:
-1. **Input NIK Mewah & Interaktif**:
-   - Visual Meter 16 Digit interaktif (*live indicator & progress pills*).
-   - Fitur Tempel (*Paste*) otomatis dari papan klip.
-   - Pilihan sampel NIK warga Desa Karang Satria sekali klik (Alamanda, Satria Mekar, VIP, Bumi Anggrek, Kp. Cerewet).
-2. **Kartu Bukti Pemilih Digital (KTBP) Resmi**:
-   - Kop resmi Pemerintah Kabupaten Bekasi & Panitia Pilkades Desa Karang Satria Masa Jabatan 2026 – 2034.
-   - Kotak *hero highlight* nomor TPS & lokasi TPS terdaftar.
-   - Fitur buka/tutup sensor NIK demi privasi data kependudukan.
-   - Dynamic QR Code resmi untuk verifikasi kehadiran cepat oleh petugas KPPS di TPS.
-   - Tombol Aksi 2 Kolom Simetris: Cetak Dokumen / Simpan PDF dan Kirim Bukti ke WhatsApp.
-3. **Data & Peta Sebaran TPS**:
-   - Daftar 48 sebaran TPS se-Desa Karang Satria dengan filter pencarian instan per RW/perumahan.
-4. **Tahapan & Jadwal Pilkades 2026 – 2034**:
-   - Timeline agenda resmi pemutakhiran DPS, tanggapan masyarakat, penetapan DPT, hingga hari pencoblosan.
-5. **Layanan Lapor & Daftar DPS Mandiri**:
-   - Form pengaduan bagi warga yang belum terdaftar langsung tersimpan ke Google Sheet Panitia.
-6. **MaoneArt Glassmorphism Modal System**:
-   - Modal interaktif standar (`showConfirmModal` & `showAlertModal`) dengan layout tombol simetris 2 kolom (`grid grid-cols-2 gap-3`).
+## 🏛️ Alur Kerja Super Praktis:
+1. Warga membuka Web App di HP (Mobile Web App).
+2. Warga memasukkan 16 digit NIK (atau klik tombol *Tempel* / tombol contoh sampel).
+3. Klik tombol **"CEK LOKASI TPS SAYA"**.
+4. **Langsung Muncul Kartu Pemilih Digital Mewah**:
+   - Nomor & Lokasi TPS tempat mencoblos (contoh: **TPS 014 - Balai RW 018 Alamanda Regency**).
+   - Data Pribadi (NIK dengan sensor keamanan, Nama Lengkap, TTL, Alamat KTP).
+   - Dynamic QR Code resmi untuk verifikasi presensi di TPS oleh KPPS.
+   - Tombol **Cetak / Simpan PDF** dan **Kirim ke WhatsApp**.
 
 ---
 
 ## 📊 File Template Excel Langsung Siap Pakai:
-Tersedia file template Excel dan CSV yang telah diformat lengkap (teks NIK 16 digit tidak terpotong) untuk langsung di-upload/import ke Google Sheets:
-- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) dengan styling kop resmi Navy & Gold, format kolom NIK text, dan 8 sampel data warga.
-- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** — File CSV standar UTF-8 untuk import cepat.
+- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** — File Excel Workbook (.xlsx) dengan styling kop resmi Navy & Gold, format kolom NIK text, dan 8 sampel data warga Desa Karang Satria.
+- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** — File CSV standar UTF-8 untuk opsi impor cepat.
 
 ---
 
-## 📋 Struktur Data Google Sheets (Tab: `DPS_DPT_Karang_Satria`)
-
-Database menggunakan 1 Sheet/Tab bernama **`DPS_DPT_Karang_Satria`** dengan **10 kolom** standar resmi:
+## 📋 Struktur Data Google Sheets (Tab: `DPS_DPT_Karang_Satria`):
 
 | Kolom | Nama Header | Tipe Data | Keterangan & Format | Contoh Data |
 | :---: | :--- | :---: | :--- | :--- |
@@ -53,43 +40,23 @@ Database menggunakan 1 Sheet/Tab bernama **`DPS_DPT_Karang_Satria`** dengan **10
 
 ---
 
-## 💡 Contoh Sampel Data Warga Bawaan:
-
-| NIK | Nama Pemilih | Lokasi Alamat | TPS | Lokasi TPS | Status |
-| :--- | :--- | :--- | :---: | :--- | :---: |
-| `3216061408880001` | BUDI SANTOSO, S.KOM | Perum Alamanda Regency RT 004 / RW 018 | **TPS 014** | Balai Warga RW 018 Alamanda | `DPT AKTIF` |
-| `3216062005920002` | SITI NURHALIZA, M.PD | Kp. Cerewet RT 002 / RW 007 | **TPS 006** | Halaman SDN Karang Satria 01 | `DPT AKTIF` |
-| `3216061011950003` | AHMAD FAUZI PRATAMA | Villa Indah Permai Blok B2 RT 005 / RW 022 | **TPS 022** | GSG RW 022 VIP | `DPS TERVERIFIKASI` |
-| `3216060501900004` | DEWI ANGGRAENI, S.E | Bumi Anggrek Blok D1 RT 001 / RW 015 | **TPS 011** | Pos Balai RW 015 Bumi Anggrek | `DPT AKTIF` |
-| `3216061203850005` | H. RIDWAN KURNIAWAN | Kp. Satria Mekar RT 001 / RW 004 | **TPS 004** | Posyandu Mawar Kp. Satria Mekar | `DPT AKTIF` |
-| `3216062807980006` | RINA MARLINA, S.PD | Karang Satria Regency Blok A2 RT 003 / RW 025 | **TPS 030** | Taman Segitiga Karang Satria Regency | `DPS TERVERIFIKASI` |
-| `3216060109930007` | BAMBANG HERMANTO | Kp. Cerewet RT 001 / RW 002 | **TPS 002** | Masjid Jami Al-Ikhlas Kp. Cerewet | `DPT AKTIF` |
-| `3216061512960008` | NURUL AINI PUTRI | Dusun Karang Satria RT 001 / RW 001 | **TPS 001** | Balai Desa Karang Satria (Aula) | `DPT AKTIF` |
-
----
-
 ## 📁 Struktur Berkas Proyek:
-- **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First bertema portal resmi pemerintah (Presidential Navy & Royal Gold).
-- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Fast in-memory array search, auto-setup sheet, REST API & serverless runner).
-- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : File Excel siap upload ke Google Drive / Google Sheets.
-- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : File CSV siap import.
-- **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Dokumentasi arsitektur database dan panduan deployment.
+- **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First satu halaman fokus Cek NIK & Kartu TPS Digital.
+- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Pencarian in-memory secepat kilat, REST API & Google Sheets sync).
+- **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi siap upload.
+- **[Template_DPS_DPT_Karang_Satria.csv](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.csv)** : Berkas CSV siap impor.
+- **[README.md](file:///sdcard/www/cek_dpt_gas/README.md)** : Panduan & dokumentasi.
 
 ---
 
 ## 🚀 Panduan Penerapan di Google Apps Script (2 Menit):
-1. **Cara 1: Import File Excel Langsung**:
-   - Buka Google Drive > Upload file **`Template_DPS_DPT_Karang_Satria.xlsx`**.
-   - Buka file dengan Google Sheets.
-   - Klik menu **Ekstensi (Extensions)** > **Apps Script**.
-2. **Cara 2: Spreadsheet Baru**:
-   - Buka [Google Sheets](https://sheets.new).
-   - Klik menu **Ekstensi (Extensions)** > **Apps Script**.
-3. Di editor Google Apps Script:
-   - Tempel isi dari `Code.gs` ke file `Code.gs`.
-   - Klik tombol **`+`** > pilih **HTML** > beri nama **`Index`**, lalu tempel isi dari `Index.html`.
+1. Buka spreadsheet baru di [Google Sheets](https://sheets.new) atau buka file `Template_DPS_DPT_Karang_Satria.xlsx` di Google Sheets.
+2. Klik menu **Ekstensi (Extensions)** > **Apps Script**.
+3. Di editor Apps Script:
+   - Salin isi dari `Code.gs` ke file `Code.gs`.
+   - Klik tombol **`+`** > pilih **HTML** > beri nama **`Index`**, lalu salin isi dari `Index.html`.
 4. Klik tombol **Terapkan (Deploy)** > **Penerapan Baru (New deployment)**.
 5. Pilih jenis **Aplikasi Web (Web app)**:
    - **Jalankan sebagai (Execute as)**: *Saya (Me)*
    - **Siapa yang memiliki akses (Who has access)**: *Siapa saja (Anyone)*
-6. Klik **Terapkan (Deploy)** dan salin URL Web App untuk disebarkan ke warga Desa Karang Satria.
+6. Klik **Terapkan (Deploy)** dan bagikan URL Web App ke seluruh warga Desa Karang Satria.

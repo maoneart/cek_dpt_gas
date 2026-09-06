@@ -3,6 +3,7 @@
  * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
  * Backend Engine: Multi-Sheet Support (95 TPS: TPS 1 s/d TPS 95) + Google Apps Script
+ * Update: Mode Pencarian 12 Digit NIK & Dukungan Multi-Data Pemilih (Pilih Nama)
  */
 
 // Konfigurasi Header Standar per TPS (12 Kolom)
@@ -25,7 +26,7 @@ const OFFICIAL_HEADERS = [
  * 1. Entry Point Web App (doGet)
  */
 function doGet(e) {
-  // Jika dipanggil via REST API (contoh: ?nik=3216061408880001)
+  // Jika dipanggil via REST API (contoh: ?nik=321606140888)
   if (e && e.parameter && e.parameter.nik) {
     const result = searchByNIK(e.parameter.nik);
     return ContentService.createTextOutput(JSON.stringify(result))
@@ -63,22 +64,22 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (Mendukung 12 Digit Angka & 4 Bintang Sensor)
+ * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (Mendukung Tepat 12 Digit NIK & Multi-Matching)
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
-    return { status: 'error', message: 'Silakan masukkan NIK Anda (12 atau 16 digit).' };
+    return { status: 'error', message: 'Silakan masukkan 12 digit NIK Anda.' };
   }
 
   const cleanNIK = nikInput.toString().replace(/[^0-9]/g, '').trim();
-  if (cleanNIK.length < 12 || cleanNIK.length > 16) {
-    return { status: 'error', message: 'NIK tidak valid (minimal 12 digit dan maksimal 16 digit angka).' };
+  if (cleanNIK.length !== 12) {
+    return { status: 'error', message: 'Nomor Induk Kependudukan (NIK) harus tepat 12 digit angka.' };
   }
 
   // Cek Fast Cache Memory
   try {
     const cache = CacheService.getScriptCache();
-    const cached = cache.get('DPT_NIK_' + cleanNIK);
+    const cached = cache.get('DPT_NIK_12_' + cleanNIK);
     if (cached) {
       return JSON.parse(cached);
     }
@@ -90,6 +91,8 @@ function searchByNIK(nikInput) {
   if (!sheets || sheets.length === 0) {
     return { status: 'not_found', message: 'Spreadsheet belum memiliki sheet TPS.' };
   }
+
+  const matches = [];
 
   // Telusuri seluruh sheet (TPS 1 s/d TPS 95)
   for (let s = 0; s < sheets.length; s++) {
@@ -164,54 +167,72 @@ function searchByNIK(nikInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
-        // Masking NIK untuk privasi tampilan
+        // Masking NIK untuk privasi tampilan (format 12 digit: 6 depan + 4 sensor + 2 belakang)
         let maskedNIK = rowNIKVal || cleanNIK;
         if (!maskedNIK.includes('*')) {
-          if (maskedNIK.length === 16) {
-            maskedNIK = maskedNIK.substring(0, 6) + '****' + maskedNIK.substring(10);
-          } else if (maskedNIK.length === 12) {
-            maskedNIK = maskedNIK + '****';
+          if (maskedNIK.length >= 12) {
+            maskedNIK = maskedNIK.substring(0, 6) + '****' + maskedNIK.substring(maskedNIK.length - 2);
+          } else {
+            maskedNIK = maskedNIK.substring(0, 6) + '****';
           }
         }
 
-        const result = {
-          status: 'success',
-          data: {
-            nik: cleanNIK,
-            nikRaw: rowNIKVal || cleanNIK,
-            nikMasked: maskedNIK,
-            nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
-            nama: (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : 'WARGA DESA KARANG SATRIA',
-            gender: genderStr || 'Laki-laki / Perempuan',
-            ttl: ttlStr,
-            alamat: alamatFull || 'Desa Karang Satria, Kec. Tambun Utara',
-            rt: rt,
-            rw: rw,
-            noUrut: (idxNoUrut !== -1 && row[idxNoUrut]) ? row[idxNoUrut].toString().trim() : '',
-            tps: tpsName,
-            tpsLokasi: 'Lokasi Pemungutan Suara ' + tpsName + ' Desa Karang Satria',
-            status: (idxKet !== -1 && row[idxKet] && row[idxKet].trim()) ? row[idxKet].toString().trim() : 'DPT AKTIF'
-          }
-        };
-
-        // Simpan di Cache Script selama 6 Jam
-        try {
-          CacheService.getScriptCache().put('DPT_NIK_' + cleanNIK, JSON.stringify(result), 21600);
-        } catch (e) {}
-
-        return result;
+        matches.push({
+          id: matches.length + 1,
+          nik: cleanNIK,
+          nikRaw: rowNIKVal || cleanNIK,
+          nikMasked: maskedNIK,
+          nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
+          nama: (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : 'WARGA DESA KARANG SATRIA',
+          gender: genderStr || 'Laki-laki / Perempuan',
+          ttl: ttlStr,
+          alamat: alamatFull || 'Desa Karang Satria, Kec. Tambun Utara',
+          rt: rt,
+          rw: rw,
+          noUrut: (idxNoUrut !== -1 && row[idxNoUrut]) ? row[idxNoUrut].toString().trim() : '',
+          tps: tpsName,
+          tpsLokasi: 'Lokasi Pemungutan Suara ' + tpsName + ' Desa Karang Satria',
+          status: (idxKet !== -1 && row[idxKet] && row[idxKet].trim()) ? row[idxKet].toString().trim() : 'DPT AKTIF'
+        });
       }
     }
   }
 
-  return {
-    status: 'not_found',
-    message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
+  if (matches.length === 0) {
+    return {
+      status: 'not_found',
+      message: 'NIK ' + cleanNIK + ' (12 digit) belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK 12 digit sudah benar atau hubungi panitia desa.'
+    };
+  }
+
+  // Jika tepat 1 orang cocok
+  if (matches.length === 1) {
+    const singleResult = {
+      status: 'success',
+      data: matches[0],
+      total: 1
+    };
+    try {
+      CacheService.getScriptCache().put('DPT_NIK_12_' + cleanNIK, JSON.stringify(singleResult), 21600);
+    } catch (e) {}
+    return singleResult;
+  }
+
+  // Jika ada beberapa orang dengan 12 digit NIK yang sama
+  const multiResult = {
+    status: 'multiple',
+    data: matches,
+    total: matches.length,
+    message: 'Ditemukan ' + matches.length + ' data warga dengan NIK 12 digit yang serupa. Silakan pilih nama Anda untuk melihat lokasi TPS.'
   };
+  try {
+    CacheService.getScriptCache().put('DPT_NIK_12_' + cleanNIK, JSON.stringify(multiResult), 21600);
+  } catch (e) {}
+  return multiResult;
 }
 
 /**
- * Helper Fungsi Pencocokan NIK (Mendukung 12 Digit, 16 Digit & Wildcard 4 Bintang ****)
+ * Helper Fungsi Pencocokan NIK (Mendukung Input 12 Digit dengan format sensor sheet)
  */
 function isNikMatch(rowVal, cleanQuery) {
   if (!rowVal || !cleanQuery) return false;
@@ -219,43 +240,42 @@ function isNikMatch(rowVal, cleanQuery) {
   const rawStr = rowVal.toString().trim();
   const rowDigits = rawStr.replace(/[^0-9]/g, '');
   
-  // 1. Kesamaan angka murni langsung
+  // 1. Kesamaan angka murni langsung 12 digit
   if (rowDigits === cleanQuery) return true;
   
-  // 2. Jika input user 12 digit angka
-  if (cleanQuery.length === 12) {
-    if (rowDigits === cleanQuery) return true;
-    if (rowDigits.startsWith(cleanQuery)) return true;
-    // Cek jika di sheet 16 digit angka penuh, cocokkan 12 digit (6 depan + 6 belakang)
-    if (rowDigits.length === 16 && (rowDigits.substring(0, 6) + rowDigits.substring(10)) === cleanQuery) return true;
-  }
-  
-  // 3. Jika input user 16 digit dan data sheet memiliki bintang (wildcard 4 digit ****)
-  if (cleanQuery.length === 16) {
-    if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
-      try {
-        const pattern = '^' + rawStr.replace(/[^0-9*xX]/g, '').replace(/[*xX]/g, '\\d') + '$';
-        const regex = new RegExp(pattern);
-        if (regex.test(cleanQuery)) return true;
-      } catch (e) {}
+  // 2. Jika di sheet berisi 16 digit angka penuh, cocokkan 12 digit (6 depan + 6 belakang)
+  if (rowDigits.length === 16) {
+    // Pola A: 6 digit depan + 6 digit belakang = 12 digit
+    const front6back6 = rowDigits.substring(0, 6) + rowDigits.substring(10);
+    if (front6back6 === cleanQuery) return true;
+
+    // Pola B: 12 digit pertama
+    if (rowDigits.substring(0, 12) === cleanQuery) return true;
+
+    // Pola C: 6 depan + 2 belakang
+    if (cleanQuery.length === 12 && rowDigits.startsWith(cleanQuery.substring(0, 6)) && rowDigits.endsWith(cleanQuery.substring(10))) {
+      return true;
     }
-    // Jika di sheet hanya ada 12 digit angka, cek kecocokan 12 digit
-    if (rowDigits.length === 12 && cleanQuery.startsWith(rowDigits)) return true;
-    if (rowDigits.length === 12 && (cleanQuery.substring(0, 6) + cleanQuery.substring(10)) === rowDigits) return true;
   }
-  
-  // 4. Wildcard matching karakter per karakter jika rawStr mengandung bintang
-  if (rawStr.includes('*')) {
-    const cleanPattern = rawStr.replace(/[^0-9*]/g, '');
-    if (cleanPattern.length === cleanQuery.length) {
-      let match = true;
-      for (let i = 0; i < cleanPattern.length; i++) {
-        if (cleanPattern[i] !== '*' && cleanPattern[i] !== cleanQuery[i]) {
-          match = false;
-          break;
-        }
+
+  // 3. Jika di sheet ada 12 digit angka murni
+  if (rowDigits.length === 12) {
+    if (rowDigits === cleanQuery) return true;
+  }
+
+  // 4. Jika di sheet berisi bintang/sensor (misal: 321606****0001)
+  if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
+    const cleanPattern = rawStr.replace(/[^0-9]/g, '');
+    if (cleanPattern === cleanQuery) return true;
+
+    // Cek kecocokan prefix & suffix angka tanpa bintang
+    const parts = rawStr.split(/[*xX]+/);
+    if (parts.length >= 2) {
+      const prefix = parts[0].replace(/[^0-9]/g, '');
+      const suffix = parts[parts.length - 1].replace(/[^0-9]/g, '');
+      if (prefix && suffix && cleanQuery.startsWith(prefix) && cleanQuery.endsWith(suffix)) {
+        return true;
       }
-      if (match) return true;
     }
   }
 
@@ -305,7 +325,7 @@ function setupSpreadsheet() {
  */
 function clearSearchCache() {
   try {
-    CacheService.getScriptCache().removeAll(['DPT_NIK_']);
+    CacheService.getScriptCache().removeAll(['DPT_NIK_12_']);
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache pencarian berhasil dibersihkan.', 'Cache Refresh', 4);
   } catch (e) {
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache telah direfresh.', 'Info', 3);
@@ -319,14 +339,14 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🗳️ Pilkades Karang Satria')
     .addItem('🛠️ Setup Otomatis 95 Sheet TPS (TPS 1 - 95)', 'setupSpreadsheet')
-    .addItem('🔍 Uji Cari NIK Warga (Lintas 95 TPS)', 'testCariNIK')
+    .addItem('🔍 Uji Cari NIK 12 Digit (Lintas 95 TPS)', 'testCariNIK')
     .addItem('🔄 Refresh / Bersihkan Cache Pencarian', 'clearSearchCache')
     .addToUi();
 }
 
 function testCariNIK() {
   const ui = SpreadsheetApp.getUi();
-  const prompt = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 atau 16 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
+  const prompt = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 Digit NIK yang ingin diuji:', ui.ButtonSet.OK_CANCEL);
   if (prompt.getSelectedButton() === ui.Button.OK) {
     const res = searchByNIK(prompt.getResponseText());
     if (res.status === 'success') {
@@ -336,6 +356,12 @@ function testCariNIK() {
         'Alamat: ' + res.data.alamat + '\n' +
         'TTL: ' + res.data.ttl + ' (' + res.data.gender + ')\n' +
         'Status: ' + res.data.status, 
+        ui.ButtonSet.OK
+      );
+    } else if (res.status === 'multiple') {
+      ui.alert('DITEMUKAN ' + res.total + ' DATA WARGA! 👥',
+        res.message + '\n\n' +
+        res.data.map((w, idx) => (idx + 1) + '. ' + w.nama + ' (' + w.tps + ' - ' + w.alamat + ')').join('\n'),
         ui.ButtonSet.OK
       );
     } else {

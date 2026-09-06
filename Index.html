@@ -910,10 +910,23 @@
       padding: 14px 10px 0;
       font-size: 11.5px;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .gov-footer strong {
       color: #ea580c;
+    }
+    .footer-author-link {
+      color: #ea580c;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .footer-author-link:hover {
+      color: #c2410c;
+      text-decoration: underline;
     }
 
     /* Loading Spinner */
@@ -1355,8 +1368,8 @@
 
     <!-- Official Footer -->
     <footer class="gov-footer">
-      <p>&copy; 2026 - 2034 <strong>Pemilihan Kepala Desa Karang Satria</strong></p>
-      <p>Kecamatan Tambun Utara, Kabupaten Bekasi • Google Apps Script & Sheets</p>
+      <p>&copy; 2026 - 2034 <strong>Pemilihan Kepala Desa Karang Satria</strong> • Kec. Tambun Utara</p>
+      <p>Design by <a href="https://maoneart.my.id" target="_blank" rel="noopener noreferrer" class="footer-author-link">MaoneArt</a></p>
     </footer>
 
   </main>
@@ -1495,8 +1508,8 @@
           .catch(err => {
             setSubmitLoading(false);
             showAlertModal(
-              'Database Siap Pakai', 
-              'Aplikasi ini dirancang untuk dijalankan langsung di Google Apps Script yang terhubung dengan Google Sheets (95 Sheet TPS).', 
+              'Portal Pemilih Aktif', 
+              'Silakan hubungkan dengan link Web App resmi untuk mengakses data DPT seluruh TPS.', 
               'gold'
             );
           });
@@ -1517,7 +1530,7 @@
 
     function onGovSearchError(err) {
       setSubmitLoading(false);
-      showAlertModal('Koneksi Terputus', 'Gagal menghubungi server database Google Sheets: ' + err, 'danger');
+      showAlertModal('Koneksi Terputus', 'Gagal menghubungi server database pemilih: ' + err, 'danger');
     }
 
     function renderMultipleVoters(voterList, total) {

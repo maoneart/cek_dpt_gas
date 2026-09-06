@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cek TPS Pemilihan Kepala Desa Karang Satria 2026 - 2034</title>
+  
+  <!-- Favicon & Meta -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png">
+  <meta name="theme-color" content="#ea580c">
+  <meta name="description" content="Portal Resmi Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria, Kecamatan Tambun Utara, Kabupaten Bekasi Periode 2026 - 2034.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      /* Tema Serba Orange */
+      --theme-orange-dark: #9a3412;
+      --theme-orange: #ea580c;
+      --theme-orange-light: #f97316;
+      --theme-orange-soft: #ffedd5;
+      --theme-orange-bg: #fff7ed;
+      --theme-orange-border: #fed7aa;
+      
+      /* Satu-satunya font berwarna hijau khusus judul "DESA KARANG SATRIA" */
+      --desa-green-title: #047857;
+      
+      --accent-gold: #d97706;
+      --accent-gold-light: #fef3c7;
+      
+      --bg-light: #fffaf5;
+      --card-bg: #ffffff;
+      --card-border: #fed7aa;
+      
+      --text-dark: #1c1917;
+      --text-muted: #78716c;
+      --text-sub: #44403c;
+      
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      
+      --shadow-soft: 0 10px 30px -5px rgba(234, 88, 12, 0.08), 0 4px 12px -2px rgba(234, 88, 12, 0.06);
+      --shadow-card: 0 14px 35px -8px rgba(234, 88, 12, 0.15);
+      
+      --font-title: 'Playfair Display', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-body);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #fafaf9;
+      background-image: 
+        radial-gradient(circle at 50% 0%, #ffedd5 0%, transparent 55%),
+        radial-gradient(circle at 10% 40%, rgba(254, 215, 170, 0.5) 0%, transparent 45%),
+        linear-gradient(180deg, #fff7ed 0%, #fafaf9 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      color: var(--text-dark);
+      padding: 0 0 40px;
+      overflow-x: hidden;
+    }
+
+    /* Top Government Ribbon */
+    .desa-top-ribbon {
+      width: 100%;
+      background: linear-gradient(90deg, #9a3412 0%, #ea580c 50%, #9a3412 100%);
+      border-bottom: 2px solid #f97316;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .desa-ribbon-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gov-flag {
+      display: inline-flex;
+      flex-direction: column;
+      width: 16px;
+      height: 11px;
+      border: 0.5px solid rgba(255,255,255,0.6);
+      border-radius: 1.5px;
+      overflow: hidden;
+    }
+    .flag-red { background: #dc2626; height: 50%; width: 100%; }
+    .flag-white { background: #ffffff; height: 50%; width: 100%; }
+    
+    .desa-status-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      color: #ffffff;
+    }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #fbbf24;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #fbbf24;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* Running News Ticker */
+    .news-ticker {
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 0;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+    .ticker-content {
+      display: inline-block;
+      animation: marquee 30s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    /* Main Viewport Container (Mobile Web App Sized) */
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    /* Hero Branding Header */
+    .desa-hero-card {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-xl);
+      padding: 22px 18px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+    .desa-hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);
+    }
+    .emblem-wrapper {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 12px;
+      background: #fff7ed;
+      border: 2.5px solid #ea580c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.2);
+      overflow: hidden;
+      padding: 5px;
+    }
+    .desa-logo-hero {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .emblem-wrapper i {
+      font-size: 32px;
+      color: #ea580c;
+    }
+    .desa-title-top {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #ea580c;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .desa-title-main {
+      font-family: var(--font-title);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+      color: var(--desa-green-title);
+      margin-bottom: 4px;
+    }
+    .desa-title-desc {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+    .desa-tag-period {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 30px;
+      padding: 5px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #c2410c;
+      margin-top: 10px;
+    }
+
+    /* Main Search Box Panel */
+    .desa-main-panel {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-xl);
+      padding: 20px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .section-headline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #fdba74;
+    }
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ea580c;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ea580c;
+      letter-spacing: 0.3px;
+    }
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Input NIK Box Super Clean & Clear */
+    .nik-input-card {
+      background: #fff7ed;
+      border: 2px solid #fed7aa;
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+    .nik-input-card:focus-within {
+      background: #ffffff;
+      border-color: #ea580c;
+      box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.15);
+    }
+    .nik-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .nik-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #c2410c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nik-counter-badge {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #fed7aa;
+      color: #9a3412;
+    }
+    .nik-counter-badge.complete {
+      background: #ea580c;
+      color: #ffffff;
+      border: 1px solid #c2410c;
+    }
+
+    .nik-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .nik-input-field {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--text-dark);
+      padding: 8px 48px 8px 0;
+    }
+    .nik-input-field::placeholder {
+      font-family: var(--font-body);
+      font-size: 14px;
+      letter-spacing: 0;
+      color: #a8a29e;
+      font-weight: 500;
+    }
+    .btn-paste-nik {
+      position: absolute;
+      right: 0;
+      background: #ffedd5;
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-paste-nik:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+    }
+
+    /* 16-Digit Visual Segment Pills */
+    .digit-meter {
+      display: flex;
+      gap: 3.5px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .digit-meter-pill {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: #fed7aa;
+      transition: all 0.2s ease;
+    }
+    .digit-meter-pill.active {
+      background: #fb923c;
+    }
+    .digit-meter-pill.complete {
+      background: #ea580c;
+    }
+
+    /* Primary Submit Button (Vibrant Orange) */
+    .btn-desa-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 15px 20px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px -4px rgba(234, 88, 12, 0.4);
+      transition: all 0.25s ease;
+    }
+    .btn-desa-submit:hover {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -4px rgba(234, 88, 12, 0.5);
+    }
+    .btn-desa-submit:active {
+      transform: translateY(0);
+    }
+    .btn-desa-submit:disabled {
+      background: #d6d3d1;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* =======================================================
+       MULTI-PAGE VIEW NAVIGATION (TEMA CERAH ELEGANT)
+       ======================================================= */
+    .page-view {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-hidden {
+      display: none !important;
+    }
+
+    /* Result Page Header Nav */
+    .result-top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      box-shadow: var(--shadow-soft);
+    }
+    .btn-back-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff7ed;
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-back-nav:hover {
+      background: #ea580c;
+      color: #ffffff;
+      border-color: #ea580c;
+    }
+    .result-nav-title {
+      font-weight: 800;
+      font-size: 14px;
+      color: #ea580c;
+      font-family: var(--font-title);
+    }
+    .result-nav-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff7ed;
+      color: #ea580c;
+      border: 1px solid #fed7aa;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .official-voter-card {
+      background: #ffffff;
+      border: 2px solid #ea580c;
+      border-radius: var(--radius-xl);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Card Kop Header (Dual Emblem: Desa & KPU) */
+    .card-header-gov {
+      background: #fff7ed;
+      border-bottom: 2px solid #ea580c;
+      padding: 14px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .gov-seal-gold, .gov-seal-kpu {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #ea580c;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.15);
+      overflow: hidden;
+      padding: 3px;
+    }
+    .desa-logo-card, .kpu-logo-card {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .gov-seal-gold i, .gov-seal-kpu i {
+      font-size: 20px;
+      color: #ea580c;
+    }
+    .card-header-titles {
+      flex: 1;
+      text-align: center;
+    }
+    .card-kop-top {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #ea580c;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .card-kop-main {
+      font-family: var(--font-title);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--desa-green-title);
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+      margin: 2px 0;
+    }
+    .card-kop-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    /* Card Content Body */
+    .card-body-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* TPS Highlight Banner (Sorotan Utama) */
+    .tps-hero-badge {
+      background: linear-gradient(135deg, #9a3412 0%, #ea580c 100%);
+      border: 2px solid #f97316;
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      text-align: center;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(234, 88, 12, 0.25);
+    }
+    .tps-badge-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #fed7aa;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .tps-badge-num {
+      font-family: var(--font-title);
+      font-size: 34px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    .tps-badge-location {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .tps-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 8px;
+    }
+
+    /* Grid Data Warga */
+    .citizen-data-grid {
+      background: #fafaf9;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .citizen-row {
+      display: flex;
+      padding: 10px 12px;
+      border-bottom: 1px solid #fed7aa;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .citizen-row:last-child {
+      border-bottom: none;
+    }
+    .row-icon {
+      color: #ea580c;
+      font-size: 14px;
+      width: 18px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .row-content {
+      flex: 1;
+    }
+    .row-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .row-val {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .row-val-nik {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: #c2410c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .btn-toggle-mask {
+      background: #ffedd5;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* QR Code & Verification Stamp Section */
+    .card-footer-auth {
+      background: #fff7ed;
+      border: 1px dashed #ea580c;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .qr-box {
+      width: 72px;
+      height: 72px;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1.5px solid #ea580c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .auth-text-box {
+      flex: 1;
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.35;
+    }
+    .auth-badge-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #c2410c;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    /* Action Buttons (100% Symmetrical 2-Column Grid Sesuai GEMINI.md) */
+    .card-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btn-action-sym {
+      width: 100%;
+      height: 46px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-print-doc {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1.5px solid #fed7aa;
+    }
+    .btn-print-doc:hover {
+      background: #ffedd5;
+    }
+    .btn-wa-share {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+    }
+    .btn-wa-share:hover {
+      background: #15803d;
+    }
+    .btn-reset-search {
+      grid-column: span 2;
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      color: #c2410c;
+      height: 44px;
+    }
+    .btn-reset-search:hover {
+      background: #fff7ed;
+      border-color: #ea580c;
+      color: #9a3412;
+    }
+
+    /* Official Footer */
+    .gov-footer {
+      text-align: center;
+      padding: 14px 10px 0;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .gov-footer strong {
+      color: #ea580c;
+    }
+
+    /* Loading Spinner */
+    .spinner-gov {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =======================================================
+       MAONEART GLASSMORPHISM MODAL SYSTEM (Wajib GEMINI.md)
+       ======================================================= */
+    .maone-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 25, 23, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+      animation: modalFadeIn 0.2s ease;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .maone-modal-dialog {
+      background: #ffffff;
+      border: 2px solid #ea580c;
+      border-radius: var(--radius-xl);
+      padding: 24px 20px 20px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 40px -10px rgba(234, 88, 12, 0.25);
+      animation: modalZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalZoom {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-icon-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .modal-icon-gold {
+      background: #fff7ed;
+      color: #ea580c;
+      border: 2px solid #fed7aa;
+    }
+    .modal-icon-danger {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 2px solid #fecaca;
+    }
+    .modal-icon-success {
+      background: #f0fdf4;
+      color: #10b981;
+      border: 2px solid #bbf7d0;
+    }
+    .modal-headline {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 800;
+      color: #1c1917;
+      margin-bottom: 8px;
+    }
+    .modal-message {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* Modal Symmetrical 2-Column Buttons (grid grid-cols-2 gap-3 w-full) */
+    .maone-modal-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .modal-btn-full {
+      width: 100%;
+      height: 44px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    .modal-btn-cancel {
+      background: #f5f5f4;
+      color: var(--text-dark);
+      border: 1.5px solid #d6d3d1;
+    }
+    .modal-btn-cancel:hover {
+      background: #e7e5e4;
+    }
+    .modal-btn-confirm {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+    }
+    .modal-btn-confirm:hover {
+      background: #ea580c;
+    }
+
+    /* Print Template Optimizations */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .desa-top-ribbon, .news-ticker, #viewSearch, .result-top-nav, .card-actions-grid, .gov-footer {
+        display: none !important;
+      }
+      #viewResult {
+        display: block !important;
+      }
+      .app-viewport {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .official-voter-card {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .card-header-gov {
+        background: #f8fafc !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+      .card-kop-top, .card-kop-sub, .row-label, .row-val, .tps-badge-tag, .tps-badge-num {
+        color: #000000 !important;
+      }
+      .tps-hero-badge {
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+      }
+      .tps-hero-badge * {
+        color: #000000 !important;
+      }
+      .citizen-data-grid {
+        border: 1px solid #000000 !important;
+        background: #ffffff !important;
+      }
+      .citizen-row {
+        border-bottom: 1px solid #cccccc !important;
+      }
+      .qr-box {
+        border: 1px solid #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Government Ribbon -->
+  <header class="desa-top-ribbon">
+    <div class="desa-ribbon-left">
+      <div class="gov-flag" title="Republik Indonesia">
+        <div class="flag-red"></div>
+        <div class="flag-white"></div>
+      </div>
+      <span>PILKADES DESA KARANG SATRIA</span>
+    </div>
+    <div class="desa-status-live">
+      <div class="live-dot"></div>
+      <span>DPS / DPT AKTIF</span>
+    </div>
+  </header>
+
+  <!-- Running News Ticker -->
+  <div class="news-ticker">
+    <div class="ticker-content">
+      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 12 atau 16 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
+    </div>
+  </div>
+
+  <!-- Mobile Viewport Container -->
+  <main class="app-viewport">
+    
+    <!-- ================= HALAMAN 1: PENCARIAN LOKASI TPS ================= -->
+    <div id="viewSearch" class="page-view">
+      
+      <!-- Hero Header Branding -->
+      <section class="desa-hero-card">
+        <div class="emblem-wrapper">
+          <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png" alt="Logo Pemdes Karang Satria" class="desa-logo-hero" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <i class="fa-solid fa-landmark" style="display: none;"></i>
+        </div>
+        <div class="desa-title-top">PEMILIHAN KEPALA DESA</div>
+        <h1 class="desa-title-main">DESA KARANG SATRIA</h1>
+        <p class="desa-title-desc">Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat</p>
+        <div class="desa-tag-period">
+          <i class="fa-solid fa-calendar-check"></i> Masa Jabatan 2026 - 2034
+        </div>
+      </section>
+
+      <!-- Main Search Panel -->
+      <section class="desa-main-panel">
+        <div class="section-headline">
+          <div class="section-icon">
+            <i class="fa-solid fa-magnifying-glass-location"></i>
+          </div>
+          <div>
+            <div class="section-title">Cek Lokasi TPS</div>
+            <div class="section-subtitle">Masukkan 12 atau 16 digit NIK KTP-el Anda</div>
+          </div>
+        </div>
+
+        <!-- Input NIK Form -->
+        <form id="nikSearchForm" onsubmit="handleGovSearch(event)">
+          <div class="nik-input-card">
+            <div class="nik-label-row">
+              <label class="nik-label" for="nikField">
+                <i class="fa-solid fa-id-card"></i> Nomor Induk Kependudukan (NIK)
+              </label>
+              <span id="nikMeterCounter" class="nik-counter-badge">0 / 16</span>
+            </div>
+
+            <div class="nik-input-wrapper">
+              <input 
+                type="tel" 
+                id="nikField" 
+                class="nik-input-field" 
+                placeholder="Ketik 12 - 16 Digit NIK..." 
+                maxlength="16" 
+                inputmode="numeric"
+                autocomplete="off"
+                oninput="handleNikKeypress(this)"
+                required
+              >
+              <button type="button" class="btn-paste-nik" onclick="pasteFromClipboard()">
+                <i class="fa-solid fa-paste"></i> Tempel
+              </button>
+            </div>
+
+            <!-- 16 Digit Visual Progress Meter -->
+            <div class="digit-meter" id="digitMeter"></div>
+          </div>
+
+          <button type="submit" id="btnGovSubmit" class="btn-desa-submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span id="btnSubmitText">CEK LOKASI TPS SAYA</span>
+          </button>
+        </form>
+      </section>
+
+    </div>
+
+    <!-- ================= HALAMAN 2: HASIL KARTU PEMILIH DIGITAL ================= -->
+    <div id="viewResult" class="page-view page-hidden">
+      
+      <!-- Top Navigation Halaman Hasil -->
+      <div class="result-top-nav">
+        <button type="button" class="btn-back-nav" onclick="navigateToSearch()">
+          <i class="fa-solid fa-arrow-left"></i> Kembali
+        </button>
+        <div class="result-nav-title">Kartu Pemilih Digital</div>
+        <div class="result-nav-badge">
+          <i class="fa-solid fa-circle-check"></i> DPT RESMI
+        </div>
+      </div>
+
+      <!-- Kartu Pemilih Digital Resmi -->
+      <article class="official-voter-card" id="printableCard">
+        
+        <!-- Card Kop Header (Dual Emblem: Desa & KPU) -->
+        <div class="card-header-gov">
+          <div class="gov-seal-gold" title="Logo Pemkab Bekasi / Pemdes Karang Satria">
+            <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/logo.png" alt="Logo Pemkab Bekasi" class="desa-logo-card" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fa-solid fa-landmark" style="display: none;"></i>
+          </div>
+          <div class="card-header-titles">
+            <div class="card-kop-top">PEMERINTAH KABUPATEN BEKASI</div>
+            <div class="card-kop-main">PILKADES DESA KARANG SATRIA</div>
+            <div class="card-kop-sub">Kecamatan Tambun Utara • Masa Jabatan 2026 - 2034</div>
+          </div>
+          <div class="gov-seal-kpu" title="Komisi Pemilihan Umum / Panitia Pemilihan">
+            <img src="https://raw.githubusercontent.com/maoneart/cek_dpt_gas/main/kpu.png" alt="Logo KPU" class="kpu-logo-card" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fa-solid fa-check-to-slot" style="display: none;"></i>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body-content">
+          
+          <!-- TPS Centerpiece (Sorotan Utama) -->
+          <div class="tps-hero-badge">
+            <div class="tps-badge-tag">LOKASI TPS PEMUNGUTAN SUARA</div>
+            <div id="cardTPSNum" class="tps-badge-num">TPS 014</div>
+            <div>
+              <span id="cardStatusBadge" class="tps-status-pill">
+                <i class="fa-solid fa-circle-check"></i> TERDAFTAR RESMI: DPT AKTIF
+              </span>
+            </div>
+          </div>
+
+          <!-- Citizen Data Table -->
+          <div class="citizen-data-grid">
+            
+            <!-- NIK Row -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-id-card"></i></div>
+              <div class="row-content">
+                <div class="row-label">Nomor Induk Kependudukan (NIK)</div>
+                <div class="row-val-nik">
+                  <span id="cardNIK">321606********01</span>
+                  <button type="button" class="btn-toggle-mask" onclick="toggleNikMask()" id="btnMaskToggle">
+                    <i class="fa-solid fa-eye"></i> Buka
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nama Lengkap Row -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="row-content">
+                <div class="row-label">Nama Lengkap Pemilih</div>
+                <div id="cardNama" class="row-val">BUDI SANTOSO, S.KOM</div>
+              </div>
+            </div>
+
+            <!-- Jenis Kelamin & TTL Row -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="row-content">
+                <div class="row-label">Tempat, Tanggal Lahir & Gender</div>
+                <div id="cardTTL" class="row-val">Bekasi, 14 Agustus 1988 (Laki-laki)</div>
+              </div>
+            </div>
+
+            <!-- Alamat Domisili Row -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-house-chimney"></i></div>
+              <div class="row-content">
+                <div class="row-label">Alamat Terdaftar (KTP)</div>
+                <div id="cardAlamat" class="row-val">Perumahan Alamanda Regency Blok G3 No. 12, RT 004 / RW 018, Desa Karang Satria</div>
+              </div>
+            </div>
+
+            <!-- Waktu Pencoblosan Row -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-clock"></i></div>
+              <div class="row-content">
+                <div class="row-label">Waktu Pemungutan Suara</div>
+                <div class="row-val" style="color: var(--desa-green-dark);">Minggu, 20 September 2026, Pukul 08.00 s/d Selesai</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- QR Code Security Block -->
+          <div class="card-footer-auth">
+            <div id="qrcodeDisplay" class="qr-box"></div>
+            <div class="auth-text-box">
+              <div class="auth-badge-stamp">
+                <i class="fa-solid fa-certificate"></i> DOKUMEN DIGITAL SAH
+              </div>
+              <div>Scan QR Code ini saat tiba di TPS Desa Karang Satria untuk verifikasi presensi cepat.</div>
+            </div>
+          </div>
+
+          <!-- Symmetrical 2-Column Action Buttons (Rule GEMINI.md) -->
+          <div class="card-actions-grid">
+            <button type="button" class="btn-action-sym btn-print-doc" onclick="handlePrintDocument()">
+              <i class="fa-solid fa-print"></i> Cetak / Simpan PDF
+            </button>
+            <button type="button" class="btn-action-sym btn-wa-share" onclick="shareToWhatsApp()">
+              <i class="fa-brands fa-whatsapp"></i> Kirim WhatsApp
+            </button>
+            <button type="button" class="btn-action-sym btn-reset-search" onclick="navigateToSearch()">
+              <i class="fa-solid fa-magnifying-glass"></i> Cek NIK Warga Lainnya
+            </button>
+          </div>
+
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Official Footer -->
+    <footer class="gov-footer">
+      <p>&copy; 2026 - 2034 <strong>Pemilihan Kepala Desa Karang Satria</strong></p>
+      <p>Kecamatan Tambun Utara, Kabupaten Bekasi • Google Apps Script & Sheets</p>
+    </footer>
+
+  </main>
+
+  <!-- =======================================================
+       MAONEART GLASSMORPHISM MODAL (Wajib GEMINI.md)
+       ======================================================= -->
+  <div id="maoneModalBackdrop" class="maone-modal-backdrop">
+    <div class="maone-modal-dialog">
+      <div id="maoneModalIconCircle" class="modal-icon-circle modal-icon-gold">
+        <i id="maoneModalIcon" class="fa-solid fa-circle-exclamation"></i>
+      </div>
+      <h3 id="maoneModalTitle" class="modal-headline">Pemberitahuan</h3>
+      <p id="maoneModalMessage" class="modal-message">Pesan notifikasi...</p>
+
+      <!-- 100% Symmetrical 2-Column Buttons Grid (Rule GEMINI.md) -->
+      <div class="maone-modal-btn-grid" id="maoneModalActionGrid">
+        <button type="button" id="maoneModalBtnCancel" class="modal-btn-full modal-btn-cancel" onclick="closeMaoneModal(false)">
+          Tutup
+        </button>
+        <button type="button" id="maoneModalBtnConfirm" class="modal-btn-full modal-btn-confirm" onclick="closeMaoneModal(true)">
+          Mengerti
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       JAVASCRIPT LOGIC & SYNC
+       ======================================================= -->
+  <script>
+    let activeVoterData = null;
+    let isNikMasked = true;
+    let modalCallback = null;
+    let qrCodeInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initDigitMeter();
+    });
+
+    function initDigitMeter() {
+      const meter = document.getElementById('digitMeter');
+      meter.innerHTML = '';
+      for (let i = 0; i < 16; i++) {
+        const pill = document.createElement('div');
+        pill.className = 'digit-meter-pill';
+        pill.id = 'pill_' + i;
+        meter.appendChild(pill);
+      }
+    }
+
+    function handleNikKeypress(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      const len = input.value.length;
+      
+      const counterBadge = document.getElementById('nikMeterCounter');
+      if (len >= 12) {
+        counterBadge.innerText = len + ' / 16 (Siap Cek)';
+        counterBadge.classList.add('complete');
+      } else {
+        counterBadge.innerText = len + ' / 16';
+        counterBadge.classList.remove('complete');
+      }
+
+      for (let i = 0; i < 16; i++) {
+        const pill = document.getElementById('pill_' + i);
+        if (pill) {
+          if (i < len) {
+            pill.className = (len >= 12) ? 'digit-meter-pill complete' : 'digit-meter-pill active';
+          } else {
+            pill.className = 'digit-meter-pill';
+          }
+        }
+      }
+    }
+
+    async function pasteFromClipboard() {
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          const clean = text.replace(/[^0-9]/g, '').substring(0, 16);
+          if (clean) {
+            const input = document.getElementById('nikField');
+            input.value = clean;
+            handleNikKeypress(input);
+            if (clean.length >= 12) {
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK (' + clean.length + ' digit) telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
+            }
+          }
+        } else {
+          showAlertModal('Tempel Manual', 'Silakan tempel NIK secara langsung ke kolom input.');
+        }
+      } catch (err) {
+        showAlertModal('Izin Clipboard', 'Silakan ketik NIK 12 atau 16 digit secara langsung.');
+      }
+    }
+
+    // =======================================================
+    // PENCARIAN NIK -> LANGSUNG MUNCUL TPS (12 / 16 DIGIT)
+    // =======================================================
+    function handleGovSearch(e) {
+      if (e) e.preventDefault();
+      
+      const nik = document.getElementById('nikField').value.trim();
+      if (nik.length < 12 || nik.length > 16) {
+        showAlertModal(
+          'Format NIK Kurang',
+          'Nomor Induk Kependudukan (NIK) minimal 12 digit angka.',
+          'danger'
+        );
+        return;
+      }
+
+      setSubmitLoading(true);
+
+      // 1. Eksekusi via Google Apps Script Web App Client
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onGovSearchSuccess)
+          .withFailureHandler(onGovSearchError)
+          .searchByNIK(nik);
+      } else {
+        // 2. Eksekusi via REST API GET endpoint (?nik=...) jika diakses langsung
+        const apiUrl = window.location.href.split('?')[0] + '?nik=' + encodeURIComponent(nik);
+        fetch(apiUrl)
+          .then(response => {
+            if (!response.ok) throw new Error('Status server: ' + response.status);
+            return response.json();
+          })
+          .then(data => {
+            onGovSearchSuccess(data);
+          })
+          .catch(err => {
+            setSubmitLoading(false);
+            showAlertModal(
+              'Database Siap Pakai', 
+              'Aplikasi ini dirancang untuk dijalankan langsung di Google Apps Script yang terhubung dengan Google Sheets (95 Sheet TPS).', 
+              'gold'
+            );
+          });
+      }
+    }
+
+    function onGovSearchSuccess(res) {
+      setSubmitLoading(false);
+      if (res.status === 'success') {
+        renderVoterCard(res.data);
+      } else {
+        showAlertModal('Data Tidak Ditemukan', res.message || 'NIK Anda tidak ditemukan dalam database pemilih.', 'danger');
+      }
+    }
+
+    function onGovSearchError(err) {
+      setSubmitLoading(false);
+      showAlertModal('Koneksi Terputus', 'Gagal menghubungi server database Google Sheets: ' + err, 'danger');
+    }
+
+    function renderVoterCard(data) {
+      activeVoterData = data;
+      isNikMasked = true;
+
+      document.getElementById('cardTPSNum').innerText = data.tps || 'TPS Belum Ditentukan';
+      document.getElementById('cardNama').innerText = (data.nama || '-').toUpperCase();
+      document.getElementById('cardTTL').innerText = (data.ttl || '-') + (data.gender ? ' (' + data.gender + ')' : '');
+      document.getElementById('cardAlamat').innerText = data.alamat || 'Desa Karang Satria, Kec. Tambun Utara, Kab. Bekasi';
+      
+      const statusBadge = document.getElementById('cardStatusBadge');
+      statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + (data.status || 'TERDAFTAR RESMI: DPT AKTIF');
+
+      updateNikDisplay();
+
+      // Dynamic QR Code
+      const qrContainer = document.getElementById('qrcodeDisplay');
+      qrContainer.innerHTML = '';
+      const qrPayload = 'PILKADES_KARANG_SATRIA_2026|NIK:' + data.nik + '|NAMA:' + data.nama + '|TPS:' + data.tps + '|STATUS:' + (data.status || 'DPT_VALID');
+      
+      qrCodeInstance = new QRCode(qrContainer, {
+        text: qrPayload,
+        width: 64,
+        height: 64,
+        colorDark: '#ea580c',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      // Pindah Tampilan ke Halaman Baru Hasil Cek TPS
+      document.getElementById('viewSearch').classList.add('page-hidden');
+      document.getElementById('viewResult').classList.remove('page-hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleNikMask() {
+      if (!activeVoterData) return;
+      isNikMasked = !isNikMasked;
+      updateNikDisplay();
+    }
+
+    function updateNikDisplay() {
+      if (!activeVoterData) return;
+      const cardNikEl = document.getElementById('cardNIK');
+      const btnToggle = document.getElementById('btnMaskToggle');
+      const rawNik = activeVoterData.nikRaw || activeVoterData.nik;
+      const maskedNik = activeVoterData.nikMasked || rawNik;
+
+      if (isNikMasked) {
+        cardNikEl.innerText = maskedNik;
+        btnToggle.innerHTML = '<i class="fa-solid fa-eye"></i> Buka';
+      } else {
+        cardNikEl.innerText = rawNik;
+        btnToggle.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Tutup';
+      }
+    }
+
+    function navigateToSearch() {
+      document.getElementById('viewResult').classList.add('page-hidden');
+      document.getElementById('viewSearch').classList.remove('page-hidden');
+      const input = document.getElementById('nikField');
+      input.value = '';
+      handleNikKeypress(input);
+      activeVoterData = null;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        if (input) input.focus();
+      }, 150);
+    }
+
+    function resetGovSearch() {
+      navigateToSearch();
+    }
+
+    function setSubmitLoading(isLoading) {
+      const btn = document.getElementById('btnGovSubmit');
+      const text = document.getElementById('btnSubmitText');
+      btn.disabled = isLoading;
+      if (isLoading) {
+        text.innerHTML = '<span class="spinner-gov"></span> MEMERIKSA DATA...';
+      } else {
+        text.innerHTML = 'CEK LOKASI TPS SAYA';
+      }
+    }
+
+    function handlePrintDocument() {
+      if (!activeVoterData) return;
+      window.print();
+    }
+
+    function shareToWhatsApp() {
+      if (!activeVoterData) return;
+      const d = activeVoterData;
+      const masked = d.nikMasked || d.nik;
+      const msg = 
+        `🗳️ *LOKASI TPS PILKADES DESA KARANG SATRIA (2026 - 2034)*\n` +
+        `----------------------------------------\n` +
+        `👤 *Nama:* ${d.nama}\n` +
+        `🆔 *NIK:* ${masked}\n` +
+        `🗳️ *Lokasi TPS:* ${d.tps}\n` +
+        `📍 *Alamat Terdaftar:* ${d.alamat}\n` +
+        `📅 *Pilkades:* Desa Karang Satria Kec. Tambun Utara\n` +
+        `⏰ *Waktu:* Minggu, 20 September 2026, Pukul 08.00 s/d Selesai\n` +
+        `✅ *Status:* Terdaftar Resmi (${d.status || 'DPT Aktif'})\n` +
+        `----------------------------------------\n` +
+        `_Cek NIK Anda di Portal Pemilihan Kepala Desa Karang Satria._`;
+
+      const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank');
+    }
+
+    // =======================================================
+    // MAONEART GLASSMORPHISM MODAL
+    // =======================================================
+    function showAlertModal(title, message, type = 'gold') {
+      const backdrop = document.getElementById('maoneModalBackdrop');
+      const iconCircle = document.getElementById('maoneModalIconCircle');
+      const icon = document.getElementById('maoneModalIcon');
+      const titleEl = document.getElementById('maoneModalTitle');
+      const msgEl = document.getElementById('maoneModalMessage');
+      const btnGrid = document.getElementById('maoneModalActionGrid');
+      
+      titleEl.innerHTML = title;
+      msgEl.innerHTML = message;
+      
+      if (type === 'danger') {
+        iconCircle.className = 'modal-icon-circle modal-icon-danger';
+        icon.className = 'fa-solid fa-triangle-exclamation';
+      } else if (type === 'success') {
+        iconCircle.className = 'modal-icon-circle modal-icon-success';
+        icon.className = 'fa-solid fa-circle-check';
+      } else {
+        iconCircle.className = 'modal-icon-circle modal-icon-gold';
+        icon.className = 'fa-solid fa-circle-info';
+      }
+
+      btnGrid.innerHTML = `
+        <button type="button" class="modal-btn-full modal-btn-cancel" onclick="closeMaoneModal(false)">
+          Tutup
+        </button>
+        <button type="button" class="modal-btn-full modal-btn-confirm" onclick="closeMaoneModal(true)">
+          Mengerti
+        </button>
+      `;
+
+      modalCallback = null;
+      backdrop.style.display = 'flex';
+    }
+
+    function closeMaoneModal(isConfirmed) {
+      const backdrop = document.getElementById('maoneModalBackdrop');
+      backdrop.style.display = 'none';
+      if (typeof modalCallback === 'function') {
+        modalCallback(isConfirmed);
+        modalCallback = null;
+      }
+    }
+  </script>
+</body>
+</html>

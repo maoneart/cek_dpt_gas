@@ -1223,7 +1223,7 @@
               </div>
             </div>
 
-            <!-- Nama Lengkap Row -->
+            <!-- Nama Lengkap Row (Kolom E) -->
             <div class="citizen-row">
               <div class="row-icon"><i class="fa-solid fa-user-tie"></i></div>
               <div class="row-content">
@@ -1232,16 +1232,25 @@
               </div>
             </div>
 
-            <!-- Jenis Kelamin & TTL Row -->
+            <!-- Jenis Kelamin Row (Kolom F) -->
             <div class="citizen-row">
-              <div class="row-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="row-icon"><i class="fa-solid fa-venus-mars"></i></div>
               <div class="row-content">
-                <div class="row-label">Tempat, Tanggal Lahir & Gender</div>
-                <div id="cardTTL" class="row-val">Bekasi, 14 Agustus 1988 (Laki-laki)</div>
+                <div class="row-label">Jenis Kelamin</div>
+                <div id="cardGender" class="row-val">Laki-laki</div>
               </div>
             </div>
 
-            <!-- Alamat Domisili Row -->
+            <!-- Tempat, Tanggal Lahir Row (Kolom G & H) -->
+            <div class="citizen-row">
+              <div class="row-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="row-content">
+                <div class="row-label">Tempat, Tanggal Lahir</div>
+                <div id="cardTTL" class="row-val">Bekasi, 14 Agustus 1988</div>
+              </div>
+            </div>
+
+            <!-- Alamat Domisili Row (Kolom I, J, K) -->
             <div class="citizen-row">
               <div class="row-icon"><i class="fa-solid fa-house-chimney"></i></div>
               <div class="row-content">
@@ -1480,7 +1489,8 @@
 
       document.getElementById('cardTPSNum').innerText = data.tps || 'TPS Belum Ditentukan';
       document.getElementById('cardNama').innerText = (data.nama || '-').toUpperCase();
-      document.getElementById('cardTTL').innerText = (data.ttl || '-') + (data.gender ? ' (' + data.gender + ')' : '');
+      document.getElementById('cardGender').innerText = data.gender || '-';
+      document.getElementById('cardTTL').innerText = data.ttl || '-';
       document.getElementById('cardAlamat').innerText = data.alamat || 'Desa Karang Satria, Kec. Tambun Utara, Kab. Bekasi';
       
       const statusBadge = document.getElementById('cardStatusBadge');
@@ -1570,6 +1580,8 @@
         `----------------------------------------\n` +
         `👤 *Nama:* ${d.nama}\n` +
         `🆔 *NIK:* ${masked}\n` +
+        `⚧️ *Jenis Kelamin:* ${d.gender || '-'}\n` +
+        `🎂 *TTL:* ${d.ttl || '-'}\n` +
         `🗳️ *Lokasi TPS:* ${d.tps}\n` +
         `📍 *Alamat Terdaftar:* ${d.alamat}\n` +
         `📅 *Pilkades:* Desa Karang Satria Kec. Tambun Utara\n` +

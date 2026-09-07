@@ -8,18 +8,18 @@
 
 // Konfigurasi Header Standar per TPS (12 Kolom)
 const OFFICIAL_HEADERS = [
-  'NO',
-  'NO URUT',
-  'NO KK (NKK)',
-  'NIK (16 Digit)',
-  'NAMA LENGKAP',
-  'JENIS KELAMIN',
-  'TEMPAT LAHIR',
-  'TANGGAL LAHIR',
-  'ALAMAT',
-  'RT',
-  'RW',
-  'KETERANGAN'
+  'NO',              // 0: A
+  'NO URUT',         // 1: B
+  'NO KK (NKK)',     // 2: C
+  'NIK (16 Digit)',  // 3: D
+  'NAMA LENGKAP',    // 4: E
+  'JENIS KELAMIN',   // 5: F
+  'TEMPAT LAHIR',    // 6: G
+  'TANGGAL LAHIR',   // 7: H
+  'ALAMAT',          // 8: I
+  'RT',              // 9: J
+  'RW',              // 10: K
+  'KETERANGAN'       // 11: L
 ];
 
 /**
@@ -111,30 +111,33 @@ function searchByNikAndName(nikInput, namaInput) {
     const data = sheet.getDataRange().getDisplayValues();
     if (!data || data.length <= 1) continue;
 
-    // Deteksi index kolom secara dinamis
+    // Deteksi index kolom secara dinamis & akurat
     const headers = data[0].map(h => h.toString().toLowerCase().trim());
+    let idxNo = headers.findIndex(h => h === 'no' || h === 'nomor');
+    let idxNoUrut = headers.findIndex(h => h.includes('urut'));
+    let idxNKK = headers.findIndex(h => h.includes('nkk') || h.includes('kk') || h.includes('keluarga'));
     let idxNIK = headers.findIndex(h => h === 'nik' || h.includes('nik'));
-    let idxNKK = headers.findIndex(h => h === 'nkk' || h.includes('kk') || h.includes('keluarga'));
     let idxNama = headers.findIndex(h => h.includes('nama'));
     let idxGender = headers.findIndex(h => h.includes('kelamin') || h.includes('gender') || h === 'jk');
-    let idxTempatLahir = headers.findIndex(h => h.includes('tempat'));
-    let idxTglLahir = headers.findIndex(h => h.includes('tanggal') || h.includes('tgl') || (h.includes('lahir') && idxTempatLahir !== -1));
+    let idxTempatLahir = headers.findIndex(h => h.includes('tempat') || h.includes('tmpt') || h === 'tpt lahir');
+    let idxTglLahir = headers.findIndex(h => h.includes('tanggal') || h.includes('tgl') || (h.includes('lahir') && !h.includes('tempat') && !h.includes('tmpt')));
     let idxAlamat = headers.findIndex(h => h.includes('alamat') || h.includes('jalan') || h.includes('blok') || h.includes('dusun'));
     let idxRT = headers.findIndex(h => h === 'rt' || h.includes('rt'));
     let idxRW = headers.findIndex(h => h === 'rw' || h.includes('rw'));
-    let idxNoUrut = headers.findIndex(h => h.includes('urut') || h === 'no');
     let idxKet = headers.findIndex(h => h.includes('ket') || h.includes('catatan') || h.includes('status'));
 
-    // Default Fallback index posisi jika header kustom
-    if (idxNIK === -1) idxNIK = 3; // Kolom D
-    if (idxNama === -1) idxNama = 4; // Kolom E
-    if (idxGender === -1) idxGender = 5; // Kolom F
-    if (idxTempatLahir === -1) idxTempatLahir = 6; // Kolom G
-    if (idxTglLahir === -1) idxTglLahir = 7; // Kolom H
-    if (idxAlamat === -1) idxAlamat = 8; // Kolom I
-    if (idxRT === -1) idxRT = 9; // Kolom J
-    if (idxRW === -1) idxRW = 10; // Kolom K
-    if (idxKet === -1) idxKet = 11; // Kolom L
+    // Default Fallback index posisi jika header kustom (Standar Kolom A-L: 0-11)
+    if (idxNoUrut === -1) idxNoUrut = 1;      // Kolom B (No Urut)
+    if (idxNKK === -1) idxNKK = 2;            // Kolom C (NKK)
+    if (idxNIK === -1) idxNIK = 3;            // Kolom D (NIK)
+    if (idxNama === -1) idxNama = 4;          // Kolom E (Nama Lengkap)
+    if (idxGender === -1) idxGender = 5;      // Kolom F (Jenis Kelamin)
+    if (idxTempatLahir === -1) idxTempatLahir = 6; // Kolom G (Tempat Lahir)
+    if (idxTglLahir === -1) idxTglLahir = 7;  // Kolom H (Tanggal Lahir)
+    if (idxAlamat === -1) idxAlamat = 8;      // Kolom I (Alamat)
+    if (idxRT === -1) idxRT = 9;              // Kolom J (RT)
+    if (idxRW === -1) idxRW = 10;             // Kolom K (RW)
+    if (idxKet === -1) idxKet = 11;           // Kolom L (Keterangan)
 
     for (let r = 1; r < data.length; r++) {
       const row = data[r];
@@ -143,17 +146,30 @@ function searchByNikAndName(nikInput, namaInput) {
       if (isNikMatch(rowNIKVal, cleanNIK)) {
         const tpsName = sheetName.toUpperCase();
 
+        // 1. Format Jenis Kelamin (Kolom F)
         let genderStr = (idxGender !== -1 && row[idxGender]) ? row[idxGender].toString().trim() : '';
-        if (genderStr.toUpperCase() === 'L') genderStr = 'Laki-laki';
-        else if (genderStr.toUpperCase() === 'P') genderStr = 'Perempuan';
+        if (genderStr.toUpperCase() === 'L' || genderStr.toLowerCase().startsWith('l') || genderStr.toLowerCase().includes('laki')) {
+          genderStr = 'Laki-laki';
+        } else if (genderStr.toUpperCase() === 'P' || genderStr.toLowerCase().startsWith('p') || genderStr.toLowerCase().includes('perempuan') || genderStr.toLowerCase().includes('wanita')) {
+          genderStr = 'Perempuan';
+        }
 
+        // 2. Format Tempat & Tanggal Lahir (Kolom G & H)
         const tempat = (idxTempatLahir !== -1 && row[idxTempatLahir]) ? row[idxTempatLahir].toString().trim() : '';
         const tgl = (idxTglLahir !== -1 && row[idxTglLahir]) ? row[idxTglLahir].toString().trim() : '';
+        
         let ttlStr = '-';
-        if (tempat && tgl) ttlStr = tempat + ', ' + tgl;
-        else if (tempat) ttlStr = tempat;
-        else if (tgl) ttlStr = tgl;
+        if (tempat && tgl && tempat.toLowerCase() !== tgl.toLowerCase()) {
+          ttlStr = tempat + ', ' + tgl;
+        } else if (tempat && tgl && tempat.toLowerCase() === tgl.toLowerCase()) {
+          ttlStr = tempat;
+        } else if (tempat) {
+          ttlStr = tempat;
+        } else if (tgl) {
+          ttlStr = tgl;
+        }
 
+        // 3. Format Alamat Lengkap (Kolom I, J, K)
         const alamatRaw = (idxAlamat !== -1 && row[idxAlamat]) ? row[idxAlamat].toString().trim() : '';
         const rt = (idxRT !== -1 && row[idxRT]) ? row[idxRT].toString().trim() : '';
         const rw = (idxRW !== -1 && row[idxRW]) ? row[idxRW].toString().trim() : '';
@@ -171,6 +187,7 @@ function searchByNikAndName(nikInput, namaInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
+        // 4. Masking NIK
         let maskedNIK = rowNIKVal || cleanNIK;
         if (!maskedNIK.includes('*')) {
           if (maskedNIK.length >= 12) {
@@ -190,6 +207,8 @@ function searchByNikAndName(nikInput, namaInput) {
           nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
           nama: rawNama || 'WARGA DESA KARANG SATRIA',
           gender: genderStr || 'Laki-laki / Perempuan',
+          tempatLahir: tempat,
+          tanggalLahir: tgl,
           ttl: ttlStr,
           alamat: alamatFull || 'Desa Karang Satria, Kec. Tambun Utara',
           rt: rt,
@@ -432,7 +451,7 @@ function setupSpreadsheet() {
  */
 function clearSearchCache() {
   try {
-    CacheService.getScriptCache().removeAll(['DPT_FUZZY_']);
+    CacheService.getScriptCache().removeAll(['DPT_FUZZY_', 'DPT_NIK_12_']);
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache pencarian berhasil dibersihkan.', 'Cache Refresh', 4);
   } catch (e) {
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache telah direfresh.', 'Info', 3);
@@ -463,9 +482,10 @@ function testCariNIK() {
   if (res.status === 'success') {
     ui.alert('DATA DITEMUKAN! 🎉 (Kemiripan: ' + res.similarityScore + '%)', 
       'Nama Terdaftar: ' + res.data.nama + '\n' +
+      'Jenis Kelamin: ' + res.data.gender + '\n' +
+      'TTL: ' + res.data.ttl + '\n' +
       'TPS: ' + res.data.tps + '\n' +
       'Alamat: ' + res.data.alamat + '\n' +
-      'TTL: ' + res.data.ttl + ' (' + res.data.gender + ')\n' +
       'Status: ' + res.data.status, 
       ui.ButtonSet.OK
     );

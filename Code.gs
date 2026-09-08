@@ -3,7 +3,7 @@
  * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
  * Backend Engine: Multi-Sheet Support (95 TPS: TPS 1 s/d TPS 95) + Google Apps Script
- * Update: Pencarian Tepat 12 Digit NIK (Format Database: 321605600301****)
+ * Mode: 100% Strict Exact Match 12 Digit NIK (Tanpa Toleransi Parsial)
  */
 
 // Konfigurasi Header Standar per TPS (12 Kolom)
@@ -64,23 +64,21 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian 12 Digit NIK Lintas 95 Sheet TPS
- * Mencocokkan 12 digit NIK input dengan format database Kolom D (misal: 321605600301****)
+ * 3. Fungsi Pencarian 100% Strict Exact Match 12 Digit NIK Lintas 95 Sheet TPS
+ * Hanya mengambil baris yang 12 digit NIK pertamanya BENAR-BENAR SAMA PERSIS
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
-    return { status: 'error', message: 'Silakan masukkan 12 digit NIK KTP Anda.' };
+    return { status: 'error', message: 'Silakan masukkan tepat 12 digit NIK KTP Anda.' };
   }
 
   const cleanNIK = nikInput.toString().replace(/[^0-9]/g, '').trim();
-  if (cleanNIK.length < 12) {
-    return { status: 'error', message: 'Nomor Induk Kependudukan (NIK) minimal 12 digit angka.' };
+  if (cleanNIK.length !== 12) {
+    return { status: 'error', message: 'Nomor Induk Kependudukan (NIK) harus tepat 12 digit angka.' };
   }
 
-  const query12 = cleanNIK.substring(0, 12);
-
   // Cek Fast Cache Memory
-  const cacheKey = 'DPT_NIK_12_' + query12;
+  const cacheKey = 'DPT_STRICT_V2_' + cleanNIK;
   try {
     const cache = CacheService.getScriptCache();
     const cached = cache.get(cacheKey);
@@ -112,7 +110,7 @@ function searchByNIK(nikInput) {
     let idxNo = headers.findIndex(h => h === 'no' || h === 'nomor');
     let idxNoUrut = headers.findIndex(h => h.includes('urut'));
     let idxNKK = headers.findIndex(h => h.includes('nkk') || h.includes('kk') || h.includes('keluarga'));
-    let idxNIK = headers.findIndex(h => h.includes('nik'));
+    let idxNIK = headers.findIndex(h => h === 'nik' || h.includes('nik'));
     let idxNama = headers.findIndex(h => h.includes('nama'));
     let idxGender = headers.findIndex(h => h.includes('kelamin') || h.includes('gender') || h === 'jk');
     let idxTempatLahir = headers.findIndex(h => h.includes('tempat') || h.includes('tmpt') || h === 'tpt lahir');
@@ -125,7 +123,7 @@ function searchByNIK(nikInput) {
     // Default Fallback index posisi Kolom A-L: 0-11
     if (idxNoUrut === -1) idxNoUrut = 1;      // Kolom B (No Urut)
     if (idxNKK === -1) idxNKK = 2;            // Kolom C (NKK)
-    if (idxNIK === -1) idxNIK = 3;            // Kolom D (NIK 12 digit + ****)
+    if (idxNIK === -1) idxNIK = 3;            // Kolom D (NIK)
     if (idxNama === -1) idxNama = 4;          // Kolom E (Nama Lengkap)
     if (idxGender === -1) idxGender = 5;      // Kolom F (Jenis Kelamin)
     if (idxTempatLahir === -1) idxTempatLahir = 6; // Kolom G (Tempat Lahir)
@@ -139,8 +137,8 @@ function searchByNIK(nikInput) {
       const row = data[r];
       const rowNIKVal = row[idxNIK] ? row[idxNIK].toString().trim() : '';
 
-      // Cocokkan apakah 12 digit NIK input persis sama dengan NIK di database
-      if (isNikMatch(rowNIKVal, query12)) {
+      // 100% Strict Match 12 Digit (Hanya yang 12 digit pertamanya persis sama)
+      if (isStrictNikMatch(rowNIKVal, cleanNIK)) {
         const tpsName = sheetName.toUpperCase();
 
         // 1. Format Jenis Kelamin (Kolom F)
@@ -184,18 +182,18 @@ function searchByNIK(nikInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
-        // 4. Format Masking Tampilan NIK (contoh: 321605****01 atau 321605600301****)
-        let maskedNIK = rowNIKVal || (query12 + '****');
+        // 4. Format Masking Tampilan NIK
+        let maskedNIK = rowNIKVal || (cleanNIK + '****');
         if (!maskedNIK.includes('*')) {
-          maskedNIK = query12.substring(0, 6) + '****' + query12.substring(10);
+          maskedNIK = cleanNIK.substring(0, 6) + '****' + cleanNIK.substring(10);
         }
 
         const rawNama = (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : '';
 
         matches.push({
           id: matches.length + 1,
-          nik: query12,
-          nikRaw: rowNIKVal || query12,
+          nik: cleanNIK,
+          nikRaw: rowNIKVal || cleanNIK,
           nikMasked: maskedNIK,
           nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
           nama: rawNama || 'WARGA DESA KARANG SATRIA',
@@ -219,7 +217,7 @@ function searchByNIK(nikInput) {
   if (matches.length === 0) {
     return {
       status: 'not_found',
-      message: 'NIK ' + query12 + '... belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK 12 digit sudah benar atau hubungi panitia desa.'
+      message: 'NIK ' + cleanNIK + ' belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK 12 digit sudah benar atau hubungi panitia desa.'
     };
   }
 
@@ -239,12 +237,12 @@ function searchByNIK(nikInput) {
     return singleResult;
   }
 
-  // KONDISI B: Lebih dari 1 nama yang cocok (NIK 12 digit serupa) -> Tampilkan list pilihan nama
+  // KONDISI B: Lebih dari 1 nama yang cocok (12 digit NIK sama persis) -> Tampilkan list pilihan nama
   const multiResult = {
     status: 'multiple',
     data: matches,
     total: matches.length,
-    message: 'Ditemukan ' + matches.length + ' data warga dengan 12 digit NIK yang serupa. Silakan klik nama Anda untuk melihat lokasi TPS.'
+    message: 'Ditemukan ' + matches.length + ' data warga dengan NIK 12 digit (' + cleanNIK + ') yang sama persis. Silakan klik nama Anda untuk melihat lokasi TPS.'
   };
 
   try {
@@ -255,43 +253,33 @@ function searchByNIK(nikInput) {
 }
 
 /**
- * 4. Helper Pencocokan 12 Digit NIK dengan Format Database (misal: 321605600301****)
+ * 4. Helper Strict Exact Match 12 Digit NIK
+ * HANYA mencocokkan jika 12 digit angka pertama SAMA PERSIS dengan input
  */
-function isNikMatch(rowVal, query12) {
+function isStrictNikMatch(rowVal, query12) {
   if (!rowVal || !query12) return false;
   
+  const cleanQ = query12.toString().replace(/[^0-9]/g, '').trim();
+  if (cleanQ.length !== 12) return false;
+
   const rawStr = rowVal.toString().trim();
   const rowDigits = rawStr.replace(/[^0-9]/g, '');
-  const cleanQ = query12.toString().replace(/[^0-9]/g, '').substring(0, 12);
-  
-  if (cleanQ.length < 12) return false;
 
-  // 1. Format Database standar: 12 digit angka + 4 bintang (misal: 321605600301****)
-  // rowDigits murninya menghasilkan 12 digit angka persis
-  if (rowDigits.length === 12 && rowDigits === cleanQ) {
-    return true;
+  // Kasus 1: Database berisi 12 digit angka + 4 bintang (misal: '321605600301****')
+  // rowDigits murninya adalah 12 digit angka persis
+  if (rowDigits.length === 12) {
+    return rowDigits === cleanQ;
   }
 
-  // 2. Cek teks mentah diawali 12 digit NIK (misal: '321605600301****')
+  // Kasus 2: Database berisi 16 digit angka penuh (misal: '3216056003010001')
+  // 12 digit pertamanya HARUS SAMA PERSIS dengan cleanQ
+  if (rowDigits.length === 16) {
+    return rowDigits.substring(0, 12) === cleanQ;
+  }
+
+  // Kasus 3: Jika cell diawali 12 digit angka persis (misal: '321605600301****')
   if (rawStr.startsWith(cleanQ)) {
     return true;
-  }
-
-  // 3. Jika di sheet berisi 16 digit angka penuh (misal: 3216056003010001)
-  if (rowDigits.length === 16 && rowDigits.substring(0, 12) === cleanQ) {
-    return true;
-  }
-
-  // 4. Jika di sheet berisi sensor bintang di tengah (misal: 321605****010001)
-  if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
-    const parts = rawStr.split(/[*xX]+/);
-    if (parts.length >= 2) {
-      const prefix = parts[0].replace(/[^0-9]/g, '');
-      const suffix = parts[parts.length - 1].replace(/[^0-9]/g, '');
-      if (prefix && suffix && cleanQ.startsWith(prefix) && cleanQ.endsWith(suffix.substring(0, Math.min(suffix.length, 2)))) {
-        return true;
-      }
-    }
   }
 
   return false;
@@ -338,7 +326,7 @@ function setupSpreadsheet() {
  */
 function clearSearchCache() {
   try {
-    CacheService.getScriptCache().removeAll(['DPT_NIK_12_', 'DPT_FUZZY_']);
+    CacheService.getScriptCache().removeAll(['DPT_STRICT_V2_', 'DPT_NIK_STRICT_12_', 'DPT_NIK_12_', 'DPT_FUZZY_']);
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache pencarian berhasil dibersihkan.', 'Cache Refresh', 4);
   } catch (e) {
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache telah direfresh.', 'Info', 3);

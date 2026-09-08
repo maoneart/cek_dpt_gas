@@ -1138,7 +1138,7 @@
   <!-- Running News Ticker -->
   <div class="news-ticker">
     <div class="ticker-content">
-      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 12 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
+      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan tepat 12 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
     </div>
   </div>
 
@@ -1190,7 +1190,7 @@
                 id="nikField" 
                 class="nik-input-field" 
                 placeholder="12 Digit NIK KTP..." 
-                maxlength="16" 
+                maxlength="12" 
                 inputmode="numeric"
                 autocomplete="off"
                 oninput="handleNikKeypress(this)"
@@ -1209,7 +1209,7 @@
           <div class="search-helper-tip">
             <i class="fa-solid fa-circle-info"></i>
             <div>
-              Masukkan 12 digit angka NIK Anda. Jika terdapat beberapa nama dengan NIK serupa, sistem akan menampilkan daftar nama untuk dipilih.
+              Masukkan tepat 12 digit angka NIK Anda. Sistem akan mencari kecocokan persis 12 digit di database DPS/DPT seluruh TPS.
             </div>
           </div>
 
@@ -1222,7 +1222,7 @@
 
     </div>
 
-    <!-- ================= HALAMAN 1.5: DAFTAR PILIHAN NAMA (JIKA NIK GANDA / MULTI-MATCH) ================= -->
+    <!-- ================= HALAMAN 1.5: DAFTAR PILIHAN NAMA (JIKA 12 DIGIT NIK GANDA) ================= -->
     <div id="viewMultiple" class="page-view page-hidden">
       
       <!-- Top Navigation Halaman Multiple -->
@@ -1244,7 +1244,7 @@
           </div>
           <div>
             <div class="section-title">Konfirmasi Nama Pemilih</div>
-            <div class="section-subtitle">Ditemukan beberapa warga dengan NIK 12 digit serupa. Silakan <strong>klik nama Anda</strong> di bawah untuk melihat lokasi TPS:</div>
+            <div class="section-subtitle">Ditemukan beberapa warga dengan 12 digit NIK yang sama persis. Silakan <strong>klik nama Anda</strong> di bawah untuk melihat lokasi TPS:</div>
           </div>
         </div>
 
@@ -1453,12 +1453,12 @@
     }
 
     function handleNikKeypress(input) {
-      input.value = input.value.replace(/[^0-9]/g, '').substring(0, 16);
+      input.value = input.value.replace(/[^0-9]/g, '').substring(0, 12);
       const len = input.value.length;
       
       const counterBadge = document.getElementById('nikMeterCounter');
-      if (len >= 12) {
-        counterBadge.innerText = len + ' Digit (Lengkap)';
+      if (len === 12) {
+        counterBadge.innerText = '12 / 12 (Siap Cek)';
         counterBadge.classList.add('complete');
       } else {
         counterBadge.innerText = len + ' / 12';
@@ -1469,7 +1469,7 @@
         const pill = document.getElementById('pill_' + i);
         if (pill) {
           if (i < len) {
-            pill.className = (len >= 12) ? 'digit-meter-pill complete' : 'digit-meter-pill active';
+            pill.className = (len === 12) ? 'digit-meter-pill complete' : 'digit-meter-pill active';
           } else {
             pill.className = 'digit-meter-pill';
           }
@@ -1481,15 +1481,15 @@
       try {
         if (navigator.clipboard && navigator.clipboard.readText) {
           const text = await navigator.clipboard.readText();
-          const clean = text.replace(/[^0-9]/g, '').substring(0, 16);
+          const clean = text.replace(/[^0-9]/g, '').substring(0, 12);
           if (clean) {
             const input = document.getElementById('nikField');
             input.value = clean;
             handleNikKeypress(input);
-            if (clean.length >= 12) {
-              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
+            if (clean.length === 12) {
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK 12 digit telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
             } else {
-              showAlertModal('Format NIK', 'Nomor NIK yang ditempel hanya ' + clean.length + ' digit. Diperlukan minimal 12 digit angka.', 'gold');
+              showAlertModal('Format NIK', 'Nomor NIK yang ditempel hanya ' + clean.length + ' digit. Diperlukan tepat 12 digit angka.', 'gold');
             }
           }
         } else {
@@ -1501,17 +1501,17 @@
     }
 
     // =======================================================
-    // PENCARIAN 12 DIGIT NIK
+    // PENCARIAN 12 DIGIT NIK PERSIS
     // =======================================================
     function handleGovSearch(e) {
       if (e) e.preventDefault();
       
       const nik = document.getElementById('nikField').value.trim();
 
-      if (nik.length < 12) {
+      if (nik.length !== 12) {
         showAlertModal(
           'Format NIK Belum Lengkap',
-          'Nomor Induk Kependudukan (NIK) minimal 12 digit angka. Anda baru memasukkan ' + nik.length + ' digit.',
+          'Nomor Induk Kependudukan (NIK) harus tepat 12 digit angka. Anda baru memasukkan ' + nik.length + ' digit.',
           'danger'
         );
         return;
@@ -1550,11 +1550,11 @@
     function onGovSearchSuccess(res) {
       setSubmitLoading(false);
       if (res.status === 'success') {
-        // Tepat 1 nama -> Langsung tampilkan Kartu TPS
+        // Tepat 1 nama yang 12 digitnya persis sama -> Langsung munculkan Kartu TPS
         multipleVotersData = null;
         renderVoterCard(res.data);
       } else if (res.status === 'multiple') {
-        // Lebih dari 1 nama -> Tampilkan List Pilihan Nama Warga
+        // Ada lebih dari 1 orang dengan 12 digit persis sama -> Tampilkan List Pilihan Nama
         renderMultipleVoters(res.data, res.total);
       } else {
         showAlertModal(
@@ -1571,7 +1571,7 @@
     }
 
     // =======================================================
-    // RENDER LIST PILIHAN NAMA (JIKA NIK GANDA)
+    // RENDER LIST PILIHAN NAMA (JIKA 12 DIGIT SAMA PERSIS)
     // =======================================================
     function renderMultipleVoters(voterList, total) {
       multipleVotersData = voterList;
@@ -1583,7 +1583,7 @@
       
       let html = '';
       voterList.forEach((voter, index) => {
-        const masked = voter.nikMasked || voter.nik;
+        const masked = voter.nikMasked || (voter.nik + '****');
         const iconUser = (voter.gender && voter.gender.toLowerCase().includes('perempuan')) ? 'fa-user' : 'fa-user-tie';
 
         html += `
@@ -1738,7 +1738,7 @@
     function shareToWhatsApp() {
       if (!activeVoterData) return;
       const d = activeVoterData;
-      const masked = d.nikMasked || d.nik;
+      const masked = d.nikMasked || (d.nik + '****');
       const msg = 
         `🗳️ *LOKASI TPS PILKADES DESA KARANG SATRIA (2026 - 2034)*\n` +
         `----------------------------------------\n` +

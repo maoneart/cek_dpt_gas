@@ -1,30 +1,31 @@
 # 🗳️ Portal Cek Lokasi TPS Pemilihan Kepala Desa Karang Satria (2026 - 2034)
 **Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat**
 
-Mobile Web App modern, cerah, segar, dan ramah warga (Tema Serba Orange & Judul Desa Hijau) yang fokus **100% langsung untuk pengecekan lokasi TPS warga berbasis NIK & Nama Lengkap dengan Algoritma Toleransi Typo (Fuzzy Matching)**. Menggunakan Google Sheets dengan arsitektur **95 Sheet TPS (TPS 1 s/d TPS 95)** sebagai database real-time dan Google Apps Script (GAS) sebagai backend gratis tanpa biaya server.
+Mobile Web App modern, cerah, segar, dan ramah warga (Tema Serba Orange & Judul Desa Hijau) yang fokus **100% langsung untuk pengecekan lokasi TPS warga berbasis NIK 12 Digit dengan Multi-Name Selector**. Menggunakan Google Sheets dengan arsitektur **95 Sheet TPS (TPS 1 s/d TPS 95)** sebagai database real-time dan Google Apps Script (GAS) sebagai backend gratis tanpa biaya server.
 
 ---
 
 ## 🏛️ Konsep & Alur Kerja:
 1. Warga membuka Web App di HP (tampilan cerah, tulisan besar dan sangat mudah dibaca).
-2. Warga memasukkan **Nomor NIK** (12 atau 16 digit) dan **Nama Lengkap** sesuai KTP.
+2. Warga memasukkan **12 Digit NIK KTP** (atau klik tombol *Tempel* dari clipboard).
 3. Klik tombol **"CEK LOKASI TPS SAYA"**.
-4. **Algoritma Fuzzy Matching Bekerja Otomatis**:
-   - Jika ada sedikit perbedaan ejaan/typo huruf di KTP vs data Excel (contoh: *HERLABUNG* vs *HERLAMBANG*), sistem mendeteksi kemiripan $\ge 60\%$ dan **otomatis meloloskan data**.
-   - Privasi terjaga 100% (tidak membocorkan nama warga lain yang tanggal lahir/NIK-nya serupa).
-5. **Langsung Muncul Kartu Pemilih Digital Resmi**:
+4. **Alur Deteksi Cerdas**:
+   - **Kondisi A (1 Nama Cocok)**: Sistem langsung menampilkan **Kartu Pemilih Digital Resmi**.
+   - **Kondisi B (Lebih dari 1 Nama / NIK Serupa)**: Sistem menampilkan **Daftar Pilihan Nama Warga** (Nama, NIK tersensor, TTL, Jenis Kelamin, dan Alamat). Warga cukup mengklik kartu namanya sendiri $\rightarrow$ langsung terbuka Kartu TPS miliknya.
+   - **Kondisi C (Tidak Ditemukan)**: Muncul notifikasi bahwa NIK belum terdaftar.
+5. **Fitur Kartu Pemilih Digital**:
    - Nomor & Lokasi TPS tempat mencoblos.
-   - Data Pemilih (NIK dengan sensor keamanan, Nama Lengkap, TTL & Gender, Alamat KTP, RT/RW).
+   - Data Pemilih (NIK dengan sensor privasi, Nama Lengkap, Jenis Kelamin, Tempat & Tanggal Lahir, Alamat KTP, RT/RW).
    - Dynamic QR Code resmi untuk verifikasi presensi di TPS oleh panitia.
    - Tombol **Cetak / Simpan PDF** dan **Kirim ke WhatsApp**.
    - Tombol Navigasi Kembali / Cek NIK Warga Lainnya.
 
 ---
 
-## 🔒 Mekanisme Sensor NIK & Keamanan Data (UU PDP):
+## 🔒 Mekanisme Sensor NIK & Keamanan Data (12 Digit & 4 Bintang `****`):
 - **Di Spreadsheet / Database**: NIK dapat diinput dengan format 12 angka + 4 bintang `****` (contoh: `'321606010101****` atau `'321606****010001'`), ataupun 16 digit penuh.
 - **Pencarian Cerdas**:
-  - Warga cukup memasukkan **12 digit NIK** + **Nama Lengkap**.
+  - Warga cukup memasukkan **12 digit NIK**.
   - Jika warga memasukkan **16 digit NIK penuh**, sistem otomatis mencocokkan pola wildcard `****` dengan data di spreadsheet.
 
 ---
@@ -58,7 +59,7 @@ Setiap sheet bernama **`TPS 1`**, **`TPS 2`**, ... hingga **`TPS 95`** memiliki 
 
 ## 📁 Struktur Berkas Proyek:
 - **[Index.html](file:///sdcard/www/cek_dpt_gas/Index.html)** : Frontend Web App Mobile-First tema cerah ramah warga (Orange Theme & Green Title).
-- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Multi-Sheet Scanner 95 TPS, Smart Fuzzy Name Matcher, REST API, & Caching).
+- **[Code.gs](file:///sdcard/www/cek_dpt_gas/Code.gs)** : Backend Google Apps Script (Multi-Sheet Scanner 95 TPS, Direct Match & Multi-Name Selector, REST API, & Caching).
 - **[logo.png](file:///sdcard/www/cek_dpt_gas/logo.png)** : Logo resmi Pemdes yang dimuat langsung via GitHub raw link.
 - **[kpu.png](file:///sdcard/www/cek_dpt_gas/kpu.png)** : Logo resmi KPU yang dimuat langsung via GitHub raw link.
 - **[Template_DPS_DPT_Karang_Satria.xlsx](file:///sdcard/www/cek_dpt_gas/Template_DPS_DPT_Karang_Satria.xlsx)** : Berkas Excel resmi 95 sheet TPS siap pakai.

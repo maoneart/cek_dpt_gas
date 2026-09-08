@@ -3,7 +3,7 @@
  * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
  * Backend Engine: Multi-Sheet Support (95 TPS: TPS 1 s/d TPS 95) + Google Apps Script
- * Update: Smart Dual Matching (NIK 12/16 Digit + Fuzzy Name Tolerance System)
+ * Update: Mode Pencarian 12 Digit NIK (Direct Match & Multi-Name Selector)
  */
 
 // Konfigurasi Header Standar per TPS (12 Kolom)
@@ -26,11 +26,9 @@ const OFFICIAL_HEADERS = [
  * 1. Entry Point Web App (doGet)
  */
 function doGet(e) {
-  // Jika dipanggil via REST API (contoh: ?nik=321606140888&nama=Herlambang)
+  // Jika dipanggil via REST API (contoh: ?nik=321606140888)
   if (e && e.parameter && e.parameter.nik) {
-    const nik = e.parameter.nik;
-    const nama = e.parameter.nama || '';
-    const result = searchByNikAndName(nik, nama);
+    const result = searchByNIK(e.parameter.nik);
     return ContentService.createTextOutput(JSON.stringify(result))
       .setMimeType(ContentService.MimeType.JSON);
   }
@@ -52,7 +50,7 @@ function doPost(e) {
     const action = contents.action || 'search';
 
     if (action === 'search') {
-      const result = searchByNikAndName(contents.nik, contents.nama);
+      const result = searchByNIK(contents.nik);
       return ContentService.createTextOutput(JSON.stringify(result))
         .setMimeType(ContentService.MimeType.JSON);
     }
@@ -66,11 +64,11 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK & Nama dengan Algoritma Toleransi Typo (Fuzzy String Matching)
+ * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (12 Digit NIK dengan Multi-Matching)
  */
-function searchByNikAndName(nikInput, namaInput) {
+function searchByNIK(nikInput) {
   if (!nikInput) {
-    return { status: 'error', message: 'Silakan masukkan NIK KTP Anda.' };
+    return { status: 'error', message: 'Silakan masukkan 12 digit NIK KTP Anda.' };
   }
 
   const cleanNIK = nikInput.toString().replace(/[^0-9]/g, '').trim();
@@ -78,13 +76,8 @@ function searchByNikAndName(nikInput, namaInput) {
     return { status: 'error', message: 'Nomor Induk Kependudukan (NIK) minimal 12 digit angka.' };
   }
 
-  const cleanNama = (namaInput || '').toString().trim();
-  if (!cleanNama) {
-    return { status: 'error', message: 'Silakan masukkan Nama Lengkap sesuai KTP.' };
-  }
-
-  // Cache Key
-  const cacheKey = 'DPT_FUZZY_' + cleanNIK.substring(0, 12) + '_' + encodeURIComponent(cleanNama.toLowerCase());
+  // Cek Fast Cache Memory
+  const cacheKey = 'DPT_NIK_12_' + cleanNIK.substring(0, 12);
   try {
     const cache = CacheService.getScriptCache();
     const cached = cache.get(cacheKey);
@@ -100,9 +93,9 @@ function searchByNikAndName(nikInput, namaInput) {
     return { status: 'not_found', message: 'Spreadsheet belum memiliki sheet TPS.' };
   }
 
-  const nikCandidates = [];
+  const matches = [];
 
-  // 1. Pindai seluruh sheet (TPS 1 s/d TPS 95) untuk mencari kecocokan NIK
+  // Pindai seluruh sheet (TPS 1 s/d TPS 95)
   for (let s = 0; s < sheets.length; s++) {
     const sheet = sheets[s];
     const sheetName = sheet.getName().trim();
@@ -116,7 +109,7 @@ function searchByNikAndName(nikInput, namaInput) {
     let idxNo = headers.findIndex(h => h === 'no' || h === 'nomor');
     let idxNoUrut = headers.findIndex(h => h.includes('urut'));
     let idxNKK = headers.findIndex(h => h.includes('nkk') || h.includes('kk') || h.includes('keluarga'));
-    let idxNIK = headers.findIndex(h => h === 'nik' || h.includes('nik'));
+    let idxNIK = headers.findIndex(h => h.includes('nik'));
     let idxNama = headers.findIndex(h => h.includes('nama'));
     let idxGender = headers.findIndex(h => h.includes('kelamin') || h.includes('gender') || h === 'jk');
     let idxTempatLahir = headers.findIndex(h => h.includes('tempat') || h.includes('tmpt') || h === 'tpt lahir');
@@ -187,7 +180,7 @@ function searchByNikAndName(nikInput, namaInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
-        // 4. Masking NIK
+        // 4. Masking NIK untuk privasi tampilan
         let maskedNIK = rowNIKVal || cleanNIK;
         if (!maskedNIK.includes('*')) {
           if (maskedNIK.length >= 12) {
@@ -199,8 +192,8 @@ function searchByNikAndName(nikInput, namaInput) {
 
         const rawNama = (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : '';
 
-        nikCandidates.push({
-          id: nikCandidates.length + 1,
+        matches.push({
+          id: matches.length + 1,
           nik: cleanNIK,
           nikRaw: rowNIKVal || cleanNIK,
           nikMasked: maskedNIK,
@@ -222,145 +215,47 @@ function searchByNikAndName(nikInput, namaInput) {
     }
   }
 
-  // Jika NIK sama sekali tidak ditemukan
-  if (nikCandidates.length === 0) {
+  // Jika NIK tidak ditemukan
+  if (matches.length === 0) {
     return {
       status: 'not_found',
-      message: 'NIK ' + cleanNIK.substring(0, 12) + '... belum terdaftar dalam database DPS/DPT Pilkades Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
+      message: 'NIK ' + cleanNIK.substring(0, 12) + '... belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
     };
   }
 
-  // 2. Evaluasi Kemiripan Nama (Fuzzy Matching Evaluation)
-  let bestMatch = null;
-  let highestScore = 0;
-
-  for (let i = 0; i < nikCandidates.length; i++) {
-    const candidate = nikCandidates[i];
-    const matchEvaluation = evaluateNameSimilarity(candidate.nama, cleanNama);
-    
-    if (matchEvaluation.score > highestScore) {
-      highestScore = matchEvaluation.score;
-      bestMatch = candidate;
-    }
-  }
-
-  // Ambang batas toleransi kemiripan: 60% (0.60) sangat aman untuk typo 1-2 huruf / singkatan kata
-  if (bestMatch && highestScore >= 0.60) {
-    const successResult = {
+  // KONDISI A: Tepat 1 orang yang cocok -> Langsung muncul kartu pemilih
+  if (matches.length === 1) {
+    const singleResult = {
       status: 'success',
-      data: bestMatch,
-      similarityScore: Math.round(highestScore * 100),
+      data: matches[0],
+      total: 1,
       message: 'Data DPT Resmi Ditemukan.'
     };
 
     try {
-      CacheService.getScriptCache().put(cacheKey, JSON.stringify(successResult), 21600);
+      CacheService.getScriptCache().put(cacheKey, JSON.stringify(singleResult), 21600);
     } catch (e) {}
 
-    return successResult;
+    return singleResult;
   }
 
-  // Jika NIK terdaftar tapi Nama tidak cocok (Privasi terjaga 100%, data orang lain tidak dibocorkan)
-  return {
-    status: 'name_mismatch',
-    message: 'Nomor NIK terdaftar, namun nama yang dimasukkan tidak sesuai dengan catatan sistem. Silakan periksa kembali ejaan nama sesuai KTP atau hubungi Panitia Pilkades / PPS Desa Karang Satria.'
+  // KONDISI B: Lebih dari 1 orang yang cocok (NIK serupa) -> Tampilkan list pilihan nama
+  const multiResult = {
+    status: 'multiple',
+    data: matches,
+    total: matches.length,
+    message: 'Ditemukan ' + matches.length + ' data warga dengan NIK 12 digit yang serupa. Silakan klik nama Anda untuk melihat lokasi TPS.'
   };
+
+  try {
+    CacheService.getScriptCache().put(cacheKey, JSON.stringify(multiResult), 21600);
+  } catch (e) {}
+
+  return multiResult;
 }
 
 /**
- * 4. Helper Algoritma Kemiripan Nama (Fuzzy Matcher)
- */
-function normalizeName(str) {
-  if (!str) return '';
-  return str.toString()
-    .toLowerCase()
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ') // hapus tanda baca
-    .replace(/\b(s\.kom|s\.pd|s\.e|s\.h|s\.t|dr|drs|ir|h|hj|spd|skom|se|sh|st)\b/gi, ' ') // hapus gelar umum
-    .replace(/\s+/g, ' ') // normalisasi multiple space
-    .trim();
-}
-
-function evaluateNameSimilarity(databaseName, inputName) {
-  const normDb = normalizeName(databaseName);
-  const normInp = normalizeName(inputName);
-
-  if (!normDb || !normInp) return { isMatch: false, score: 0 };
-
-  // 1. Exact Match setelah normalisasi
-  if (normDb === normInp) {
-    return { isMatch: true, score: 1.0 };
-  }
-
-  // 2. Substring Match (contoh: "Herlambang" di dalam "Herlambang Susanto")
-  if (normDb.includes(normInp) || normInp.includes(normDb)) {
-    const lenRatio = Math.min(normDb.length, normInp.length) / Math.max(normDb.length, normInp.length);
-    const score = 0.80 + (0.20 * lenRatio);
-    return { isMatch: true, score: score };
-  }
-
-  // 3. Token / Kata per kata match (Contoh: "M. Ilham" vs "Muhammad Ilham")
-  const dbWords = normDb.split(' ').filter(w => w.length > 0);
-  const inpWords = normInp.split(' ').filter(w => w.length > 0);
-
-  let maxWordScore = 0;
-  for (let d = 0; d < dbWords.length; d++) {
-    for (let p = 0; p < inpWords.length; p++) {
-      const wScore = calcLevenshteinSimilarity(dbWords[d], inpWords[p]);
-      if (wScore > maxWordScore) {
-        maxWordScore = wScore;
-      }
-    }
-  }
-
-  // 4. Overall Full String Levenshtein Similarity (Contoh: "Herlabung" vs "Herlambang" -> 88%)
-  const fullScore = calcLevenshteinSimilarity(normDb, normInp);
-
-  const finalScore = Math.max(fullScore, maxWordScore);
-  return {
-    isMatch: finalScore >= 0.60,
-    score: finalScore
-  };
-}
-
-function calcLevenshteinSimilarity(s1, s2) {
-  if (!s1 || !s2) return 0;
-  if (s1 === s2) return 1.0;
-  
-  const longer = s1.length > s2.length ? s1 : s2;
-  const shorter = s1.length > s2.length ? s2 : s1;
-  const longerLength = longer.length;
-  if (longerLength === 0) return 1.0;
-
-  const dist = levenshteinDistance(longer, shorter);
-  return (longerLength - dist) / parseFloat(longerLength);
-}
-
-function levenshteinDistance(s1, s2) {
-  s1 = s1.toLowerCase();
-  s2 = s2.toLowerCase();
-
-  const costs = [];
-  for (let i = 0; i <= s1.length; i++) {
-    let lastValue = i;
-    for (let j = 0; j <= s2.length; j++) {
-      if (i === 0) {
-        costs[j] = j;
-      } else if (j > 0) {
-        let newValue = costs[j - 1];
-        if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
-          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-        }
-        costs[j - 1] = lastValue;
-        lastValue = newValue;
-      }
-    }
-    if (i > 0) costs[s2.length] = lastValue;
-  }
-  return costs[s2.length];
-}
-
-/**
- * 5. Helper Pencocokan Pola NIK
+ * 4. Helper Pencocokan Pola NIK (12 Digit Prefix & Wildcard Sensor)
  */
 function isNikMatch(rowVal, cleanQuery) {
   if (!rowVal || !cleanQuery) return false;
@@ -381,20 +276,20 @@ function isNikMatch(rowVal, cleanQuery) {
     if (rowDigits.substring(0, 12) === cleanQuery) return true;
 
     // Pola C: 6 depan + 2 belakang
-    if (cleanQuery.length === 12 && rowDigits.startsWith(cleanQuery.substring(0, 6)) && rowDigits.endsWith(cleanQuery.substring(10))) {
+    if (cleanQuery.length >= 12 && rowDigits.startsWith(cleanQuery.substring(0, 6)) && rowDigits.endsWith(cleanQuery.substring(10, 12))) {
       return true;
     }
   }
 
   // 3. Jika di sheet ada 12 digit angka murni
   if (rowDigits.length === 12) {
-    if (rowDigits === cleanQuery) return true;
+    if (rowDigits === cleanQuery.substring(0, 12)) return true;
   }
 
   // 4. Jika di sheet berisi bintang/sensor (misal: 321606****0001)
   if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
     const cleanPattern = rawStr.replace(/[^0-9]/g, '');
-    if (cleanPattern === cleanQuery) return true;
+    if (cleanPattern === cleanQuery.substring(0, cleanPattern.length)) return true;
 
     // Cek kecocokan prefix & suffix angka tanpa bintang
     const parts = rawStr.split(/[*xX]+/);
@@ -411,7 +306,7 @@ function isNikMatch(rowVal, cleanQuery) {
 }
 
 /**
- * 6. Setup Format Otomatis 95 Sheet TPS (TPS 1 s/d TPS 95)
+ * 5. Setup Format Otomatis 95 Sheet TPS (TPS 1 s/d TPS 95)
  */
 function setupSpreadsheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -447,11 +342,11 @@ function setupSpreadsheet() {
 }
 
 /**
- * 7. Bersihkan Cache Pencarian NIK
+ * 6. Bersihkan Cache Pencarian NIK
  */
 function clearSearchCache() {
   try {
-    CacheService.getScriptCache().removeAll(['DPT_FUZZY_', 'DPT_NIK_12_']);
+    CacheService.getScriptCache().removeAll(['DPT_NIK_12_', 'DPT_FUZZY_']);
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache pencarian berhasil dibersihkan.', 'Cache Refresh', 4);
   } catch (e) {
     SpreadsheetApp.getActiveSpreadsheet().toast('Cache telah direfresh.', 'Info', 3);
@@ -459,28 +354,25 @@ function clearSearchCache() {
 }
 
 /**
- * 8. Custom Menu di Google Sheets
+ * 7. Custom Menu di Google Sheets
  */
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🗳️ Pilkades Karang Satria')
     .addItem('🛠️ Setup Otomatis 95 Sheet TPS (TPS 1 - 95)', 'setupSpreadsheet')
-    .addItem('🔍 Uji Cari NIK & Nama (Fuzzy Match)', 'testCariNIK')
+    .addItem('🔍 Uji Cari NIK 12 Digit (Lintas 95 TPS)', 'testCariNIK')
     .addItem('🔄 Refresh / Bersihkan Cache Pencarian', 'clearSearchCache')
     .addToUi();
 }
 
 function testCariNIK() {
   const ui = SpreadsheetApp.getUi();
-  const promptNIK = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', '1. Masukkan 12 Digit NIK:', ui.ButtonSet.OK_CANCEL);
+  const promptNIK = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 Digit NIK:', ui.ButtonSet.OK_CANCEL);
   if (promptNIK.getSelectedButton() !== ui.Button.OK) return;
-  
-  const promptNama = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', '2. Masukkan Nama Pemilih (Toleran Typo):', ui.ButtonSet.OK_CANCEL);
-  if (promptNama.getSelectedButton() !== ui.Button.OK) return;
 
-  const res = searchByNikAndName(promptNIK.getResponseText(), promptNama.getResponseText());
+  const res = searchByNIK(promptNIK.getResponseText());
   if (res.status === 'success') {
-    ui.alert('DATA DITEMUKAN! 🎉 (Kemiripan: ' + res.similarityScore + '%)', 
+    ui.alert('DATA DITEMUKAN! 🎉', 
       'Nama Terdaftar: ' + res.data.nama + '\n' +
       'Jenis Kelamin: ' + res.data.gender + '\n' +
       'TTL: ' + res.data.ttl + '\n' +
@@ -489,8 +381,12 @@ function testCariNIK() {
       'Status: ' + res.data.status, 
       ui.ButtonSet.OK
     );
-  } else if (res.status === 'name_mismatch') {
-    ui.alert('NAMA TIDAK COCOK ⚠️', res.message, ui.ButtonSet.OK);
+  } else if (res.status === 'multiple') {
+    ui.alert('DITEMUKAN ' + res.total + ' DATA WARGA! 👥',
+      res.message + '\n\n' +
+      res.data.map((w, idx) => (idx + 1) + '. ' + w.nama + ' (' + w.tps + ' - ' + w.alamat + ')').join('\n'),
+      ui.ButtonSet.OK
+    );
   } else {
     ui.alert('HASIL PENCARIAN', res.message, ui.ButtonSet.OK);
   }

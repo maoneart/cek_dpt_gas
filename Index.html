@@ -298,28 +298,28 @@
       font-weight: 500;
     }
 
-    /* Input NIK & Nama Cards */
-    .form-input-card {
+    /* Input NIK Card */
+    .nik-input-card {
       background: #fff7ed;
       border: 2px solid #fed7aa;
       border-radius: var(--radius-lg);
-      padding: 14px 14px 12px;
-      margin-bottom: 14px;
+      padding: 16px 14px;
+      margin-bottom: 16px;
       position: relative;
       transition: all 0.25s ease;
     }
-    .form-input-card:focus-within {
+    .nik-input-card:focus-within {
       background: #ffffff;
       border-color: #ea580c;
       box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.15);
     }
-    .input-label-row {
+    .nik-label-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-    .input-label {
+    .nik-label {
       font-size: 11.5px;
       font-weight: 800;
       text-transform: uppercase;
@@ -331,9 +331,9 @@
     }
     .nik-counter-badge {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border-radius: 6px;
       background: #fed7aa;
       color: #9a3412;
@@ -344,7 +344,7 @@
       border: 1px solid #c2410c;
     }
 
-    .form-input-wrapper {
+    .nik-input-wrapper {
       position: relative;
       display: flex;
       align-items: center;
@@ -355,50 +355,28 @@
       border: none;
       outline: none;
       font-family: var(--font-mono);
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
       letter-spacing: 2px;
       color: var(--text-dark);
-      padding: 6px 48px 6px 0;
+      padding: 8px 48px 8px 0;
     }
     .nik-input-field::placeholder {
       font-family: var(--font-body);
-      font-size: 13.5px;
+      font-size: 14px;
       letter-spacing: 0;
       color: #a8a29e;
       font-weight: 500;
     }
-    .name-input-field {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      color: var(--text-dark);
-      padding: 6px 0;
-      text-transform: uppercase;
-    }
-    .name-input-field::placeholder {
-      font-family: var(--font-body);
-      font-size: 13.5px;
-      letter-spacing: 0;
-      color: #a8a29e;
-      font-weight: 500;
-      text-transform: none;
-    }
-
     .btn-paste-nik {
       position: absolute;
       right: 0;
       background: #ffedd5;
       border: 1.5px solid #fed7aa;
       color: #c2410c;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 5px 9px;
+      padding: 6px 10px;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
@@ -416,7 +394,7 @@
     .digit-meter {
       display: flex;
       gap: 4px;
-      margin-top: 8px;
+      margin-top: 10px;
       width: 100%;
     }
     .digit-meter-pill {
@@ -433,28 +411,25 @@
       background: #ea580c;
     }
 
-    /* Intelligent Tip Notice */
-    .smart-matching-tip {
+    /* Info Tip */
+    .search-helper-tip {
       background: #fff7ed;
       border: 1px dashed #ea580c;
       border-radius: var(--radius-md);
       padding: 10px 12px;
       display: flex;
       align-items: flex-start;
-      gap: 9px;
+      gap: 8px;
       font-size: 11.5px;
       color: #9a3412;
       line-height: 1.45;
       margin-bottom: 16px;
     }
-    .smart-matching-tip i {
+    .search-helper-tip i {
       color: #ea580c;
-      font-size: 14px;
-      margin-top: 1px;
+      font-size: 13px;
+      margin-top: 2px;
       flex-shrink: 0;
-    }
-    .smart-matching-tip strong {
-      color: #ea580c;
     }
 
     /* Primary Submit Button (Vibrant Orange) */
@@ -509,7 +484,7 @@
       display: none !important;
     }
 
-    /* Result Header Nav */
+    /* Result & Multiple Header Nav */
     .result-top-nav {
       display: flex;
       align-items: center;
@@ -556,6 +531,117 @@
       border-radius: 20px;
       font-size: 11px;
       font-weight: 700;
+    }
+
+    /* Multiple Voter Match Cards Grid */
+    .voter-list-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+      width: 100%;
+    }
+    .voter-item-card {
+      background: #ffffff;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.05);
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+    .voter-item-card:hover {
+      border-color: #ea580c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(234, 88, 12, 0.15);
+      background: #fffaf5;
+    }
+    .voter-item-card:active {
+      transform: translateY(0);
+    }
+    .voter-item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .voter-item-name-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .voter-item-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+      color: #ea580c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      border: 1.5px solid #fed7aa;
+    }
+    .voter-item-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: 0.2px;
+      line-height: 1.2;
+    }
+    .voter-item-gender-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+      white-space: nowrap;
+    }
+    .voter-item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-sub);
+      padding-left: 48px;
+    }
+    .voter-item-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .voter-item-detail-row i {
+      color: #ea580c;
+      width: 14px;
+      text-align: center;
+      font-size: 11px;
+    }
+    .voter-item-cta {
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px dashed #fed7aa;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 800;
+      color: #ea580c;
+      padding-left: 48px;
+    }
+    .voter-item-cta i {
+      transition: transform 0.2s ease;
+    }
+    .voter-item-card:hover .voter-item-cta i {
+      transform: translateX(4px);
     }
 
     /* Official Voter Card */
@@ -988,7 +1074,7 @@
         color: #000000 !important;
         padding: 0 !important;
       }
-      .desa-top-ribbon, .news-ticker, #viewSearch, .result-top-nav, .card-actions-grid, .gov-footer {
+      .desa-top-ribbon, .news-ticker, #viewSearch, #viewMultiple, .result-top-nav, .card-actions-grid, .gov-footer {
         display: none !important;
       }
       #viewResult {
@@ -1052,14 +1138,14 @@
   <!-- Running News Ticker -->
   <div class="news-ticker">
     <div class="ticker-content">
-      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan NIK dan Nama Lengkap Anda sesuai KTP untuk melihat lokasi TPS mencoblos.
+      📢 <strong>PENGUMUMAN RESMI:</strong> Pengecekan Lokasi TPS Pemilihan Kepala Desa Karang Satria Kec. Tambun Utara Periode 2026 - 2034 • Masukkan 12 digit NIK Anda untuk melihat lokasi dan nomor TPS tempat mencoblos.
     </div>
   </div>
 
   <!-- Mobile Viewport Container -->
   <main class="app-viewport">
     
-    <!-- ================= HALAMAN 1: PENCARIAN LOKASI TPS ================= -->
+    <!-- ================= HALAMAN 1: PENCARIAN LOKASI TPS (12 DIGIT NIK) ================= -->
     <div id="viewSearch" class="page-view">
       
       <!-- Hero Header Branding -->
@@ -1084,23 +1170,21 @@
           </div>
           <div>
             <div class="section-title">Cek Lokasi TPS</div>
-            <div class="section-subtitle">Masukkan NIK dan Nama Lengkap sesuai KTP</div>
+            <div class="section-subtitle">Masukkan 12 digit NIK KTP-el Anda</div>
           </div>
         </div>
 
-        <!-- Input NIK & Nama Form -->
-        <form id="voterSearchForm" onsubmit="handleGovSearch(event)">
-          
-          <!-- 1. Form Input NIK -->
-          <div class="form-input-card">
-            <div class="input-label-row">
-              <label class="input-label" for="nikField">
-                <i class="fa-solid fa-id-card"></i> 1. Nomor NIK (12 Digit)
+        <!-- Input NIK Form -->
+        <form id="nikSearchForm" onsubmit="handleGovSearch(event)">
+          <div class="nik-input-card">
+            <div class="nik-label-row">
+              <label class="nik-label" for="nikField">
+                <i class="fa-solid fa-id-card"></i> Nomor Induk Kependudukan (NIK)
               </label>
               <span id="nikMeterCounter" class="nik-counter-badge">0 / 12</span>
             </div>
 
-            <div class="form-input-wrapper">
+            <div class="nik-input-wrapper">
               <input 
                 type="tel" 
                 id="nikField" 
@@ -1121,31 +1205,11 @@
             <div class="digit-meter" id="digitMeter"></div>
           </div>
 
-          <!-- 2. Form Input Nama Lengkap -->
-          <div class="form-input-card">
-            <div class="input-label-row">
-              <label class="input-label" for="namaField">
-                <i class="fa-solid fa-user"></i> 2. Nama Lengkap (Sesuai KTP)
-              </label>
-            </div>
-
-            <div class="form-input-wrapper">
-              <input 
-                type="text" 
-                id="namaField" 
-                class="name-input-field" 
-                placeholder="Contoh: HERLAMBANG..." 
-                autocomplete="name"
-                required
-              >
-            </div>
-          </div>
-
-          <!-- Intelligent Matching Notice -->
-          <div class="smart-matching-tip">
-            <i class="fa-solid fa-shield-halved"></i>
+          <!-- Info Bantuan -->
+          <div class="search-helper-tip">
+            <i class="fa-solid fa-circle-info"></i>
             <div>
-              <strong>Pencocokan Cerdas & Aman:</strong> Sistem tetap menemukan data Anda meskipun terdapat sedikit salah ketik/typo ejaan nama di KTP atau catatan panitia. Privasi warga 100% terjaga.
+              Masukkan 12 digit angka NIK Anda. Jika terdapat beberapa nama dengan NIK serupa, sistem akan menampilkan daftar nama untuk dipilih.
             </div>
           </div>
 
@@ -1158,12 +1222,45 @@
 
     </div>
 
-    <!-- ================= HALAMAN 2: HASIL KARTU PEMILIH DIGITAL ================= -->
+    <!-- ================= HALAMAN 1.5: DAFTAR PILIHAN NAMA (JIKA NIK GANDA / MULTI-MATCH) ================= -->
+    <div id="viewMultiple" class="page-view page-hidden">
+      
+      <!-- Top Navigation Halaman Multiple -->
+      <div class="result-top-nav">
+        <button type="button" class="btn-back-nav" onclick="navigateToSearch()">
+          <i class="fa-solid fa-arrow-left"></i> Cari Ulang
+        </button>
+        <div class="result-nav-title">Pilih Data Pemilih</div>
+        <div class="result-nav-badge" id="multiCountBadge">
+          <i class="fa-solid fa-users"></i> Data Ditemukan
+        </div>
+      </div>
+
+      <!-- Main Selection Panel -->
+      <section class="desa-main-panel">
+        <div class="section-headline">
+          <div class="section-icon">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
+          <div>
+            <div class="section-title">Konfirmasi Nama Pemilih</div>
+            <div class="section-subtitle">Ditemukan beberapa warga dengan NIK 12 digit serupa. Silakan <strong>klik nama Anda</strong> di bawah untuk melihat lokasi TPS:</div>
+          </div>
+        </div>
+
+        <div id="voterListContainer" class="voter-list-grid">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================= HALAMAN 2: HASIL KARTU PEMILIH DIGITAL RESMI ================= -->
     <div id="viewResult" class="page-view page-hidden">
       
       <!-- Top Navigation Halaman Hasil -->
       <div class="result-top-nav">
-        <button type="button" class="btn-back-nav" onclick="navigateToSearch()">
+        <button type="button" class="btn-back-nav" onclick="handleBackFromResult()">
           <i class="fa-solid fa-arrow-left"></i> Kembali
         </button>
         <div class="result-nav-title">Kartu Pemilih Digital</div>
@@ -1335,6 +1432,7 @@
        ======================================================= -->
   <script>
     let activeVoterData = null;
+    let multipleVotersData = null;
     let isNikMasked = true;
     let modalCallback = null;
     let qrCodeInstance = null;
@@ -1389,7 +1487,7 @@
             input.value = clean;
             handleNikKeypress(input);
             if (clean.length >= 12) {
-              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK telah dimasukkan. Silakan lengkapi Nama Anda.', 'success');
+              showAlertModal('NIK Berhasil Ditempel', 'Nomor NIK telah dimasukkan. Silakan klik tombol untuk memeriksa TPS.', 'success');
             } else {
               showAlertModal('Format NIK', 'Nomor NIK yang ditempel hanya ' + clean.length + ' digit. Diperlukan minimal 12 digit angka.', 'gold');
             }
@@ -1403,28 +1501,18 @@
     }
 
     // =======================================================
-    // PENCARIAN NIK & NAMA (SMART FUZZY MATCHING)
+    // PENCARIAN 12 DIGIT NIK
     // =======================================================
     function handleGovSearch(e) {
       if (e) e.preventDefault();
       
       const nik = document.getElementById('nikField').value.trim();
-      const nama = document.getElementById('namaField').value.trim();
 
       if (nik.length < 12) {
         showAlertModal(
           'Format NIK Belum Lengkap',
           'Nomor Induk Kependudukan (NIK) minimal 12 digit angka. Anda baru memasukkan ' + nik.length + ' digit.',
           'danger'
-        );
-        return;
-      }
-
-      if (nama.length < 2) {
-        showAlertModal(
-          'Nama Belum Diisi',
-          'Silakan masukkan Nama Lengkap Anda sesuai yang tertera pada KTP-el.',
-          'gold'
         );
         return;
       }
@@ -1436,10 +1524,10 @@
         google.script.run
           .withSuccessHandler(onGovSearchSuccess)
           .withFailureHandler(onGovSearchError)
-          .searchByNikAndName(nik, nama);
+          .searchByNIK(nik);
       } else {
         // 2. Eksekusi via REST API GET endpoint jika diakses standalone
-        const apiUrl = window.location.href.split('?')[0] + '?nik=' + encodeURIComponent(nik) + '&nama=' + encodeURIComponent(nama);
+        const apiUrl = window.location.href.split('?')[0] + '?nik=' + encodeURIComponent(nik);
         fetch(apiUrl)
           .then(response => {
             if (!response.ok) throw new Error('Status server: ' + response.status);
@@ -1462,13 +1550,12 @@
     function onGovSearchSuccess(res) {
       setSubmitLoading(false);
       if (res.status === 'success') {
+        // Tepat 1 nama -> Langsung tampilkan Kartu TPS
+        multipleVotersData = null;
         renderVoterCard(res.data);
-      } else if (res.status === 'name_mismatch') {
-        showAlertModal(
-          'Nama Tidak Cocok',
-          res.message || 'Nomor NIK terdaftar, namun nama yang dimasukkan tidak sesuai. Silakan periksa kembali ejaan nama sesuai KTP atau hubungi panitia.',
-          'danger'
-        );
+      } else if (res.status === 'multiple') {
+        // Lebih dari 1 nama -> Tampilkan List Pilihan Nama Warga
+        renderMultipleVoters(res.data, res.total);
       } else {
         showAlertModal(
           'Data Tidak Ditemukan',
@@ -1483,6 +1570,72 @@
       showAlertModal('Koneksi Terputus', 'Gagal menghubungi server database pemilih: ' + err, 'danger');
     }
 
+    // =======================================================
+    // RENDER LIST PILIHAN NAMA (JIKA NIK GANDA)
+    // =======================================================
+    function renderMultipleVoters(voterList, total) {
+      multipleVotersData = voterList;
+      activeVoterData = null;
+
+      const container = document.getElementById('voterListContainer');
+      const countBadge = document.getElementById('multiCountBadge');
+      countBadge.innerHTML = '<i class="fa-solid fa-users"></i> ' + (total || voterList.length) + ' Warga Ditemukan';
+      
+      let html = '';
+      voterList.forEach((voter, index) => {
+        const masked = voter.nikMasked || voter.nik;
+        const iconUser = (voter.gender && voter.gender.toLowerCase().includes('perempuan')) ? 'fa-user' : 'fa-user-tie';
+
+        html += `
+          <div class="voter-item-card" onclick="selectVoterFromList(${index})">
+            <div class="voter-item-top">
+              <div class="voter-item-name-group">
+                <div class="voter-item-avatar">
+                  <i class="fa-solid ${iconUser}"></i>
+                </div>
+                <div>
+                  <div class="voter-item-name">${voter.nama}</div>
+                  <div style="font-size: 11.5px; color: #ea580c; font-weight: 700;">NIK: ${masked}</div>
+                </div>
+              </div>
+              <span class="voter-item-gender-pill">${voter.gender || 'Warga'}</span>
+            </div>
+            <div class="voter-item-details">
+              <div class="voter-item-detail-row">
+                <i class="fa-solid fa-calendar-day"></i>
+                <span>TTL: ${voter.ttl || '-'}</span>
+              </div>
+              <div class="voter-item-detail-row">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>${voter.alamat}</span>
+              </div>
+            </div>
+            <div class="voter-item-cta">
+              <span>Klik untuk lihat lokasi TPS Anda</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Pindah ke View Multiple
+      document.getElementById('viewSearch').classList.add('page-hidden');
+      document.getElementById('viewResult').classList.add('page-hidden');
+      document.getElementById('viewMultiple').classList.remove('page-hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectVoterFromList(index) {
+      if (multipleVotersData && multipleVotersData[index]) {
+        renderVoterCard(multipleVotersData[index]);
+      }
+    }
+
+    // =======================================================
+    // RENDER KARTU PEMILIH RESMI
+    // =======================================================
     function renderVoterCard(data) {
       activeVoterData = data;
       isNikMasked = true;
@@ -1514,6 +1667,7 @@
 
       // Pindah Tampilan ke Halaman Hasil Kartu TPS
       document.getElementById('viewSearch').classList.add('page-hidden');
+      document.getElementById('viewMultiple').classList.add('page-hidden');
       document.getElementById('viewResult').classList.remove('page-hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1540,15 +1694,25 @@
       }
     }
 
+    function handleBackFromResult() {
+      if (multipleVotersData && multipleVotersData.length > 1) {
+        document.getElementById('viewResult').classList.add('page-hidden');
+        document.getElementById('viewMultiple').classList.remove('page-hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigateToSearch();
+      }
+    }
+
     function navigateToSearch() {
       document.getElementById('viewResult').classList.add('page-hidden');
+      document.getElementById('viewMultiple').classList.add('page-hidden');
       document.getElementById('viewSearch').classList.remove('page-hidden');
       const nikInput = document.getElementById('nikField');
-      const namaInput = document.getElementById('namaField');
       nikInput.value = '';
-      namaInput.value = '';
       handleNikKeypress(nikInput);
       activeVoterData = null;
+      multipleVotersData = null;
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
         if (nikInput) nikInput.focus();

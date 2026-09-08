@@ -3,7 +3,7 @@
  * PEMILIHAN KEPALA DESA KARANG SATRIA (PERIODE 2026 - 2034)
  * Kecamatan Tambun Utara, Kabupaten Bekasi, Jawa Barat
  * Backend Engine: Multi-Sheet Support (95 TPS: TPS 1 s/d TPS 95) + Google Apps Script
- * Update: Mode Pencarian 12 Digit NIK (Direct Match & Multi-Name Selector)
+ * Update: Pencarian Tepat 12 Digit NIK (Format Database: 321605600301****)
  */
 
 // Konfigurasi Header Standar per TPS (12 Kolom)
@@ -26,7 +26,7 @@ const OFFICIAL_HEADERS = [
  * 1. Entry Point Web App (doGet)
  */
 function doGet(e) {
-  // Jika dipanggil via REST API (contoh: ?nik=321606140888)
+  // Jika dipanggil via REST API (contoh: ?nik=321605600301)
   if (e && e.parameter && e.parameter.nik) {
     const result = searchByNIK(e.parameter.nik);
     return ContentService.createTextOutput(JSON.stringify(result))
@@ -64,7 +64,8 @@ function doPost(e) {
 }
 
 /**
- * 3. Fungsi Pencarian NIK Lintas 95 Sheet TPS (12 Digit NIK dengan Multi-Matching)
+ * 3. Fungsi Pencarian 12 Digit NIK Lintas 95 Sheet TPS
+ * Mencocokkan 12 digit NIK input dengan format database Kolom D (misal: 321605600301****)
  */
 function searchByNIK(nikInput) {
   if (!nikInput) {
@@ -76,8 +77,10 @@ function searchByNIK(nikInput) {
     return { status: 'error', message: 'Nomor Induk Kependudukan (NIK) minimal 12 digit angka.' };
   }
 
+  const query12 = cleanNIK.substring(0, 12);
+
   // Cek Fast Cache Memory
-  const cacheKey = 'DPT_NIK_12_' + cleanNIK.substring(0, 12);
+  const cacheKey = 'DPT_NIK_12_' + query12;
   try {
     const cache = CacheService.getScriptCache();
     const cached = cache.get(cacheKey);
@@ -119,10 +122,10 @@ function searchByNIK(nikInput) {
     let idxRW = headers.findIndex(h => h === 'rw' || h.includes('rw'));
     let idxKet = headers.findIndex(h => h.includes('ket') || h.includes('catatan') || h.includes('status'));
 
-    // Default Fallback index posisi jika header kustom (Standar Kolom A-L: 0-11)
+    // Default Fallback index posisi Kolom A-L: 0-11
     if (idxNoUrut === -1) idxNoUrut = 1;      // Kolom B (No Urut)
     if (idxNKK === -1) idxNKK = 2;            // Kolom C (NKK)
-    if (idxNIK === -1) idxNIK = 3;            // Kolom D (NIK)
+    if (idxNIK === -1) idxNIK = 3;            // Kolom D (NIK 12 digit + ****)
     if (idxNama === -1) idxNama = 4;          // Kolom E (Nama Lengkap)
     if (idxGender === -1) idxGender = 5;      // Kolom F (Jenis Kelamin)
     if (idxTempatLahir === -1) idxTempatLahir = 6; // Kolom G (Tempat Lahir)
@@ -136,7 +139,8 @@ function searchByNIK(nikInput) {
       const row = data[r];
       const rowNIKVal = row[idxNIK] ? row[idxNIK].toString().trim() : '';
 
-      if (isNikMatch(rowNIKVal, cleanNIK)) {
+      // Cocokkan apakah 12 digit NIK input persis sama dengan NIK di database
+      if (isNikMatch(rowNIKVal, query12)) {
         const tpsName = sheetName.toUpperCase();
 
         // 1. Format Jenis Kelamin (Kolom F)
@@ -180,22 +184,18 @@ function searchByNIK(nikInput) {
           alamatFull += ', Desa Karang Satria';
         }
 
-        // 4. Masking NIK untuk privasi tampilan
-        let maskedNIK = rowNIKVal || cleanNIK;
+        // 4. Format Masking Tampilan NIK (contoh: 321605****01 atau 321605600301****)
+        let maskedNIK = rowNIKVal || (query12 + '****');
         if (!maskedNIK.includes('*')) {
-          if (maskedNIK.length >= 12) {
-            maskedNIK = maskedNIK.substring(0, 6) + '****' + maskedNIK.substring(maskedNIK.length - 2);
-          } else {
-            maskedNIK = maskedNIK.substring(0, 6) + '****';
-          }
+          maskedNIK = query12.substring(0, 6) + '****' + query12.substring(10);
         }
 
         const rawNama = (idxNama !== -1 && row[idxNama]) ? row[idxNama].toString().trim().toUpperCase() : '';
 
         matches.push({
           id: matches.length + 1,
-          nik: cleanNIK,
-          nikRaw: rowNIKVal || cleanNIK,
+          nik: query12,
+          nikRaw: rowNIKVal || query12,
           nikMasked: maskedNIK,
           nkk: (idxNKK !== -1 && row[idxNKK]) ? row[idxNKK].toString().trim() : '',
           nama: rawNama || 'WARGA DESA KARANG SATRIA',
@@ -219,11 +219,11 @@ function searchByNIK(nikInput) {
   if (matches.length === 0) {
     return {
       status: 'not_found',
-      message: 'NIK ' + cleanNIK.substring(0, 12) + '... belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK sudah benar atau hubungi panitia desa.'
+      message: 'NIK ' + query12 + '... belum terdaftar dalam database DPS/DPT (95 TPS) Pemilihan Kepala Desa Karang Satria 2026-2034. Pastikan nomor NIK 12 digit sudah benar atau hubungi panitia desa.'
     };
   }
 
-  // KONDISI A: Tepat 1 orang yang cocok -> Langsung muncul kartu pemilih
+  // KONDISI A: Tepat 1 nama yang cocok -> Langsung buka Kartu TPS
   if (matches.length === 1) {
     const singleResult = {
       status: 'success',
@@ -239,12 +239,12 @@ function searchByNIK(nikInput) {
     return singleResult;
   }
 
-  // KONDISI B: Lebih dari 1 orang yang cocok (NIK serupa) -> Tampilkan list pilihan nama
+  // KONDISI B: Lebih dari 1 nama yang cocok (NIK 12 digit serupa) -> Tampilkan list pilihan nama
   const multiResult = {
     status: 'multiple',
     data: matches,
     total: matches.length,
-    message: 'Ditemukan ' + matches.length + ' data warga dengan NIK 12 digit yang serupa. Silakan klik nama Anda untuk melihat lokasi TPS.'
+    message: 'Ditemukan ' + matches.length + ' data warga dengan 12 digit NIK yang serupa. Silakan klik nama Anda untuk melihat lokasi TPS.'
   };
 
   try {
@@ -255,48 +255,40 @@ function searchByNIK(nikInput) {
 }
 
 /**
- * 4. Helper Pencocokan Pola NIK (12 Digit Prefix & Wildcard Sensor)
+ * 4. Helper Pencocokan 12 Digit NIK dengan Format Database (misal: 321605600301****)
  */
-function isNikMatch(rowVal, cleanQuery) {
-  if (!rowVal || !cleanQuery) return false;
+function isNikMatch(rowVal, query12) {
+  if (!rowVal || !query12) return false;
   
   const rawStr = rowVal.toString().trim();
   const rowDigits = rawStr.replace(/[^0-9]/g, '');
+  const cleanQ = query12.toString().replace(/[^0-9]/g, '').substring(0, 12);
   
-  // 1. Kesamaan angka murni langsung
-  if (rowDigits === cleanQuery) return true;
-  
-  // 2. Jika di sheet berisi 16 digit angka penuh, cocokkan 12 digit
-  if (rowDigits.length === 16) {
-    // Pola A: 6 digit depan + 6 digit belakang
-    const front6back6 = rowDigits.substring(0, 6) + rowDigits.substring(10);
-    if (front6back6 === cleanQuery) return true;
+  if (cleanQ.length < 12) return false;
 
-    // Pola B: 12 digit pertama
-    if (rowDigits.substring(0, 12) === cleanQuery) return true;
-
-    // Pola C: 6 depan + 2 belakang
-    if (cleanQuery.length >= 12 && rowDigits.startsWith(cleanQuery.substring(0, 6)) && rowDigits.endsWith(cleanQuery.substring(10, 12))) {
-      return true;
-    }
+  // 1. Format Database standar: 12 digit angka + 4 bintang (misal: 321605600301****)
+  // rowDigits murninya menghasilkan 12 digit angka persis
+  if (rowDigits.length === 12 && rowDigits === cleanQ) {
+    return true;
   }
 
-  // 3. Jika di sheet ada 12 digit angka murni
-  if (rowDigits.length === 12) {
-    if (rowDigits === cleanQuery.substring(0, 12)) return true;
+  // 2. Cek teks mentah diawali 12 digit NIK (misal: '321605600301****')
+  if (rawStr.startsWith(cleanQ)) {
+    return true;
   }
 
-  // 4. Jika di sheet berisi bintang/sensor (misal: 321606****0001)
+  // 3. Jika di sheet berisi 16 digit angka penuh (misal: 3216056003010001)
+  if (rowDigits.length === 16 && rowDigits.substring(0, 12) === cleanQ) {
+    return true;
+  }
+
+  // 4. Jika di sheet berisi sensor bintang di tengah (misal: 321605****010001)
   if (rawStr.includes('*') || rawStr.toLowerCase().includes('x')) {
-    const cleanPattern = rawStr.replace(/[^0-9]/g, '');
-    if (cleanPattern === cleanQuery.substring(0, cleanPattern.length)) return true;
-
-    // Cek kecocokan prefix & suffix angka tanpa bintang
     const parts = rawStr.split(/[*xX]+/);
     if (parts.length >= 2) {
       const prefix = parts[0].replace(/[^0-9]/g, '');
       const suffix = parts[parts.length - 1].replace(/[^0-9]/g, '');
-      if (prefix && suffix && cleanQuery.startsWith(prefix) && cleanQuery.endsWith(suffix)) {
+      if (prefix && suffix && cleanQ.startsWith(prefix) && cleanQ.endsWith(suffix.substring(0, Math.min(suffix.length, 2)))) {
         return true;
       }
     }
@@ -367,7 +359,7 @@ function onOpen() {
 
 function testCariNIK() {
   const ui = SpreadsheetApp.getUi();
-  const promptNIK = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 Digit NIK:', ui.ButtonSet.OK_CANCEL);
+  const promptNIK = ui.prompt('Cari Data Pemilih Pilkades (95 TPS)', 'Masukkan 12 Digit NIK (Contoh: 321605600301):', ui.ButtonSet.OK_CANCEL);
   if (promptNIK.getSelectedButton() !== ui.Button.OK) return;
 
   const res = searchByNIK(promptNIK.getResponseText());
